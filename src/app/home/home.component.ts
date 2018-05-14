@@ -13,4 +13,12 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
   }
 
+  mainSectionImages(): string[] {
+    return [
+      'assets/img/backgrounds/bible-book-christian.jpg',
+      'assets/img/backgrounds/atmosphere-blue-cloud.jpg',
+      'assets/img/backgrounds/back-view-backlit-clouds.jpg',
+    ];
+  }
+
 }
