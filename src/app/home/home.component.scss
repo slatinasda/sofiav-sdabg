@@ -1,0 +1,7 @@
+// Make the church agenda diagonal triangle longer in height.
+// Original was 750px
+.divider-diagonal {
+  &.divider-diagonal-r:before {
+    border-top: 1000px solid transparent;
+  }
+}
