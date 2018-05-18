@@ -16,7 +16,7 @@
       <div class="header-inner container">
         <!--branding/logo -->
         <div class="header-brand">
-          <a class="header-brand-text" href="index.html" title="Home">
+          <a routerLink="/" class="header-brand-text" title="Начало">
             <h1 class="h5">
               <img src="assets/img/logos/sda-logo.svg" alt="Църква на Адвентистите от Седмия Ден">
             </h1>
@@ -27,34 +27,33 @@
         <!-- other header content -->
         <div class="header-block order-lg-12">
           <!-- mobile collapse menu button - data-toggle="collapse" = default BS menu - data-toggle="jpanel-menu" = jPanel Menu - data-toggle="overlay" = Overlay Menu -->
-          <a href="#top" class="btn btn-link btn-icon header-btn float-right d-lg-none" data-toggle="collapse" data-target=".navbar-main" data-direction="right"> <i class="fa fa-bars"></i> </a>
+          <!-- <a href="#top" class="btn btn-link btn-icon header-btn float-right d-lg-none" data-toggle="collapse" data-target=".navbar-main" data-direction="right"> <i class="fa fa-bars"></i> </a> -->
         </div>
 
         <div class="navbar navbar-expand-md navbar-expand-collapse navbar-static-top">
           <!--everything within this div is collapsed on mobile-->
           <div class="navbar-main collapse">
             <!--main navigation-->
+            <!--
             <ul class="nav navbar-nav navbar-nav-onepager">
               <li class="nav-item">
-                <a href="#top" data-toggle="scroll-link" class="nav-link link-effect-slideup"> <i class="fa fa-home nav-link-icon"></i> <span class="d-none">Home</span> </a>
+                <a href="#top" data-toggle="scroll-link" class="nav-link link-effect-slideup"> <i class="fa fa-home nav-link-icon"></i> <span class="d-none">Начало</span> </a>
               </li>
 
               <li class="nav-item">
-                <a href="#about" data-toggle="scroll-link" class="nav-link link-effect-slideup"> <span class="nav-link-inner" data-title="About">About</span> </a>
+                <a href="#live-stream" data-toggle="scroll-link" class="nav-link link-effect-slideup"> <span class="nav-link-inner" data-title="На живо">На живо</span> </a>
               </li>
               <li class="nav-item">
-                <a href="#features" data-toggle="scroll-link" class="nav-link link-effect-slideup"> <span class="nav-link-inner" data-title="Features">Features</span> </a>
+                <a href="#church-schedule" data-toggle="scroll-link" class="nav-link link-effect-slideup"> <span class="nav-link-inner" data-title="Програма">Програма</span> </a>
               </li>
               <li class="nav-item">
-                <a href="#pricing" data-toggle="scroll-link" class="nav-link link-effect-slideup"> <span class="nav-link-inner" data-title="Pricing">Pricing</span> </a>
+                <a href="#social-media" data-toggle="scroll-link" class="nav-link link-effect-slideup"> <span class="nav-link-inner" data-title="Социални мрежи">Социални мрежи</span> </a>
               </li>
               <li class="nav-item">
-                <a href="#projects" data-toggle="scroll-link" class="nav-link link-effect-slideup"> <span class="nav-link-inner" data-title="Projects">Projects</span> </a>
-              </li>
-              <li class="nav-item">
-                <a href="#contact" data-toggle="scroll-link" class="nav-link link-effect-slideup"> <span class="nav-link-inner" data-title="Contact">Contact</span> </a>
+                <a href="#contact" data-toggle="scroll-link" class="nav-link link-effect-slideup"> <span class="nav-link-inner" data-title="Контакти">Контакти</span> </a>
               </li>
             </ul>
+            -->
           </div>
           <!--/.navbar-collapse -->
         </div>
@@ -74,22 +73,19 @@
   <div class="container">
     <div class="row">
       <div class="col-md-6">
-        <!-- TODO: generate dynamic year for footer -->
-        <p class="mb-0 text-sm">Copyright 2018 &copy; ЦАСД София "В" - Слатина</p>
+        <p class="mb-0 text-sm">Copyright {{today | date:'yyyy'}} &copy; ЦАСД София "В" - Слатина</p>
         <ul class="list-inline footer-links mb-0 text-sm">
-          <li class="list-inline-item"><a href="#">Terms</a></li>
-          <li class="list-inline-item"><a href="#">Privacy</a></li>
-          <li class="list-inline-item"><a href="#">Contact Us</a></li>
+          <li class="list-inline-item"><a href="http://adventist.bg/" target="_blank">Adventist.bg</a></li>
+          <li class="list-inline-item"><a href="https://www.adventist.org" target="_blank">Adventist.org</a></li>
         </ul>
       </div>
       <div class="col-md-6 flex-valign">
         <div class="float-md-right ml-md-auto">
-          <!--@todo: replace with company social media details-->
-          <a href="#" class="btn btn-sm btn-icon btn-dark btn-rounded"><i class="fab fa-twitter"></i></a>
-          <a href="#" class="btn btn-sm btn-icon btn-dark btn-rounded"><i class="fab fa-facebook-f"></i></a>
-          <a href="#" class="btn btn-sm btn-icon btn-dark btn-rounded"><i class="fab fa-linkedin-in"></i></a>
-          <a href="#" class="btn btn-sm btn-icon btn-dark btn-rounded"><i class="fab fa-google-plus-g"></i></a>
-          <a href="#top" class="btn btn-sm btn-icon btn-dark btn-rounded" title="Back to top"><i class="fa fa-chevron-up"></i></a>
+          <a href="https://www.youtube.com/channel/UCJGsHxYVN2cwmA9ds13vmyw" target="_blank" class="btn btn-sm btn-icon btn-dark btn-rounded"><i class="fab fa-youtube"></i></a>
+          <a href="https://twitter.com/SlatinaChurch" target="_blank" class="btn btn-sm btn-icon btn-dark btn-rounded"><i class="fab fa-twitter"></i></a>
+          <a href="http://www.facebook.com/AdventistChurchSlatina" target="_blank" class="btn btn-sm btn-icon btn-dark btn-rounded"><i class="fab fa-facebook-f"></i></a>
+          <a href="https://plus.google.com/101937954164838406813" target="_blank" class="btn btn-sm btn-icon btn-dark btn-rounded"><i class="fab fa-google-plus-g"></i></a>
+          <!-- <a href="#home" target="_blank" class="btn btn-sm btn-icon btn-dark btn-rounded" title="Back to top"><i class="fa fa-chevron-up"></i></a> -->
         </div>
       </div>
     </div>
