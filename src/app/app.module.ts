@@ -1,4 +1,4 @@
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, Title } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 // Application modules
@@ -18,7 +18,9 @@ import { AppComponent } from './app.component';
     HomeModule,
     AppRoutingModule,
   ],
-  providers: [],
+  providers: [
+    Title,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
