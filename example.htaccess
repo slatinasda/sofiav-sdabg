@@ -1,0 +1,5 @@
+# Original .htaccess from old site
+RewriteEngine on
+RewriteCond %{HTTP_HOST} ^sofiav\.sdabg\.net$ [OR]
+RewriteCond %{HTTP_HOST} ^www\.sofiav\.sdabg\.net$
+RewriteRule ^/?$ "http\:\/\/sofia\-v\.sdabg\.net" [R=301,L]
