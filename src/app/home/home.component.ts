@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 
 import { ServiceTime } from '../shared/classes/service-time';
 import { IChurchServiceAgenda } from './interfaces/church-service-agenda.interface';
@@ -13,8 +14,9 @@ export class HomeComponent implements OnInit {
   isDaylightSaving: boolean;
   saturdayMorningSermon: IChurchServiceAgenda;
 
-  // TODO Check for HTML Title service in Angular
-  constructor() {
+  constructor(private titleService: Title) {
+    // TODO Create custom title service which is going to add site name automatically
+    this.titleService.setTitle('Начало | Църква на Адвентистите от Седмия Ден - София "В" Слатина');
     this.serviceTime = new ServiceTime();
   }
 
