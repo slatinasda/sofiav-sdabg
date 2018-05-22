@@ -1,5 +1,42 @@
-# Original .htaccess from old site
 RewriteEngine on
-RewriteCond %{HTTP_HOST} ^sofiav\.sdabg\.net$ [OR]
-RewriteCond %{HTTP_HOST} ^www\.sofiav\.sdabg\.net$
-RewriteRule ^/?$ "http\:\/\/sofia\-v\.sdabg\.net" [R=301,L]
+
+# Permanent redirect to sofia-v, including www to non-www
+RewriteCond %{HTTP_HOST} ^www.sofiav.sdabg.net [NC]
+RewriteRule ^(.*)$ http://sofia-v.sdabg.net/$1 [R=301,L,NC,QSA]
+
+RewriteCond %{HTTP_HOST} ^www.sofia-v.sdabg.net [NC]
+RewriteRule ^(.*)$ http://sofia-v.sdabg.net/$1 [R=301,L,NC,QSA]
+
+RewriteCond %{HTTP_HOST} ^sofiav.sdabg.net [NC]
+RewriteRule ^(.*)$ http://sofia-v.sdabg.net/$1 [R=301,L,NC,QSA]
+
+# Redirect old index.htm to new index.html
+RewriteRule ^index.htm$ /index.html [R,L]
+
+# If an existing asset or directory is requested go to it as it is
+RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} -f [OR]
+RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} -d
+RewriteRule ^ - [L]
+# If the requested resource doesn't exist, use index.html
+RewriteRule ^ /index.html
+
+# Disable directory index browsing
+Options -Indexes
+
+# Enable UTF8
+IndexOptions +Charset=UTF-8
+
+# Tests
+# http://sofiav.sdabg.net/ -> Should lead to http://sofia-v.sdabg.net/ - PASS
+# http://sofia-v.sdabg.net/home -> Should open the home page in Angular - PASS
+# http://sofia-v.sdabg.net/index_files/ -> Should not allow folder listing and show 403 Forbidden - PASS
+# http://sofia-v.sdabg.net/assets/img/logos/sda-logo.svg -> should open the file - PASS
+# http://sofiav.sdabg.net/assets/img/logos/sda-logo.svg -> Should redirect to sofia-v and open the file - PASS
+# http://www.sofiav.sdabg.net/assets/img/logos/sda-logo.svg -> Should redirect to sofia-v and open the file - PASS
+
+# Sample configs
+# https://angular.io/guide/deployment#server-configuration
+# https://gist.github.com/julianpoemp/bcf277cb56d2420cc53ec630a04a3566
+# https://gist.github.com/ScottPhillips/1721489
+# https://stackoverflow.com/questions/10642426/htaccess-rewrite-subdomain-to-directory
+# https://www.siteground.com/kb/how_to_redirect_www_urls_to_nonwww/
