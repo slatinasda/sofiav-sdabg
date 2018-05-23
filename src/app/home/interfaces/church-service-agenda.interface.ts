@@ -1,7 +1,8 @@
+import { SafeHtml } from '@angular/platform-browser';
+
 export interface IChurchServiceAgenda {
-  id: number;
   day: string;
-  label: string;
+  label: string | SafeHtml;
   time: { [key: string]: string };
   icon: string;
 }

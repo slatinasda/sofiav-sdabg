@@ -34,7 +34,7 @@
         </h2>
         <h5 class="text-center font-weight-light mt-2 mb-0 text-muted">
           Следете нашите пряки излъчвания всяка събота от
-          <time class="font-weight-bold">{{saturdayMorningSermon.time.startHour}}</time>
+          <time class="font-weight-bold">{{saturdayMorningStreamStartTime}}</time>
         </h5>
         <hr class="mb-5 w-50 mx-auto" />
       </div>
@@ -69,7 +69,7 @@
               <div class="col-10 col-md-11 text-grey">
                 <h4 class="font-weight-bold text-white text-uppercase">{{churchService.day}}</h4>
                 <p>
-                  {{churchService.label}}
+                  <span [innerHTML]="churchService.label"></span>
                   <!-- Cannot nest <div> in <p> https://github.com/angular/angular/issues/6648 -->
                   <span style="display: block;">
                     От <time>{{churchService.time.startHour}}</time> до <time>{{churchService.time.endHour}}</time> часа
