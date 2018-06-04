@@ -31,22 +31,30 @@ export class ServiceTime {
     start: [number, number],
     end: [number, number],
     shouldApplyDST: boolean = true
-  ): { [key: string]: string } {
+  ): { [key: string]: moment.Moment } {
     const serviceTimes = {
       startHour: moment().set({ hour: start[0], minute: start[1] }).startOf('minutes'),
       endHour: moment().set({ hour: end[0], minute: end[1] }).startOf('minutes')
     };
 
-    const formattedServiceTimes: { [key: string]: string } = {};
-    for (const key of Object.keys(serviceTimes)) {
-      let value: moment.Moment = serviceTimes[key];
-      if (shouldApplyDST) {
-        value = this.applyDSTChange(value);
-      }
+    Object.keys(serviceTimes).forEach((key: string) => {
+      const time: moment.Moment = serviceTimes[key];
+      serviceTimes[key] = shouldApplyDST ? this.applyDSTChange(time) : time;
+    });
 
-      formattedServiceTimes[key] = value.format('HH:mm');
-    }
+    return serviceTimes;
+  }
 
-    return formattedServiceTimes;
+  formatServiceTimes(
+    serviceTimes: { [key: string]: moment.Moment },
+    format: string = 'HH:mm'
+  ): { [key: string]: string } {
+    const formattedTimes = {};
+
+    Object.keys(serviceTimes).forEach((key: string) => {
+      formattedTimes[key] = serviceTimes[key].format(format);
+    });
+
+    return formattedTimes;
   }
 }

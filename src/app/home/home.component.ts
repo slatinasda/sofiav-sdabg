@@ -40,7 +40,9 @@ export class HomeComponent implements OnInit {
       {
         day: 'Петък вечер',
         label: 'Богослужение и молитвен час',
-        time: this.serviceTime.calculate([18, 0], [19, 0]),
+        time: this.serviceTime.formatServiceTimes(
+          this.serviceTime.calculate([18, 0], [19, 0])
+        ),
         icon: 'fas fa-book',
       },
       {
@@ -48,19 +50,25 @@ export class HomeComponent implements OnInit {
         label: this.sanitizer.bypassSecurityTrustHtml(
           'Групова дискусия върху <a href="http://sdabg.net/page.php?id=ss" target="_blank">съботно училищния урок</a>'
         ),
-        time: this.serviceTime.calculate([9, 0], [10, 0], false),
+        time: this.serviceTime.formatServiceTimes(
+          this.serviceTime.calculate([9, 0], [10, 0], false)
+        ),
         icon: 'fas fa-comments',
       },
       {
         day: 'Събота сутрин',
         label: 'Централно богослужение',
-        time: this.serviceTime.calculate([10, 20], [11, 10], false),
+        time: this.serviceTime.formatServiceTimes(
+          this.serviceTime.calculate([10, 20], [11, 10], false)
+        ),
         icon: 'fas fa-book-open',
       },
       {
         day: 'Събота вечер',
         label: 'Богослужение и молитвен час',
-        time: this.serviceTime.calculate([18, 0], [19, 0]),
+        time: this.serviceTime.formatServiceTimes(
+          this.serviceTime.calculate([18, 0], [19, 0])
+        ),
         icon: 'fas fa-user-friends',
       },
     ];
