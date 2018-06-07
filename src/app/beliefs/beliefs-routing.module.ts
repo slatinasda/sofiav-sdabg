@@ -7,6 +7,7 @@ import { DoctrineOfHumanityComponent } from './doctrine-of-humanity/doctrine-of-
 import { DoctrineOfSalvationComponent } from './doctrine-of-salvation/doctrine-of-salvation.component';
 import { DoctrineOfChurchComponent } from './doctrine-of-church/doctrine-of-church.component';
 import { DoctrineOfLivingComponent } from './doctrine-of-living/doctrine-of-living.component';
+import { DoctrineOfRestorationComponent } from './doctrine-of-restoration/doctrine-of-restoration.component';
 
 
 const beliefsRoutes: Routes = [
@@ -21,6 +22,7 @@ const beliefsRoutes: Routes = [
       { path: 'salvation', component: DoctrineOfSalvationComponent },
       { path: 'church', component: DoctrineOfChurchComponent },
       { path: 'living', component: DoctrineOfLivingComponent },
+      { path: 'restoration', component: DoctrineOfRestorationComponent },
     ]
   },
 ];

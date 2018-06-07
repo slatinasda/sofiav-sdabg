@@ -9,6 +9,7 @@ import { DoctrineOfHumanityComponent } from './doctrine-of-humanity/doctrine-of-
 import { DoctrineOfSalvationComponent } from './doctrine-of-salvation/doctrine-of-salvation.component';
 import { DoctrineOfChurchComponent } from './doctrine-of-church/doctrine-of-church.component';
 import { DoctrineOfLivingComponent } from './doctrine-of-living/doctrine-of-living.component';
+import { DoctrineOfRestorationComponent } from './doctrine-of-restoration/doctrine-of-restoration.component';
 
 @NgModule({
   imports: [
@@ -22,6 +23,7 @@ import { DoctrineOfLivingComponent } from './doctrine-of-living/doctrine-of-livi
     DoctrineOfSalvationComponent,
     DoctrineOfChurchComponent,
     DoctrineOfLivingComponent,
+    DoctrineOfRestorationComponent,
   ]
 })
 export class BeliefsModule { }
