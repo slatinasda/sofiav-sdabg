@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 import { BeliefsRoutingModule } from './beliefs-routing.module';
 
 import { BeliefsComponent } from './beliefs.component';
+import { DoctrineOfGodComponent } from './doctrine-of-god/doctrine-of-god.component';
 
 @NgModule({
   imports: [
@@ -12,6 +13,7 @@ import { BeliefsComponent } from './beliefs.component';
   ],
   declarations: [
     BeliefsComponent,
+    DoctrineOfGodComponent,
   ]
 })
 export class BeliefsModule { }
