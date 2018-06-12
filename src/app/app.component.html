@@ -27,33 +27,26 @@
         <!-- other header content -->
         <div class="header-block order-lg-12">
           <!-- mobile collapse menu button - data-toggle="collapse" = default BS menu - data-toggle="jpanel-menu" = jPanel Menu - data-toggle="overlay" = Overlay Menu -->
-          <!-- <a href="#top" class="btn btn-link btn-icon header-btn float-right d-lg-none" data-toggle="collapse" data-target=".navbar-main" data-direction="right"> <i class="fa fa-bars"></i> </a> -->
+          <a href="" class="btn btn-link btn-icon header-btn float-right d-lg-none" data-toggle="collapse" data-target=".navbar-main" data-direction="right"> <i class="fa fa-bars"></i> </a>
         </div>
 
         <div class="navbar navbar-expand-md navbar-expand-collapse navbar-static-top">
           <!--everything within this div is collapsed on mobile-->
           <div class="navbar-main collapse">
             <!--main navigation-->
-            <!--
             <ul class="nav navbar-nav navbar-nav-onepager">
               <li class="nav-item">
-                <a href="#top" data-toggle="scroll-link" class="nav-link link-effect-slideup"> <i class="fa fa-home nav-link-icon"></i> <span class="d-none">Начало</span> </a>
+                <a routerLink="/" class="nav-link">
+                  <i class="fa fa-home nav-link-icon"></i><span class="ml-2">Начало</span>
+                </a>
               </li>
 
               <li class="nav-item">
-                <a href="#live-stream" data-toggle="scroll-link" class="nav-link link-effect-slideup"> <span class="nav-link-inner" data-title="На живо">На живо</span> </a>
-              </li>
-              <li class="nav-item">
-                <a href="#church-schedule" data-toggle="scroll-link" class="nav-link link-effect-slideup"> <span class="nav-link-inner" data-title="Програма">Програма</span> </a>
-              </li>
-              <li class="nav-item">
-                <a href="#social-media" data-toggle="scroll-link" class="nav-link link-effect-slideup"> <span class="nav-link-inner" data-title="Социални мрежи">Социални мрежи</span> </a>
-              </li>
-              <li class="nav-item">
-                <a href="#contact" data-toggle="scroll-link" class="nav-link link-effect-slideup"> <span class="nav-link-inner" data-title="Контакти">Контакти</span> </a>
+                <a routerLink="/beliefs" class="nav-link">
+                  <span class="nav-link-inner" data-title="Вярвания">Вярвания</span>
+                </a>
               </li>
             </ul>
-            -->
           </div>
           <!--/.navbar-collapse -->
         </div>
