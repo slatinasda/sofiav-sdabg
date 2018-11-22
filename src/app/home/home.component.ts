@@ -12,7 +12,7 @@ import { IChurchServiceAgenda } from './interfaces/church-service-agenda.interfa
 export class HomeComponent implements OnInit {
   serviceTime: ServiceTime;
   isDaylightSaving: boolean;
-  saturdayMorningStreamStartTime = '10:40';
+  saturdayMorningStreamStartTime = '11:40';
 
   constructor(
     private titleService: Title,
@@ -51,7 +51,7 @@ export class HomeComponent implements OnInit {
           'Групова дискусия върху <a href="http://sdabg.net/page.php?id=ss" target="_blank">съботно училищния урок</a>'
         ),
         time: this.serviceTime.formatServiceTimes(
-          this.serviceTime.calculate([9, 0], [10, 0], false)
+          this.serviceTime.calculate([10, 0], [11, 0], false)
         ),
         icon: 'fas fa-comments',
       },
@@ -59,7 +59,7 @@ export class HomeComponent implements OnInit {
         day: 'Събота сутрин',
         label: 'Централно богослужение',
         time: this.serviceTime.formatServiceTimes(
-          this.serviceTime.calculate([10, 20], [11, 10], false)
+          this.serviceTime.calculate([11, 20], [12, 10], false)
         ),
         icon: 'fas fa-book-open',
       },
