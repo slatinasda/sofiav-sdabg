@@ -40,9 +40,10 @@ export class HomeComponent implements OnInit {
       {
         day: 'Петък вечер',
         label: 'Богослужение и молитвен час',
-        time: this.serviceTime.formatServiceTimes(
-          this.serviceTime.calculate([18, 0], [19, 0])
-        ),
+        time: {
+          startHour: this.serviceTime.getTimeDST(18, 0).format('HH:mm'),
+          endHour: this.serviceTime.getTimeDST(19, 0).format('HH:mm'),
+        },
         icon: 'fas fa-book',
       },
       {
@@ -50,25 +51,28 @@ export class HomeComponent implements OnInit {
         label: this.sanitizer.bypassSecurityTrustHtml(
           'Групова дискусия върху <a href="http://sdabg.net/page.php?id=ss" target="_blank">съботно училищния урок</a>'
         ),
-        time: this.serviceTime.formatServiceTimes(
-          this.serviceTime.calculate([10, 0], [11, 0], false)
-        ),
+        time: {
+          startHour: this.serviceTime.getTime(10, 0).format('HH:mm'),
+          endHour: this.serviceTime.getTime(11, 0).format('HH:mm'),
+        },
         icon: 'fas fa-comments',
       },
       {
         day: 'Събота сутрин',
         label: 'Централно богослужение',
-        time: this.serviceTime.formatServiceTimes(
-          this.serviceTime.calculate([11, 20], [12, 10], false)
-        ),
+        time: {
+          startHour: this.serviceTime.getTime(11, 20).format('HH:mm'),
+          endHour: this.serviceTime.getTime(12, 10).format('HH:mm'),
+        },
         icon: 'fas fa-book-open',
       },
       {
         day: 'Събота вечер',
         label: 'Богослужение и молитвен час',
-        time: this.serviceTime.formatServiceTimes(
-          this.serviceTime.calculate([18, 0], [19, 0])
-        ),
+        time: {
+          startHour: this.serviceTime.getTimeDST(18, 0).format('HH:mm'),
+          endHour: this.serviceTime.getTimeDST(19, 0).format('HH:mm'),
+        },
         icon: 'fas fa-user-friends',
       },
     ];
