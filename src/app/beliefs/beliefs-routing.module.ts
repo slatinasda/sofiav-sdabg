@@ -12,7 +12,7 @@ import { DoctrineOfRestorationComponent } from './doctrine-of-restoration/doctri
 
 const beliefsRoutes: Routes = [
   {
-    path: 'beliefs',
+    path: '',
     component: BeliefsComponent,
     children: [
       // Redirect /beliefs to /beliefs/god

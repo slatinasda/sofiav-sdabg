@@ -6,6 +6,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
 
 
 const appRoutes: Routes = [
+  { path: 'beliefs', loadChildren: () => import('./beliefs/beliefs.module').then(mod => mod.BeliefsModule) },
   { path: '', component: HomeComponent, pathMatch: 'full' },
   { path: '**', component: NotFoundComponent },
 ];
