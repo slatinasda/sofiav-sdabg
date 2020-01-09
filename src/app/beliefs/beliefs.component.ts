@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Title } from '@angular/platform-browser';
+import { AppTitleService } from '../app-title.service';
 
 @Component({
   selector: 'app-beliefs',
@@ -7,8 +7,7 @@ import { Title } from '@angular/platform-browser';
   styleUrls: ['./beliefs.component.scss']
 })
 export class BeliefsComponent {
-  constructor(private titleService: Title) {
-    // TODO Create custom title service which is going to add site name automatically
-    this.titleService.setTitle('Вярвания | Църква на Адвентистите от Седмия Ден - София "В" Слатина');
+  constructor(private appTitleService: AppTitleService) {
+    this.appTitleService.setTitle('Вярвания');
   }
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Title, DomSanitizer } from '@angular/platform-browser';
+import { DomSanitizer } from '@angular/platform-browser';
 
+import { AppTitleService } from '../app-title.service';
 import { ServiceTime } from '../shared/classes/service-time';
 import { IChurchServiceAgenda } from './interfaces/church-service-agenda.interface';
 
@@ -15,11 +16,10 @@ export class HomeComponent implements OnInit {
   saturdayMorningStreamStartTime = '11:40';
 
   constructor(
-    private titleService: Title,
+    private appTitleService: AppTitleService,
     private sanitizer: DomSanitizer,
   ) {
-    // TODO Create custom title service which is going to add site name automatically
-    this.titleService.setTitle('Начало | Църква на Адвентистите от Седмия Ден - София "В" Слатина');
+    this.appTitleService.setTitle('Начало');
     this.serviceTime = new ServiceTime();
   }
 

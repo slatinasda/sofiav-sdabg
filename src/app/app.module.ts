@@ -1,8 +1,9 @@
-import { BrowserModule, Title } from '@angular/platform-browser';
+import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 // Application modules
 import { AppRoutingModule } from './app-routing.module';
+import { AppTitleService } from './app-title.service';
 import { HomeModule } from './home/home.module';
 import { NotFoundModule } from './not-found/not-found.module';
 
@@ -20,7 +21,7 @@ import { AppComponent } from './app.component';
     AppRoutingModule,
   ],
   providers: [
-    Title,
+    AppTitleService,
   ],
   bootstrap: [AppComponent]
 })

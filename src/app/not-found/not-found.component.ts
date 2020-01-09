@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
-import { Title } from '@angular/platform-browser';
+import { AppTitleService } from '../app-title.service';
 
 @Component({
   selector: 'app-not-found',
   templateUrl: './not-found.component.html',
 })
 export class NotFoundComponent {
-  constructor(private titleService: Title) {
-    this.titleService.setTitle('Църква на Адвентистите от Седмия Ден - София "В" Слатина');
+  constructor(private appTitleService: AppTitleService) {
+    this.appTitleService.setTitle('404');
   }
 }
