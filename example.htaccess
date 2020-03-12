@@ -1,14 +1,19 @@
 RewriteEngine on
 
 # Permanent redirect to sofia-v, including www to non-www
+
+# http to https
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://sofia-v.sdabg.net/$1 [R=301,L,NC,QSA]
+
 RewriteCond %{HTTP_HOST} ^www.sofiav.sdabg.net [NC]
-RewriteRule ^(.*)$ http://sofia-v.sdabg.net/$1 [R=301,L,NC,QSA]
+RewriteRule ^(.*)$ https://sofia-v.sdabg.net/$1 [R=301,L,NC,QSA]
 
 RewriteCond %{HTTP_HOST} ^www.sofia-v.sdabg.net [NC]
-RewriteRule ^(.*)$ http://sofia-v.sdabg.net/$1 [R=301,L,NC,QSA]
+RewriteRule ^(.*)$ https://sofia-v.sdabg.net/$1 [R=301,L,NC,QSA]
 
 RewriteCond %{HTTP_HOST} ^sofiav.sdabg.net [NC]
-RewriteRule ^(.*)$ http://sofia-v.sdabg.net/$1 [R=301,L,NC,QSA]
+RewriteRule ^(.*)$ https://sofia-v.sdabg.net/$1 [R=301,L,NC,QSA]
 
 # Redirect old index.htm to new index.html
 RewriteRule ^index.htm$ /index.html [R,L]
@@ -27,7 +32,7 @@ Options -Indexes
 IndexOptions +Charset=UTF-8
 
 # Tests
-# http://sofiav.sdabg.net/ -> Should lead to http://sofia-v.sdabg.net/ - PASS
+# http://sofiav.sdabg.net/ -> Should lead to https://sofia-v.sdabg.net/ - PASS
 # http://sofia-v.sdabg.net/home -> Should open the home page in Angular - PASS
 # http://sofia-v.sdabg.net/index_files/ -> Should not allow folder listing and show 403 Forbidden - PASS
 # http://sofia-v.sdabg.net/assets/img/logos/sda-logo.svg -> should open the file - PASS
