@@ -2,85 +2,97 @@
 <!-- @plugin: page loading indicator, delete to remove loader -->
 <!--<div class="page-loader" data-toggle="page-loader"></div>-->
 
-<a href="#content" id="top" class="sr-only">Skip to content</a>
+<!-- <a href="#content" id="top" class="sr-only">Skip to content</a> -->
 
-<!-- ======== @Region: #header ======== -->
-<div id="header">
-
-  <div data-toggle="sticky">
-
-    <!--Header search region - hidden by default -->
-    <!--Header & Branding region-->
-    <div class="header">
-      <!-- all direct children of the .header-inner element will be vertically aligned with each other you can override all the behaviours using the flexbox utilities (flexbox.htm) All elements with .header-brand & .header-block-flex wrappers will automatically be aligned inline & vertically using flexbox, this can be overridden using the flexbox utilities (flexbox.htm) Use .header-block to stack elements within on small screen & "float" on larger screens use .order-first or/and .order-last classes to make an element show first or last within .header-inner or .headr-block elements -->
-      <div class="header-inner container">
-        <!--branding/logo -->
-        <div class="header-brand">
-          <a routerLink="/" class="header-brand-text" title="Начало">
-            <h1 class="h5">
-              <img src="assets/img/logos/sda-logo.svg" alt="Църква на Адвентистите от Седмия Ден">
-            </h1>
-          </a>
-          <div class="header-divider d-none d-lg-block"></div>
-          <div class="header-slogan d-none d-lg-block">София "В" - Слатина</div>
+<div class="l-wrap">
+  <div class="l-wrap__content l-content" role="document">
+    <!-- ======== @Region: #header ======== -->
+    <div id="header">
+  
+      <div data-toggle="sticky">
+  
+        <!--Header search region - hidden by default -->
+        <!--Header & Branding region-->
+        <div class="header">
+          <!-- all direct children of the .header-inner element will be vertically aligned with each other you can override all the behaviours using the flexbox utilities (flexbox.htm) All elements with .header-brand & .header-block-flex wrappers will automatically be aligned inline & vertically using flexbox, this can be overridden using the flexbox utilities (flexbox.htm) Use .header-block to stack elements within on small screen & "float" on larger screens use .order-first or/and .order-last classes to make an element show first or last within .header-inner or .headr-block elements -->
+          <div class="header-inner container">
+            <!--branding/logo -->
+            <div class="header-brand">
+              <a routerLink="/" class="header-brand-text" title="Начало">
+                <h1 class="h5">
+                  <img src="assets/img/logos/sda-logo.svg" alt="Църква на Адвентистите от Седмия Ден">
+                </h1>
+              </a>
+              <div class="header-divider d-none d-lg-block"></div>
+              <div class="header-slogan d-none d-lg-block">София "В" - Слатина</div>
+            </div>
+            <!-- other header content -->
+            <div class="header-block order-lg-12">
+              <!-- mobile collapse menu button - data-toggle="collapse" = default BS menu - data-toggle="jpanel-menu" = jPanel Menu - data-toggle="overlay" = Overlay Menu -->
+              <a href="" class="btn btn-link btn-icon header-btn float-right d-lg-none" data-toggle="collapse" data-target=".navbar-main" data-direction="right"> <i class="fa fa-bars"></i> </a>
+            </div>
+  
+            <div class="navbar navbar-expand-md navbar-expand-collapse navbar-static-top">
+              <!--everything within this div is collapsed on mobile-->
+              <div class="navbar-main collapse">
+                <!--main navigation-->
+                <ul class="nav navbar-nav navbar-nav-onepager">
+                  <li class="nav-item">
+                    <a routerLink="/" class="nav-link">
+                      <i class="fa fa-home nav-link-icon"></i><span class="ml-2">Начало</span>
+                    </a>
+                  </li>
+  
+                  <li class="nav-item">
+                    <a routerLink="/beliefs" class="nav-link">
+                      <span class="nav-link-inner" data-title="Вярвания">Вярвания</span>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+              <!--/.navbar-collapse -->
+            </div>
+          </div>
         </div>
-        <!-- other header content -->
-        <div class="header-block order-lg-12">
-          <!-- mobile collapse menu button - data-toggle="collapse" = default BS menu - data-toggle="jpanel-menu" = jPanel Menu - data-toggle="overlay" = Overlay Menu -->
-          <a href="" class="btn btn-link btn-icon header-btn float-right d-lg-none" data-toggle="collapse" data-target=".navbar-main" data-direction="right"> <i class="fa fa-bars"></i> </a>
-        </div>
-
-        <div class="navbar navbar-expand-md navbar-expand-collapse navbar-static-top">
-          <!--everything within this div is collapsed on mobile-->
-          <div class="navbar-main collapse">
-            <!--main navigation-->
-            <ul class="nav navbar-nav navbar-nav-onepager">
-              <li class="nav-item">
-                <a routerLink="/" class="nav-link">
-                  <i class="fa fa-home nav-link-icon"></i><span class="ml-2">Начало</span>
-                </a>
-              </li>
-
-              <li class="nav-item">
-                <a routerLink="/beliefs" class="nav-link">
-                  <span class="nav-link-inner" data-title="Вярвания">Вярвания</span>
-                </a>
-              </li>
+      </div>
+    </div>
+  
+    <!-- ======== @Region: #highlighted ======== -->
+  
+    <div id="main">
+      <router-outlet></router-outlet>
+    </div>
+  
+    <!-- ======== @Region: #footer ======== -->
+    <footer id="footer" class="py-3">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6">
+            <p class="mb-0 text-sm">Copyright {{today | date:'yyyy'}} &copy; ЦАСД София "В" - Слатина</p>
+            <ul class="list-inline footer-links mb-0 text-sm">
+              <li class="list-inline-item"><a href="https://adventist.bg/" target="_blank">Adventist.bg</a></li>
+              <li class="list-inline-item"><a href="https://www.adventist.org" target="_blank">Adventist.org</a></li>
             </ul>
           </div>
-          <!--/.navbar-collapse -->
+          <div class="col-md-6 flex-valign">
+            <div class="float-md-right ml-md-auto">
+              <a href="https://www.youtube.com/channel/UCJGsHxYVN2cwmA9ds13vmyw" target="_blank" class="btn btn-sm btn-icon btn-dark btn-rounded"><i class="fab fa-youtube"></i></a>
+              <a href="https://twitter.com/SlatinaChurch" target="_blank" class="btn btn-sm btn-icon btn-dark btn-rounded"><i class="fab fa-twitter"></i></a>
+              <a href="https://www.facebook.com/AdventistChurchSlatina" target="_blank" class="btn btn-sm btn-icon btn-dark btn-rounded"><i class="fab fa-facebook-f"></i></a>
+              <a href="https://github.com/slatinasda/sofiav-sdabg/" target="_blank" class="btn btn-sm btn-icon btn-dark btn-rounded"><i class="fab fa-github"></i></a>
+              <a href="https://musescore.com/slatinasda/" target="_blank" class="btn btn-sm btn-icon btn-dark btn-rounded"><i class="fa fa-music"></i></a>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+    </footer>
   </div>
-</div>
-
-<!-- ======== @Region: #highlighted ======== -->
-
-<div id="main">
-  <router-outlet></router-outlet>
-</div>
-
-<!-- ======== @Region: #footer ======== -->
-<footer id="footer" class="py-3">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-6">
-        <p class="mb-0 text-sm">Copyright {{today | date:'yyyy'}} &copy; ЦАСД София "В" - Слатина</p>
-        <ul class="list-inline footer-links mb-0 text-sm">
-          <li class="list-inline-item"><a href="https://adventist.bg/" target="_blank">Adventist.bg</a></li>
-          <li class="list-inline-item"><a href="https://www.adventist.org" target="_blank">Adventist.org</a></li>
-        </ul>
-      </div>
-      <div class="col-md-6 flex-valign">
-        <div class="float-md-right ml-md-auto">
-          <a href="https://www.youtube.com/channel/UCJGsHxYVN2cwmA9ds13vmyw" target="_blank" class="btn btn-sm btn-icon btn-dark btn-rounded"><i class="fab fa-youtube"></i></a>
-          <a href="https://twitter.com/SlatinaChurch" target="_blank" class="btn btn-sm btn-icon btn-dark btn-rounded"><i class="fab fa-twitter"></i></a>
-          <a href="https://www.facebook.com/AdventistChurchSlatina" target="_blank" class="btn btn-sm btn-icon btn-dark btn-rounded"><i class="fab fa-facebook-f"></i></a>
-          <a href="https://github.com/slatinasda/sofiav-sdabg/" target="_blank" class="btn btn-sm btn-icon btn-dark btn-rounded"><i class="fab fa-github"></i></a>
-          <a href="https://musescore.com/slatinasda/" target="_blank" class="btn btn-sm btn-icon btn-dark btn-rounded"><i class="fa fa-music"></i></a>
-        </div>
+  
+  <aside class="l-wrap__sabbath l-sabbath">
+    <div class="l-sabbath__logo" data-toggle="sticky">
+      <div class="l-sabbath__logo--inner">
+        <img src="assets/img/logos/logo-sda-square.svg" alt="Лого Църква на Адвентистите от Седмия Ден">
       </div>
     </div>
-  </div>
-</footer>
+  </aside>
+</div>
