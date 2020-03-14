@@ -1,0 +1,45 @@
+.l-wrap {
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  width: 100%;
+  justify-content: stretch;
+
+  &__content {
+    width: calc(100vw/7 * 6 - 0.01px);
+    z-index: 2;
+    position: relative;
+    overflow: visible;
+  }
+
+  &__sabbath {
+    width: calc(100vw/7 * 1 - 0.01px);
+    background-color: #f5f5f5;
+    min-height: 100vh;
+    z-index: 1;
+    position: relative;
+  }
+}
+
+.l-sabbath {
+  z-index: 1;
+  position: relative;
+  padding-top: 0;
+  background-color: #f5f5f5;
+  margin: 0;
+  display: block;
+
+  &__logo {
+    display: flex;
+    justify-content: center;
+    padding-top: 1rem;
+  }
+
+  &__logo--inner {
+    width: 50%;
+    @media (min-width: 1200px) {
+      // Extra large devices (large desktops, 1200px and up)
+      max-width: 115px;
+    }
+  }
+}
