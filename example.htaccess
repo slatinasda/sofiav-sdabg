@@ -26,10 +26,14 @@ RewriteRule ^ - [L]
 RewriteRule ^ /index.html
 
 # Disable directory index browsing
+# Set +Indexes to enable directory listing
 Options -Indexes
 
 # Enable UTF8
 IndexOptions +Charset=UTF-8
+
+# Make the name column longer in directory listing
+IndexOptions NameWidth=100
 
 # Tests
 # http://sofiav.sdabg.net/ -> Should lead to https://sofia-v.sdabg.net/ - PASS
