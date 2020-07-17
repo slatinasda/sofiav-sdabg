@@ -439,15 +439,13 @@
   }
   
   // Submenus
-  .nav .nav-section-menu,
-  &.nav .nav-section-menu {
+  .nav .nav-section-menu {
     
     .nav-link {
       margin-right: -2px;
     }
   }
-  .nav-section-menu-right.nav .nav-section-menu,
-  &.nav-section-menu-right.nav .nav-section-menu {
+  .nav-section-menu-right.nav .nav-section-menu {
     .nav-link {
       margin-right: 0;
       margin-left: -2px;

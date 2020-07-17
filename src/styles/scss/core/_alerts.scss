@@ -12,7 +12,7 @@ $as-colours: $as-theme-colours;
 }
 
 @each $color, $value in $as-colours {
-  .alert-#{$color} {
+  .alert-#{#{$color}} {
     @include alert-variant(theme-color-level($color, -10), theme-color-level($color, -9), theme-color-level($color, 6));
   }  
 }

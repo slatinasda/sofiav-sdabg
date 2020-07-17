@@ -262,7 +262,7 @@ $as-colours: $as-theme-colours;
 }
 
 @each $name, $value in $as-colours {
-  .dropdown-menu-#{$name} {
+  .dropdown-menu-#{#{$name}} {
     border-bottom-color: $value !important;
     
     a:hover:before {

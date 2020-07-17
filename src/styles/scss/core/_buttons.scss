@@ -175,17 +175,17 @@ $as-colours: $as-theme-colours;
 }
 
 @each $name, $value in $as-colours {
-  .btn-#{$name} {
+  .btn-#{#{$name}} {
     @include button-variant($value, $value);
   }
-  .btn-outline-#{$name} {
+  .btn-outline-#{#{$name}} {
     @if $name == 'light' {
       @include button-outline-variant($value, $gray-700);
     } @else {
       @include button-outline-variant($value, white);
     }
   }
-  .btn-#{$name}.btn-invert {
+  .btn-#{#{$name}}.btn-invert {
     background-color: darken($value, 10%);
     
     &:hover,
@@ -193,7 +193,7 @@ $as-colours: $as-theme-colours;
       background-color: $value;
     }
   }
-  .btn-#{$name}.btn-link {
+  .btn-#{#{$name}}.btn-link {
     @include appstrap-button-variant($value, transparent, transparent); 
   }  
 }
