@@ -20,8 +20,6 @@
     "@angular/platform-browser": "~10.0.4",
     "@angular/platform-browser-dynamic": "~10.0.4",
     "@angular/router": "~10.0.4",
-    "@types/moment": "^2.13.0",
-    "@types/moment-timezone": "^0.5.13",
     "bootstrap": "^4.5.0",
     "jquery": "^3.5.1",
     "moment": "^2.27.0",
