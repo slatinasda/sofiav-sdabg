@@ -19,7 +19,7 @@ $as-colours: $as-theme-colours;
 }
 
 @each $name, $value in $as-colours {
-  .border-#{$name} {
+  .border-#{#{$name}} {
     border: 1px solid transparent;
     border-color: $value !important;
   }

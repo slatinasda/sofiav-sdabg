@@ -9,7 +9,7 @@ $as-colours: $as-theme-colours;
 }
 
 @each $name, $value in $as-colours {
-  .divider-#{$name} {
+  .divider-#{#{$name}} {
     // Diagonals
     &.divider-diagonal:before {
       border-left-color: $value;

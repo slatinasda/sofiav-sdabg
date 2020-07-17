@@ -101,7 +101,7 @@ $as-colours: $as-theme-colours;
   $as-colours: $as-theme-colours-extended;
 }
 @each $name, $value in $as-colours {
-  hr.hr-#{$name} {
+  hr.hr-#{#{$name}} {
     border-top-color: $value !important;
   }  
 }

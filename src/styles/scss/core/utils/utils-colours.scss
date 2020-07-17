@@ -31,18 +31,18 @@ $as-colours: $as-theme-colours;
 }
 
 @each $name, $value in $as-colours {
-  .bg-#{$name} {
+  .bg-#{#{$name}} {
     background-color: $value !important;
   }
-  .text-#{$name} {
+  .text-#{#{$name}} {
     color: $value !important;
   }
   
   // Hover states
-  .text-hover-#{$name}:hover {
+  .text-hover-#{#{$name}}:hover {
     color: $value !important;
   }
-  .bg-hover-#{$name}:hover {
+  .bg-hover-#{#{$name}}:hover {
     background-color: $value !important;
   }    
 }

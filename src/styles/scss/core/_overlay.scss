@@ -338,7 +338,7 @@
   }
 
   @each $name, $hex in $overlay-colors {
-    &.overlay-#{$name} {
+    &.overlay-#{#{$name}} {
       @include overlay-colour(white, $hex);
     }
   }

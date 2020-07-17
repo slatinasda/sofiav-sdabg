@@ -26,7 +26,7 @@ $as-colours: $as-theme-colours;
   // -------------------------------------------
   .bg-op-#{$name} {    
     @each $colour_name, $colour_value in $as-colours {
-      &.bg-#{$colour_name} {
+      &.bg-#{#{$colour_name}} {
         @include translucent_background($colour_value, $value, 1);
       }
     }
@@ -44,7 +44,7 @@ $as-colours: $as-theme-colours;
   // -------------------------------------------
   .border-op-#{$name} {
     @each $colour_name, $colour_value in $as-colours {
-      &.border-#{$colour_name} {
+      &.border-#{#{$colour_name}} {
         @include translucent_border($colour_value, $value, 1);
       }
     }

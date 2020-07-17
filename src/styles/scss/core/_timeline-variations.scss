@@ -332,7 +332,7 @@
   }
   
   @each $name, $value in $as-colours {
-    &.list-timeline-#{$name} {
+    &.list-timeline-#{#{$name}} {
       &:before {
         background: #{$value};
       }
