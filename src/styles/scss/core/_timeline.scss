@@ -13,7 +13,7 @@
 //======================================
 .timeline {
   @extend %timeline-list-reset;
-  @include at2x('../img/misc/bg_timeline-line', 'png', 2px, auto);
+  @include at2x('../../img/misc/bg_timeline-line', 'png', 2px, auto);
   background-repeat: repeat-y;
   background-position: center top;
   padding: 0;
