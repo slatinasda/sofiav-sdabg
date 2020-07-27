@@ -12,7 +12,6 @@ import { WorshipTimeService } from './services/worship-time.service';
 })
 export class HomeComponent implements OnInit {
   isDaylightSaving: boolean;
-  saturdayMorningStreamStartTime = '11:40';
 
   constructor(
     private appTitleService: AppTitleService,
@@ -32,6 +31,20 @@ export class HomeComponent implements OnInit {
       'assets/img/backgrounds/atmosphere-blue-cloud.jpg',
       'assets/img/backgrounds/back-view-backlit-clouds.jpg',
     ];
+  }
+
+  saturdayMorningSermonStartTime(): moment.Moment {
+    return this.workshipTimeService.getTime(11, 20);
+  }
+
+  saturdayMorningSermonEndTime(): moment.Moment {
+    return this.workshipTimeService.getTime(12, 10);
+  }
+
+  saturdayMorningStreamStartTime(): string {
+    const time = this.saturdayMorningSermonStartTime();
+    time.add(20, 'minutes');
+    return time.format('HH:mm');
   }
 
   churchServiceAgenda(): IChurchServiceAgenda[] {
@@ -60,8 +73,8 @@ export class HomeComponent implements OnInit {
         day: 'Събота сутрин',
         label: 'Централно богослужение',
         time: {
-          startHour: this.workshipTimeService.getTime(11, 20).format('HH:mm'),
-          endHour: this.workshipTimeService.getTime(12, 10).format('HH:mm'),
+          startHour: this.saturdayMorningSermonStartTime().format('HH:mm'),
+          endHour: this.saturdayMorningSermonEndTime().format('HH:mm'),
         },
         icon: 'fas fa-book-open',
       },
