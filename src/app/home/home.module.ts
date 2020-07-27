@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { HomeComponent } from './home.component';
 import { HomeRoutingModule } from './home-routing.module';
 import { PipesModule } from '../shared/pipes/pipes.module';
+import { WorshipTimeService } from './services/worship-time.service';
 
 @NgModule({
   imports: [
@@ -11,6 +12,9 @@ import { PipesModule } from '../shared/pipes/pipes.module';
     CommonModule,
     PipesModule,
   ],
-  declarations: [HomeComponent]
+  declarations: [HomeComponent],
+  providers: [
+    WorshipTimeService,
+  ],
 })
 export class HomeModule { }

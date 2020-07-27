@@ -1,23 +1,36 @@
+import { Injectable } from '@angular/core';
 import * as moment from 'moment-timezone';
 
 /**
  * Calculates the start and end times for church services,
  * taking into account Daylight Saving
  */
-export class ServiceTime {
-  timeZone: string;
+@Injectable()
+export class WorshipTimeService {
+  private timeZone: string = 'Europe/Sofia';
 
-  constructor(timeZone = 'Europe/Sofia') {
+  getTimeZone(): string {
+    return this.timeZone;
+  }
+
+  /**
+   * Operate with a specific time zone within this instance
+   *
+   * @param timeZone in the format "Country/City"
+   */
+  setTimeZone(timeZone: string): void {
     this.timeZone = timeZone;
   }
 
   isDaylightSaving(): boolean {
-    return moment().tz(this.timeZone).isDST();
+    return moment().tz(this.getTimeZone()).isDST();
   }
 
   /**
    * Daylight Saving Time - Summer Time
    * How it applies - Spring forward, Fall back.
+   *
+   * @param time
    */
   applyDSTChange(time: moment.Moment): moment.Moment {
     if (this.isDaylightSaving()) {
