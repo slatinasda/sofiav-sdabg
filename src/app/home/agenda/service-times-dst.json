@@ -1,0 +1,10 @@
+{
+  "fridayEveningSermonStart": [19, 0],
+  "fridayEveningSermonEnd": [20, 0],
+  "saturdayMorningSchoolStart": [9, 0],
+  "saturdayMorningSchoolEnd": [10, 0],
+  "saturdayMorningSermonStart": [10, 20],
+  "saturdayMorningSermonEnd": [11, 10],
+  "saturdayEveningSermonStart": [19, 0],
+  "saturdayEveningSermonEnd": [20, 0]
+}

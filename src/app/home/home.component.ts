@@ -5,6 +5,10 @@ import { AppTitleService } from '../app-title.service';
 import { IChurchServiceAgenda } from './interfaces/church-service-agenda.interface';
 import { WorshipTimeService } from './services/worship-time.service';
 
+const serviceTimes = require('./agenda/service-times.json');
+const serviceTimesDST = require('./agenda/service-times-dst.json');
+
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -33,28 +37,34 @@ export class HomeComponent implements OnInit {
     ];
   }
 
-  saturdayMorningSermonStartTime(): moment.Moment {
-    return this.workshipTimeService.getTime(11, 20);
-  }
+  serviceTimesMoment(): { [key: string]: moment.Moment } {
+    const times = this.isDaylightSaving ? serviceTimesDST : serviceTimes;
+    const agenda = {};
 
-  saturdayMorningSermonEndTime(): moment.Moment {
-    return this.workshipTimeService.getTime(12, 10);
+    Object.keys(times).forEach(serviceTimeKey => {
+      const hour = times[serviceTimeKey][0];
+      const minute = times[serviceTimeKey][1];
+      agenda[serviceTimeKey] = this.workshipTimeService.getTime(hour, minute);
+    });
+
+    return agenda;
   }
 
   saturdayMorningStreamStartTime(): string {
-    const time = this.saturdayMorningSermonStartTime();
-    time.add(20, 'minutes');
-    return time.format('HH:mm');
+    const agenda = this.serviceTimesMoment();
+    return agenda['saturdayMorningSermonStart'].add(20, 'minutes').format('HH:mm');
   }
 
   churchServiceAgenda(): IChurchServiceAgenda[] {
+    const agenda = this.serviceTimesMoment();
+
     return [
       {
         day: 'Петък вечер',
         label: 'Богослужение и молитвен час',
         time: {
-          startHour: this.workshipTimeService.getTimeDST(18, 0).format('HH:mm'),
-          endHour: this.workshipTimeService.getTimeDST(19, 0).format('HH:mm'),
+          startHour: agenda['fridayEveningSermonStart'].format('HH:mm'),
+          endHour: agenda['fridayEveningSermonEnd'].format('HH:mm'),
         },
         icon: 'fas fa-book',
       },
@@ -64,8 +74,8 @@ export class HomeComponent implements OnInit {
           'Групова дискусия върху <a href="https://sdabg.net/page.php?id=ss" target="_blank">съботно училищния урок</a>'
         ),
         time: {
-          startHour: this.workshipTimeService.getTime(10, 0).format('HH:mm'),
-          endHour: this.workshipTimeService.getTime(11, 0).format('HH:mm'),
+          startHour: agenda['saturdayMorningSchoolStart'].format('HH:mm'),
+          endHour: agenda['saturdayMorningSchoolEnd'].format('HH:mm'),
         },
         icon: 'fas fa-comments',
       },
@@ -73,8 +83,8 @@ export class HomeComponent implements OnInit {
         day: 'Събота сутрин',
         label: 'Централно богослужение',
         time: {
-          startHour: this.saturdayMorningSermonStartTime().format('HH:mm'),
-          endHour: this.saturdayMorningSermonEndTime().format('HH:mm'),
+          startHour: agenda['saturdayMorningSermonStart'].format('HH:mm'),
+          endHour: agenda['saturdayMorningSermonEnd'].format('HH:mm'),
         },
         icon: 'fas fa-book-open',
       },
@@ -82,8 +92,8 @@ export class HomeComponent implements OnInit {
         day: 'Събота вечер',
         label: 'Богослужение и молитвен час',
         time: {
-          startHour: this.workshipTimeService.getTimeDST(18, 0).format('HH:mm'),
-          endHour: this.workshipTimeService.getTimeDST(19, 0).format('HH:mm'),
+          startHour: agenda['saturdayEveningSermonStart'].format('HH:mm'),
+          endHour: agenda['saturdayEveningSermonEnd'].format('HH:mm'),
         },
         icon: 'fas fa-user-friends',
       },
