@@ -52,7 +52,7 @@ export class HomeComponent implements OnInit {
 
   saturdayMorningStreamStartTime(): string {
     const agenda = this.serviceTimesMoment();
-    return agenda['saturdayMorningSermonStart'].add(20, 'minutes').format('HH:mm');
+    return agenda['saturdayMorningSermonStart'].add(10, 'minutes').format('HH:mm');
   }
 
   churchServiceAgenda(): IChurchServiceAgenda[] {
