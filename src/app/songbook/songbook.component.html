@@ -1,0 +1,107 @@
+<div class="container p-4 py-lg-5">
+
+  <div class="jumbotron">
+    <h1 class="mb-4">Църковни песни</h1>
+    <p class="lead">
+      Музиката и песните заемат важна част в поклонението на вярващите.
+      На тази страница ще намерите музикален съпровод за всички 300 песни, които се пеят в църквата на Адвентистите от Седмия Ден.
+    </p>
+  </div>
+
+  <div class="mb-5">
+    <h3>PDF и MIDI файлове</h3>
+    <p class="mb-1">
+      На страницата ни в Github може да намерите PDF и MIDI файлове на песните:
+    </p>
+    <a href="https://github.com/slatinasda/sdabg-church-songbook-sheets" target="_blank">
+      Линк към Github
+    </a>
+  </div>
+
+  <div class="mb-5">
+    <h3>Текст към песните</h3>
+    <p class="mb-1">
+      Свалете текста към песните във формат PDF, PPTX, ODP:
+    </p>
+    <a href="/files/church-songbook/text/Church songbook - Text.zip" target="_blank">
+      Линк за сваляне
+    </a>
+  </div>
+
+  <div class="mb-5">
+    <h3 class="mb-3">MP3 записи</h3>
+    <ul class="nav nav-tabs nav-fill mb-6" role="tablist">
+      <li class="nav-item">
+        <a class="nav-link active" data-toggle="tab" href="#grand-piano-tab" role="tab" aria-selected="true">
+          Съпровод на Роял (пиано)
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#organ-tab" role="tab" aria-selected="false">
+          Съпровод на Орган
+        </a>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane fade show active" id="grand-piano-tab" role="tabpanel" aria-labelledby="grand-piano-tab">
+        <div class="table-responsive">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">Номер</th>
+                <th scope="col">Линк за сваляне</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let songNum of pianoSongNumbers()">
+                <td>Песен {{songNum}}</td>
+                <td>
+                  <a href="/files/church-songbook/piano/{{songNum}}.mp3" target="_blank" title="Свали песен {{songNum}}">Свали</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <ul class="pagination">
+          <li class="page-item">
+            <button class="page-link" (click)="pianoPagination.setPreviousPage()">Предишна страница</button>
+          </li>
+          <li class="page-item">
+            <button class="page-link" (click)="pianoPagination.setNextPage()">Следваща страница</button>
+          </li>
+        </ul>
+      </div>
+
+      <div class="tab-pane fade" id="organ-tab" role="tabpanel" aria-labelledby="organ-tab">
+        <div class="table-responsive">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">Номер</th>
+                <th scope="col">Линк за сваляне</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let songNum of organSongNumbers()">
+                <td>Песен {{songNum}}</td>
+                <td>
+                  <a href="/files/church-songbook/organ/{{songNum}}.mp3" target="_blank" title="Свали песен {{songNum}}">Свали</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <ul class="pagination">
+          <li class="page-item">
+            <button class="page-link" (click)="organPagination.setPreviousPage()">Предишна страница</button>
+          </li>
+          <li class="page-item">
+            <button class="page-link" (click)="organPagination.setNextPage()">Следваща страница</button>
+          </li>
+        </ul>
+      </div>
+    </div> <!-- Tab content end -->
+  </div> <!-- MP3 section end -->
+
+</div>
