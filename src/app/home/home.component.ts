@@ -71,7 +71,7 @@ export class HomeComponent implements OnInit {
       {
         day: 'Събота сутрин',
         label: this.sanitizer.bypassSecurityTrustHtml(
-          'Групова дискусия върху <a href="https://sdabg.net/page.php?id=ss" target="_blank">съботно училищния урок</a>'
+          'Групова дискусия върху <a href="https://sabbath-school.adventech.io/bg/" target="_blank">съботно училищния урок</a>'
         ),
         time: {
           startHour: agenda['saturdayMorningSchoolStart'].format('HH:mm'),
