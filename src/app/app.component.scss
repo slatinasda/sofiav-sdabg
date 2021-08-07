@@ -33,6 +33,8 @@
     display: flex;
     justify-content: center;
     padding-top: 1rem;
+    top: 0;
+    position: sticky;
   }
 
   &__logo--inner {
