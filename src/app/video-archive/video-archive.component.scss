@@ -1,0 +1,22 @@
+.jumbotron {
+  text-align: center;
+  background-color: transparent;
+  padding: 3rem 2rem;
+}
+
+// https://www.smashingmagazine.com/2014/02/making-embedded-content-work-in-responsive-design/
+.video-container {
+  position: relative;
+  padding-bottom: 50%;
+  padding-top: 35px;
+  height: 0;
+  overflow: hidden;
+}
+
+.video-container iframe {
+  position: absolute;
+  top:0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}

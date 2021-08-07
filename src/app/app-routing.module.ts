@@ -8,6 +8,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
 const appRoutes: Routes = [
   { path: 'beliefs', loadChildren: () => import('./beliefs/beliefs.module').then(mod => mod.BeliefsModule) },
   { path: 'songbook', loadChildren: () => import('./songbook/songbook.module').then(mod => mod.SongbookModule) },
+  { path: 'video-archive', loadChildren: () => import('./video-archive/video-archive.module').then(mod => mod.VideoArchiveModule) },
   { path: '', component: HomeComponent, pathMatch: 'full' },
   { path: '**', component: NotFoundComponent },
 ];
