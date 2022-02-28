@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 
-import { JoinPipe } from './join.pipe';
+import { JoinPipe } from './pipes/join.pipe';
 
 @NgModule({
   imports: [],
@@ -11,4 +11,4 @@ import { JoinPipe } from './join.pipe';
     JoinPipe,
   ]
 })
-export class PipesModule { }
+export class SharedModule { }
