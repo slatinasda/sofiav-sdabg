@@ -11,10 +11,13 @@ import { DoctrineOfChurchComponent } from './doctrine-of-church/doctrine-of-chur
 import { DoctrineOfLivingComponent } from './doctrine-of-living/doctrine-of-living.component';
 import { DoctrineOfRestorationComponent } from './doctrine-of-restoration/doctrine-of-restoration.component';
 
+import { SharedModule } from '../shared/shared.module';
+
 @NgModule({
   imports: [
     BeliefsRoutingModule,
     RouterModule,
+    SharedModule,
   ],
   declarations: [
     BeliefsComponent,
