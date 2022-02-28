@@ -4,6 +4,8 @@
 
 // 
 // -------------------------------------------
+@use "sass:math";
+
 .colour-switcher {
   position: fixed !important;
   width: 180px;
@@ -65,7 +67,7 @@
     width: 32px;
     height: 32px;
     border: 3px solid #cccccc; //IE fallback
-    border: 3px solid rgba($white, 50%/100.0%);
+    border: 3px solid rgba($white, math.div(50%, 100.0%));
     margin: 2px;
     
     &:hover,

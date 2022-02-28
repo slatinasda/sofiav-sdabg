@@ -2,6 +2,8 @@
 // Navs
 // --------------------------------------------------
 
+@use "sass:math";
+
 .nav-pills {
   .nav-link {
     border-radius: 3px;
@@ -294,7 +296,7 @@
     
     .nav-link {
       color: #494949; //IE fallback
-      color: rgba($gray-light, 70%/100.0%);
+      color: rgba($gray-light, math.div(70%, 100.0%));
       @include border-radius(0);
       font-weight: bold;
       font-size: 18px;
@@ -321,7 +323,7 @@
       small {
         display: block;
         font-weight: normal;
-        color: rgba($gray-light, 50%/100.0%);
+        color: rgba($gray-light, math.div(50%, 100.0%));
       }
     }
 
@@ -361,7 +363,7 @@
     
     .nav-link {
       color: #494949; //IE fallback
-      color: rgba($gray-light, 70%/100.0%);
+      color: rgba($gray-light, math.div(70%, 100.0%));
       font-weight: 400;
       font-size: 90%;
       background: $white;
@@ -671,7 +673,7 @@
   
   .nav-tabs {
     margin-bottom: 0;
-    border-bottom: 1px solid rgba($white, 10%/100.0%);
+    border-bottom: 1px solid rgba($white, math.div(10%, 100.0%));
     
     .nav-link,
     .nav-link:hover,
@@ -682,7 +684,7 @@
       margin-right: 0;
       margin-bottom: 0;
       background: transparent;
-      border: 1px solid rgba($white, 10%/100.0%) !important;
+      border: 1px solid rgba($white, math.div(10%, 100.0%)) !important;
       border-bottom: none !important;
     }
 
@@ -698,7 +700,7 @@
     .active > .nav-link:focus,
     .nav-link.active:focus  {
       color: $primary_colour;
-      border: 1px solid rgba($white, 10%/100.0%) !important;
+      border: 1px solid rgba($white, math.div(10%, 100.0%)) !important;
       position: relative;
       background: lighten($gray, 5%);
       

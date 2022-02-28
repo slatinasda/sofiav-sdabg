@@ -1,6 +1,8 @@
 // -------------------------------------------
 // Header colour schemes
 // -------------------------------------------
+@use "sass:math";
+
 .header-light .header,
 .header.header-light {
   @extend %header-light;
@@ -107,7 +109,7 @@
 .header-hidden {
   background: $primary_colour_dark;
   @include transition(all 0.4s ease-out);
-  padding: $grid-gutter-width/2 0;
+  padding: $grid-gutter-width*0.5 0;
   
   a {
     color: $white;
@@ -212,7 +214,7 @@
 .header {
   background: white;
   //@include translucent_background(white, 0.9);
-  border-bottom: 1px solid rgba($primary_colour, 60%/100.0%);
+  border-bottom: 1px solid rgba($primary_colour, math.div(60%, 100.0%));
   color: $gray;
   height: auto;
   padding: $header-vpadding-top 0 $header-vpadding-bottom 0;
@@ -375,7 +377,7 @@
     
     i {
       color: #eeeeee; //IE fallback
-      color: rgba($white, 80%/100.0%);      
+      color: rgba($white, math.div(80%, 100.0%));      
       font-size: 16px;
       line-height: 1;
     }

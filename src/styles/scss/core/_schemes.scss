@@ -6,6 +6,8 @@
 
 // Navbar
 // --------------------------------------------------
+@use "sass:math";
+
 @mixin appstrap-navbar-scheme-variant($color: $navbar-light-color, $hover-color: $navbar-light-hover-color, $active-color: $navbar-light-active-color, $dropdown-open-color: $dropdown-link-color, $disabled-color: $navbar-light-disabled-color, $border-color: $navbar-light-toggler-border-color, $toggler-icon-bg: $navbar-light-toggler-icon-bg, $important: 0){
   .navbar-brand {
     color: $active-color;
@@ -101,7 +103,7 @@
 }
 
 %header-light {
-  @include appstrap-header-scheme-variant(#fff, $gray, $primary_colour, $gray, #888, #E6E6E6, rgba($primary_colour, 60%/100.0%));
+  @include appstrap-header-scheme-variant(#fff, $gray, $primary_colour, $gray, #888, #E6E6E6, rgba($primary_colour, math.div(60%, 100.0%)));
 }
 %header-dark {
   @include appstrap-header-scheme-variant($brand-inverse, darken(#fff, 6%), darken(#fff, 2%), #fff, darken(#fff, 6%), darken(#f3f3f3, 15%), lighten($brand-inverse, 20%));

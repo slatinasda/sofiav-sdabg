@@ -1,6 +1,8 @@
 //======================================
 // Theme slideshow style
 //======================================
+@use "sass:math";
+
 @import '../init.scss';
 
 //flexslider - common
@@ -42,7 +44,7 @@
       @include border-radius(1px);
       
       a {
-        color: rgba($white, 90%/100.0%);
+        color: rgba($white, math.div(90%, 100.0%));
       }
     }
   }

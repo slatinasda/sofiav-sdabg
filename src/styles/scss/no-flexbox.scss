@@ -14,6 +14,8 @@
 // Bootstrap variables & mixins are imported
 // so they can be used in the theme
 // -------------------------------------------
+@use "sass:math";
+
 @import "init.scss";
 
 // -------------------------------------------
@@ -24,8 +26,8 @@
   @each $breakpoint in map-keys($gutters) {
     @include media-breakpoint-up($breakpoint) {
       $gutter: map-get($gutters, $breakpoint);
-      padding-right: ($gutter / 2);
-      padding-left:  ($gutter / 2);
+      padding-right: ($gutter * 0.5);
+      padding-left:  ($gutter * 0.5);
     }
   }
 }
@@ -38,19 +40,19 @@
 
 @mixin make-col($size, $columns: $grid-columns) {
   float: left;
-  width: percentage($size / $columns);
+  width: percentage(math.div($size, $columns));
 }
 
 @mixin make-col-offset($size, $columns: $grid-columns) {
-  margin-left: percentage($size / $columns);
+  margin-left: percentage(math.div($size, $columns));
 }
 
 @mixin make-col-push($size, $columns: $grid-columns) {
-  left: if($size > 0, percentage($size / $columns), auto);
+  left: if($size > 0, percentage(math.div($size, $columns)), auto);
 }
 
 @mixin make-col-pull($size, $columns: $grid-columns) {
-  right: if($size > 0, percentage($size / $columns), auto);
+  right: if($size > 0, percentage(math.div($size, $columns)), auto);
 }
 
 @mixin make-col-modifier($type, $size, $columns) {

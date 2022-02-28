@@ -4,13 +4,15 @@
 
 // Functions
 // --------------------------------------------------
+@use "sass:math";
+
 @function alpha($color, $alpha) {
   @return hsla(hue($color), saturation($color), lightness($color), $alpha)
 }
 
 @function mulitply($number, $by) {
   @if type-of($number) == 'number' and not unitless($number) {
-    @return $number / ($number * 0 + 1) * $by;
+    @return math.div($number, $number * 0 + 1) * $by;
   }
 
   @return $number * $by;
@@ -253,14 +255,14 @@
       &:before {
         @include fontawesome-bg($submenu_item_bullet);
         font-size: 12px;
-        color: rgba($gray, 60%/100.0%);
+        color: rgba($gray, math.div(60%, 100.0%));
         width: 20px;
         height: 20px;
         padding-right: 10px;
         margin: 0 !important;
       }
       .dropdown-icon {
-        color: rgba($gray, 60%/100.0%);
+        color: rgba($gray, math.div(60%, 100.0%));
       }
     }
 
@@ -537,7 +539,7 @@
     border-right: none;
     padding: 0;
     margin: 0;
-    border-top: 1px solid rgba($white, 10%/100.0%);
+    border-top: 1px solid rgba($white, math.div(10%, 100.0%));
     border-bottom: 1px solid #242424;
   }
   
@@ -548,7 +550,7 @@
     font-weight: normal;
     font-size: 13px;
     text-transform: uppercase;
-    color: rgba($white, 70%/100.0%);
+    color: rgba($white, math.div(70%, 100.0%));
     
       .nav-link-icon {
         font-size: 18px;

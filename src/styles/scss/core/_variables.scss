@@ -12,6 +12,8 @@
 // --------------------------------------------------
 // Custom colours
 // --------------------------------------------------
+@use "sass:math";
+
 $standalone-colour: false !default; // used in _primary-colours.scss
 
 // All AppStrap colours
@@ -73,7 +75,7 @@ $brand-grey-dark:       $gray-700;
 $brand-secondary:       white;
 $brand-primary:         $primary_colour;
 $brand-primary-dark:    darken($primary_colour, 20%);
-$brand-primary-faded:   rgba($primary_colour, 30%/100.0%);
+$brand-primary-faded:   rgba($primary_colour, math.div(30%, 100.0%));
 $as-theme-colours-brands: (
   "light": $brand-faded,
   "grey": $brand-grey,
@@ -233,7 +235,7 @@ $font-sizes: (
 // grays
 $gray-dark:              #333;
 $gray:                   #1b1b1b;
-$gray-light:             rgba($gray, 80%/100.0%);
+$gray-light:             rgba($gray, math.div(80%, 100.0%));
 $gray-lighter:           #E6E6E6;
 $gray-lightest:          #f7f7f9;
 
@@ -286,7 +288,7 @@ $navbar-dark-disabled-color:        rgba($white, .25);
 $navbar-dark-toggler-icon-bg:       str-replace(url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='#{$navbar-dark-color}' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E"), "#", "%23");
 $navbar-dark-toggler-border-color:  rgba($white, .1);
 
-$navbar-light-color:                rgba($black, 70%/100.0%);
+$navbar-light-color:                rgba($black, math.div(70%, 100.0%));
 $navbar-light-hover-color:          rgba($black, .7);
 $navbar-light-active-color:         rgba($black, .9);
 $navbar-light-disabled-color:       rgba($black, .3);

@@ -3,6 +3,8 @@
 //======================================
 // General
 // -------------------------------------------
+@use "sass:math";
+
 .slider-wrapper {
   width:100%;
   position:relative;
@@ -159,10 +161,10 @@
   }
   .slider-wrapper,
   .flexslider-wrapper {
-    border: 1px solid rgba($gray, 15%/100.0%);
+    border: 1px solid rgba($gray, math.div(15%, 100.0%));
     @include border-radius(0);
     margin-top: 10px;
-    @include box-shadow(1px 1px 10px rgba($gray, 20%/100.0%));
+    @include box-shadow(1px 1px 10px rgba($gray, math.div(20%, 100.0%)));
   }
   .slide-content {
     padding-top: 20px;

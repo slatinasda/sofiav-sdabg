@@ -5,10 +5,12 @@
 
 // Highlighted region 
 // -------------------------------------------
+@use "sass:math";
+
 #highlighted {
   @include clearfix;
   background-color: $gray-lighter;
-  border-bottom: 1px solid rgba($gray, 20%/100.0%);
+  border-bottom: 1px solid rgba($gray, math.div(20%, 100.0%));
   border-top: none; //1px solid rgba($white, 30%/100.0%);
   @include transition(all 0.4s ease-out);
   color: $gray;

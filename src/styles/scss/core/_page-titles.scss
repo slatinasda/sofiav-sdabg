@@ -4,12 +4,14 @@
 
 // General
 // -------------------------------------------
+@use "sass:math";
+
 .page-title {
   margin: 0;
   
   small {
-    color: rgba($body-color, 50%/100.0%);//IE fallback
-    color: rgba($body-color, 50%/100.0%);
+    color: rgba($body-color, math.div(50%, 100.0%));//IE fallback
+    color: rgba($body-color, math.div(50%, 100.0%));
   }
 }
 
@@ -26,7 +28,7 @@
 
   small {
     display: block;
-    color: rgba($body-color, 60%/100.0%);
+    color: rgba($body-color, math.div(60%, 100.0%));
     margin-top: 5px;
   }
 }

@@ -2,9 +2,11 @@
 // Misc. utilities & helper class
 // -------------------------------------------
 
+@use "sass:math";
+
 .row-hover {
   &:hover {
-    background-color: rgba($brand-faded, 60%/100.0%);
+    background-color: rgba($brand-faded, math.div(60%, 100.0%));
   }
 }
 

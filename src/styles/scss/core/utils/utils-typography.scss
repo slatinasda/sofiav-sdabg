@@ -4,6 +4,8 @@
 
 // Typography helpers
 // -------------------------------------------
+@use "sass:math";
+
 .text-xs {
   font-size: 70% !important;
 }
@@ -112,7 +114,7 @@ ul.list-sm {
     list-style: none;
     margin: 0;
     padding: 0.5em;
-    border-bottom: 1px solid rgba(#cccccc, 60%/100.0%);
+    border-bottom: 1px solid rgba(#cccccc, math.div(60%, 100.0%));
   }
 }
 

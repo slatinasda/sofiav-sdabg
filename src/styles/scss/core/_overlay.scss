@@ -5,6 +5,8 @@
 
 // 
 // -----------------
+@use "sass:math";
+
 .overlay-open {
   // force body to full page
   overflow: hidden;
@@ -98,7 +100,7 @@
     color: $overlay-colour;
     
     &:hover {
-      color: rgba($overlay-colour, 80%/100.0%);
+      color: rgba($overlay-colour, math.div(80%, 100.0%));
       text-decoration: none;
     }
   }

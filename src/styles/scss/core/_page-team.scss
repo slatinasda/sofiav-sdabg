@@ -4,13 +4,15 @@
 
 // Team member Common
 // -----------------------------
+@use "sass:math";
+
 .team-member {
   padding-bottom: 1.5em;
   margin-bottom: 1.5em;
   border-bottom: 1px solid $gray-lighter;
 
   p {
-    color: rgba($gray-light, 80%/100.0%);
+    color: rgba($gray-light, math.div(80%, 100.0%));
     font-size: 13px;
   }  
   p.member-since {
