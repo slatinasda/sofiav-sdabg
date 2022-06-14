@@ -10,8 +10,8 @@ import { RangePagination } from './range-pagination';
   styleUrls: ['./songbook.component.scss']
 })
 export class SongbookComponent {
-  public pianoPagination = new RangePagination(1, 25, 100);
-  public organPagination = new RangePagination(1, 25, 14);
+  public pianoPagination = new RangePagination(1, 25, 200);
+  public organPagination = new RangePagination(1, 25, 210);
 
   constructor(
     private appTitleService: AppTitleService,
@@ -26,8 +26,6 @@ export class SongbookComponent {
 
   organSongNumbers(): number[] {
     const [start, end] = this.organPagination.getCurrentRange();
-    return [
-      1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 63, 129
-    ].slice(start, end);
+    return Array.from({ length: end - start }, (_, ind) => ind + 1 + start)
   }
 }

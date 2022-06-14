@@ -88,15 +88,15 @@ export class HomeComponent implements OnInit {
         },
         icon: 'fas fa-book-open',
       },
-      {
-        day: 'Събота вечер',
-        label: 'Богослужение и молитвен час',
-        time: {
-          startHour: agenda['saturdayEveningSermonStart'].format('HH:mm'),
-          endHour: agenda['saturdayEveningSermonEnd'].format('HH:mm'),
-        },
-        icon: 'fas fa-user-friends',
-      },
+      // {
+      //   day: 'Събота вечер',
+      //   label: 'Богослужение и молитвен час',
+      //   time: {
+      //     startHour: agenda['saturdayEveningSermonStart'].format('HH:mm'),
+      //     endHour: agenda['saturdayEveningSermonEnd'].format('HH:mm'),
+      //   },
+      //   icon: 'fas fa-user-friends',
+      // },
     ];
   }
 
