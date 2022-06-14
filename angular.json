@@ -129,6 +129,9 @@
           }
         }
       }
-    }},
-  "defaultProject": "sofiav-sdabg"
+    }
+  },
+  "cli": {
+    "analytics": false
+  }
 }
