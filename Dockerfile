@@ -1,4 +1,4 @@
-FROM node:14.17.6-stretch
+FROM node:18-bullseye
 
 WORKDIR /usr/src/app
 

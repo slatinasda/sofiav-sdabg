@@ -27,12 +27,11 @@ export class HomeComponent implements OnInit {
     private workshipTimeService: WorshipTimeService,
   ) {
     this.appTitleService.setTitle('Начало');
-  }
-
-  ngOnInit() {
     this.isDaylightSaving = this.workshipTimeService.isDaylightSaving();
     this.defaultLiveStreamUrl = 'https://www.youtube.com/embed/live_stream?channel=UCJGsHxYVN2cwmA9ds13vmyw';
   }
+
+  ngOnInit() { }
 
   mainSectionImages(): string[] {
     return [
@@ -44,9 +43,9 @@ export class HomeComponent implements OnInit {
 
   serviceTimesMoment(): { [key: string]: moment.Moment } {
     const times = this.isDaylightSaving ? serviceTimesDST : serviceTimes;
-    const agenda = {};
+    const agenda: { [key: string]: moment.Moment } = {};
 
-    Object.keys(times).forEach(serviceTimeKey => {
+    Object.keys(times).forEach((serviceTimeKey: string) => {
       const hour = times[serviceTimeKey][0];
       const minute = times[serviceTimeKey][1];
       agenda[serviceTimeKey] = this.workshipTimeService.getTime(hour, minute);
