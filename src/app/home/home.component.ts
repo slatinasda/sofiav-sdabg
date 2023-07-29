@@ -5,8 +5,11 @@ import { AppTitleService } from '../app-title.service';
 import { IChurchServiceAgenda } from './interfaces/church-service-agenda.interface';
 import { WorshipTimeService } from './services/worship-time.service';
 
+import * as moment from 'moment-timezone';
+
 const serviceTimes = require('./agenda/service-times.json');
 const serviceTimesDST = require('./agenda/service-times-dst.json');
+const scheduledStreams = require('./agenda/scheduled-streams.json');
 
 
 @Component({
@@ -16,6 +19,7 @@ const serviceTimesDST = require('./agenda/service-times-dst.json');
 })
 export class HomeComponent implements OnInit {
   isDaylightSaving: boolean;
+  defaultLiveStreamUrl: string;
 
   constructor(
     private appTitleService: AppTitleService,
@@ -27,6 +31,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.isDaylightSaving = this.workshipTimeService.isDaylightSaving();
+    this.defaultLiveStreamUrl = 'https://www.youtube.com/embed/live_stream?channel=UCJGsHxYVN2cwmA9ds13vmyw';
   }
 
   mainSectionImages(): string[] {
@@ -48,6 +53,22 @@ export class HomeComponent implements OnInit {
     });
 
     return agenda;
+  }
+
+  /**
+   * Show the correct scheduled stream URL based on the current time
+   */
+  liveStreamUrl() {
+    const now = moment();
+
+    const thisSabbath = moment().day('Saturday').set({ hour: 15, minute: 0 });
+    const thisSabbathUrl = scheduledStreams[thisSabbath.format('YYYY-MM-DD')];
+
+    const nextSabbath = moment().startOf('isoWeek').add(1, 'week').day('Saturday').set({ hour: 15, minute: 0 });
+    const nextSabbathUrl = scheduledStreams[nextSabbath.format('YYYY-MM-DD')];
+
+    const streamUrl = (now.isBefore(thisSabbath) ? thisSabbathUrl : nextSabbathUrl) || this.defaultLiveStreamUrl;
+    return this.sanitizer.bypassSecurityTrustResourceUrl(streamUrl);
   }
 
   saturdayMorningStreamStartTime(): string {
