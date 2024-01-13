@@ -34,26 +34,26 @@
   
             <div class="navbar navbar-expand-md navbar-expand-collapse navbar-static-top">
               <!--everything within this div is collapsed on mobile-->
-              <div class="navbar-main collapse">
+              <div #navbarMain class="navbar-main collapse">
                 <!--main navigation-->
                 <ul class="nav navbar-nav navbar-nav-onepager">
                   <li class="nav-item">
-                    <a routerLink="/" class="nav-link">
+                    <a routerLink="/" (click)="hideMobileMenu()" class="nav-link">
                       <i class="fa fa-home nav-link-icon"></i><span class="ml-2">Начало</span>
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a routerLink="/beliefs" class="nav-link">
+                    <a routerLink="/beliefs" (click)="hideMobileMenu()" class="nav-link">
                       <span class="nav-link-inner" data-title="Вярвания">Вярвания</span>
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a routerLink="/songbook" class="nav-link">
+                    <a routerLink="/songbook" (click)="hideMobileMenu()" class="nav-link">
                       <span class="nav-link-inner" data-title="Песни">Песни</span>
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a routerLink="/video-archive" class="nav-link">
+                    <a routerLink="/video-archive" (click)="hideMobileMenu()" class="nav-link">
                       <span class="nav-link-inner" data-title="Архив">Архив</span>
                     </a>
                   </li>
