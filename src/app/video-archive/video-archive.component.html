@@ -9,10 +9,36 @@
 
   <div class="mb-5">
     <div class="container">
-      <div class="row text-center">
-        <div class="col-lg-12 video-container">
-          <iframe width="560" height="315" src="https://www.youtube.com/embed/videoseries?list=UUJGsHxYVN2cwmA9ds13vmyw" frameborder="0" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>
+      <div *ngIf="videos.length === 0; else videoItems" class="row d-flex justify-content-center">
+        <div class="spinner-border" role="status">
+          <span class="sr-only">Loading...</span>
         </div>
+      </div>
+
+      <ng-template #videoItems>
+        <div class="row">
+          <div *ngFor="let video of videos" class="col-md-6 col-lg-4 d-flex align-items-stretch">
+            <div class="card">
+              <a [href]="video.link" target="_blank">
+                <img class="card-img-top" [src]="video.thumbnail" alt="Video thumbnail">
+              </a>
+              <div class="card-body">
+                <h5 class="card-title">
+                  <a [href]="video.link">{{video.title}}</a>
+                </h5>
+              </div>
+              <div class="card-footer">
+                <small class="text-muted">{{video.published | date:'longDate'}}</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+
+      <div *ngIf="videos.length > 0" class="row d-flex justify-content-center mt-5">
+        <a class="btn btn-lg btn-primary btn-rounded py-3 px-4" href="https://youtube.com/@slatinasda/videos" target="_blank">
+          Вижте всички записи<i class="fa fa-arrow-right ml-2"></i>
+        </a>
       </div>
     </div>
   </div>
