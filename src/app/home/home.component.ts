@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { HttpClient } from '@angular/common/http';
 
 import { AppTitleService } from '../app-title.service';
 import { IChurchServiceAgenda } from './interfaces/church-service-agenda.interface';
@@ -9,24 +10,46 @@ const serviceTimes = require('./agenda/service-times.json');
 const serviceTimesDST = require('./agenda/service-times-dst.json');
 
 
+interface NextLiveStream {
+  title: string,
+  url: string,
+  embedUrl: string,
+  videoId: string,
+  published: string,
+}
+
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
+  liveStreamApi: string = 'https://sofia-v.sdabg.net/api/next_live_stream.php';
+  liveStreamEmbedUrl: SafeResourceUrl;
   isDaylightSaving: boolean;
 
   constructor(
     private appTitleService: AppTitleService,
     private sanitizer: DomSanitizer,
+    private httpClient: HttpClient,
     private workshipTimeService: WorshipTimeService,
   ) {
     this.appTitleService.setTitle('Начало');
+    this.liveStreamEmbedUrl = this.sanitizer.bypassSecurityTrustResourceUrl('');
     this.isDaylightSaving = this.workshipTimeService.isDaylightSaving();
   }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.nextLiveStream();
+  }
+
+  nextLiveStream() {
+    this.httpClient.get<NextLiveStream>(this.liveStreamApi)
+      .subscribe((response: NextLiveStream) => {
+        this.liveStreamEmbedUrl = this.sanitizer.bypassSecurityTrustResourceUrl(response.embedUrl);
+      });
+  }
 
   mainSectionImages(): string[] {
     return [
