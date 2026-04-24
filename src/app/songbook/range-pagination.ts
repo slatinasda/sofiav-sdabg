@@ -1,9 +1,13 @@
 export class RangePagination {
+  private currentPage: number;
+
   constructor(
-    private currentPage: number,
+    private startRange: number,
+    private endRange: number,
     private perPage: number,
-    private total: number,
-  ) { }
+  ) {
+    this.currentPage = 1;
+  }
 
   getCurrentPage(): number {
     return this.currentPage;
@@ -13,31 +17,42 @@ export class RangePagination {
     return this.perPage;
   }
 
-  getTotal(): number {
-    return this.total;
+  getCurrentRange(): [number, number] {
+    const start = (this.startRange - 1) + ((this.currentPage - 1) * this.perPage);
+    const end = Math.min(this.endRange, start + this.perPage);
+    return [start, end];
+  }
+
+  getTotalPages(): number {
+    const totalItems = this.endRange - (this.startRange + 1);
+    return Math.ceil(totalItems / this.perPage);
+  }
+
+  hasPreviousPage(): boolean {
+    const previousPage = this.currentPage - 1;
+    return previousPage >= 1;
   }
 
   setPreviousPage(): void {
-    const newPage = this.currentPage - 1;
-    if (newPage < 1) {
+    if (!this.hasPreviousPage()) {
       return;
     }
 
+    const newPage = this.currentPage - 1;
     this.currentPage = newPage;
+  }
+
+  hasNextPage(): boolean {
+    const nextPage = this.currentPage + 1;
+    return nextPage <= this.getTotalPages();
   }
 
   setNextPage(): void {
-    const newPage = this.currentPage + 1;
-    if (newPage > Math.ceil(this.total / this.perPage)) {
+    if (!this.hasNextPage()) {
       return;
     }
 
+    const newPage = this.currentPage + 1;
     this.currentPage = newPage;
-  }
-
-  getCurrentRange(): [number, number] {
-    const start = (this.currentPage - 1) * this.perPage;
-    const end = Math.min(this.total, this.currentPage * this.perPage);
-    return [start, end];
   }
 }

@@ -10,7 +10,7 @@ import { RangePagination } from './range-pagination';
   styleUrls: ['./songbook.component.scss']
 })
 export class SongbookComponent {
-  public organPagination = new RangePagination(1, 25, 300);
+  public organPagination = new RangePagination(1, 300, 30);
 
   constructor(
     private appTitleService: AppTitleService,

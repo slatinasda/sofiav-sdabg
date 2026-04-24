@@ -4,7 +4,7 @@
     <h1 class="mb-4">Църковни песни</h1>
     <p class="lead">
       Музиката и песните заемат важна част в поклонението на вярващите.
-      На тази страница ще намерите музикален съпровод на орган за всички 300 песни, които се пеят в църквата на Адвентистите от Седмия Ден.
+      На тази страница ще намерите музикален съпровод на орган за всички 300 песни, които се пеят в църквата на Адвентистите от седмия ден.
     </p>
   </div>
 
@@ -30,31 +30,27 @@
 
   <div class="mb-5">
     <h3 class="mb-3">MP3 записи</h3>
-    <div class="table-responsive">
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th scope="col">Номер</th>
-            <th scope="col">Линк за сваляне</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let songNum of organSongNumbers()">
-            <td>Песен {{songNum}}</td>
-            <td>
-              <a href="/files/church-songbook/organ/{{songNum}}.mp3" target="_blank" title="Свали песен {{songNum}}">Свали</a>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+
+    <p class="mb-2">
+      Кликнете на номера на песента за да я изтеглите.
+    </p>
+
+    <div class="song-grid">
+      <a *ngFor="let songNum of organSongNumbers()"
+         class="song-grid-item"
+         href="/files/church-songbook/organ/{{songNum}}.mp3"
+         target="_blank"
+         title="Свали песен {{songNum}}">
+        {{songNum}}
+      </a>
     </div>
 
-    <ul class="pagination">
-      <li class="page-item">
-        <button class="page-link" (click)="organPagination.setPreviousPage()">Предишна страница</button>
+    <ul class="pagination justify-content-center mt-4">
+      <li class="page-item" [class.disabled]="!organPagination.hasPreviousPage()">
+        <button class="page-link" (click)="organPagination.setPreviousPage()">Назад</button>
       </li>
-      <li class="page-item">
-        <button class="page-link" (click)="organPagination.setNextPage()">Следваща страница</button>
+      <li class="page-item" [class.disabled]="!organPagination.hasNextPage()">
+        <button class="page-link" (click)="organPagination.setNextPage()">Напред</button>
       </li>
     </ul>
   </div> <!-- MP3 section end -->
