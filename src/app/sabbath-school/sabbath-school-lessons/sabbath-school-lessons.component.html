@@ -106,6 +106,6 @@
 </div>
 
 <!-- Introduction modal -->
-<app-modal [(open)]="open" [title]="quarterlyDetail?.quarterly?.title || ''" size="lg">
+<app-modal [(open)]="open" [title]="quarterlyDetail?.quarterly?.title || ''" size="lg" urlFragment="intro">
   <div [innerHTML]="parseMarkdown(quarterlyDetail?.quarterly?.introduction || '')"></div>
 </app-modal>

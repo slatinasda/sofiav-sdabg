@@ -11,7 +11,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title">{{ title }}</h4>
-        <button type="button" class="close" (click)="close()">&times;</button>
+        <button type="button" class="close" (click)="goBack()">&times;</button>
       </div>
       <div class="modal-body">
         <ng-content></ng-content>
@@ -19,4 +19,4 @@
     </div>
   </div>
 </div>
-<div *ngIf="open" class="modal-backdrop fade show" (click)="close()"></div>
+<div *ngIf="open" class="modal-backdrop fade show" (click)="goBack()"></div>

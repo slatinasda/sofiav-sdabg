@@ -120,7 +120,7 @@
 </div>
 
 <!-- Audio Popup -->
-<app-modal [(open)]="audioOpen" title="Аудио">
+<app-modal [(open)]="audioOpen" title="Аудио" urlFragment="audio">
   <div *ngFor="let audioItem of audio" class="mb-3">
     <audio controls class="w-100">
       <source [src]="audioItem.src" [type]="audioItem.content_type || 'audio/mpeg'" />
@@ -133,6 +133,6 @@
 </app-modal>
 
 <!-- Bible Verses Modal -->
-<app-modal [(open)]="bibleModalOpen" title="Библейски стихове" size="lg">
+<app-modal [(open)]="bibleModalOpen" title="Библейски стихове" size="lg" urlFragment="bible">
   <div class="bible-modal-content" [innerHTML]="selectedBibleHtml"></div>
 </app-modal>
