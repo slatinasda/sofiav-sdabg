@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { AppTitleService } from '../app-title.service';
 import { IChurchServiceAgenda } from './interfaces/church-service-agenda.interface';
 import { WorshipTimeService } from './services/worship-time.service';
+import { CurrentQuarterService } from '../sabbath-school/current-quarter.service';
 
 const serviceTimes = require('./agenda/service-times.json');
 const serviceTimesDST = require('./agenda/service-times-dst.json');
@@ -34,6 +35,7 @@ export class HomeComponent implements OnInit {
     private sanitizer: DomSanitizer,
     private httpClient: HttpClient,
     private workshipTimeService: WorshipTimeService,
+    private quarterService: CurrentQuarterService,
   ) {
     this.appTitleService.setTitle('Начало');
     this.liveStreamEmbedUrl = this.sanitizer.bypassSecurityTrustResourceUrl('');
@@ -93,7 +95,7 @@ export class HomeComponent implements OnInit {
       {
         day: 'Събота сутрин',
         label: this.sanitizer.bypassSecurityTrustHtml(
-          'Групова дискусия върху <a href="/sabbath-school">съботно училищния урок</a>'
+          `Групова дискусия върху <a href="/sabbath-school/${this.quarterService.yearAndQuarter()}">съботно училищния урок</a>`
         ),
         time: {
           startHour: agenda['saturdayMorningSchoolStart'].format('HH:mm'),

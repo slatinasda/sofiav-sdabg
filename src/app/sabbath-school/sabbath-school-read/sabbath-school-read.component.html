@@ -1,0 +1,138 @@
+<div class="bg-white py-3 py-lg-4">
+  <div class="container">
+    <!-- Loading -->
+    <div *ngIf="loading" class="text-center py-5">
+      <div class="spinner-border text-primary" role="status">
+        <span class="sr-only">Зареждане...</span>
+      </div>
+    </div>
+
+    <div *ngIf="!loading" class="row">
+      <!-- Sidebar -->
+      <div *ngIf="quarterlyDetail" class="col-12 col-md-3 order-last order-md-first">
+        <div class="text-center mb-3">
+          <a [routerLink]="['/sabbath-school', quarter]">
+            <img [src]="quarterlyDetail.quarterly.cover"
+                 class="img-fluid rounded shadow-sm ss-sidebar-cover" />
+          </a>
+        </div>
+
+        <div *ngIf="lessonDetail" class="text-md-right">
+          <a [routerLink]="['/sabbath-school', quarter]"
+             class="d-block mb-3 font-weight-bold text-dark hover-text-primary">
+            {{ quarterlyDetail.quarterly.title }}
+          </a>
+
+          <!-- Day Navigation -->
+          <div>
+            <a *ngFor="let day of lessonDetail.days; let i = index"
+               [routerLink]="['/sabbath-school', quarter, 'lessons', lessonId, slugify(i + 1)]"
+               class="d-block p-2 rounded mb-1 hover-bg-light"
+               [class.bg-light]="read && day && day.id === read.id">
+              <p class="small text-muted mb-0">
+                {{ moment(day.date, 'DD/MM/YYYY').format('dddd, MMMM DD') }}
+              </p>
+              <span class="small" [class.font-weight-bold]="read && day && day.id === read.id">
+                {{ day.title }}
+              </span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Reading Area -->
+      <div class="col-12 col-md-9 mt-4 mt-md-0 order-first order-md-last">
+        <div *ngIf="lessonDetail" class="border rounded">
+          <!-- Header with cover image -->
+          <div *ngIf="read"
+               class="ss-read-header rounded-top"
+               [style.background-image]="'url(' + lessonDetail.lesson.cover + ')'">
+            <div class="ss-read-header-overlay">
+              <div class="d-flex justify-content-end p-2">
+                <div class="ss-toolbar">
+                  <!-- Reader Options -->
+                  <div class="dropdown d-inline-block mr-2">
+                    <button class="btn btn-sm btn-dark dropdown-toggle" type="button"
+                            data-toggle="dropdown">
+                      <i class="fa fa-cog"></i>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right p-3" style="min-width: 250px;">
+                      <div class="mb-2">
+                        <label class="small font-weight-bold d-block">Тема</label>
+                        <div class="btn-group btn-group-sm w-100">
+                          <button class="btn btn-outline-secondary"
+                                  [class.active]="readerTheme === 'light'"
+                                  (click)="setTheme('light')">Светла</button>
+                          <button class="btn btn-outline-secondary"
+                                  [class.active]="readerTheme === 'sepia'"
+                                  (click)="setTheme('sepia')">Сепия</button>
+                          <button class="btn btn-outline-secondary"
+                                  [class.active]="readerTheme === 'dark'"
+                                  (click)="setTheme('dark')">Тъмна</button>
+                        </div>
+                      </div>
+                      <div>
+                        <label class="small font-weight-bold d-block">Размер</label>
+                        <div class="d-flex align-items-center">
+                          <span class="small mr-2">A</span>
+                          <input type="range" class="custom-range" min="1" max="5" step="1"
+                                 [value]="readerSize" (input)="onSizeChange($event)" />
+                          <span class="font-weight-bold ml-2">A</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <button *ngIf="audio.length" class="btn btn-sm btn-dark mr-2"
+                          (click)="audioOpen = !audioOpen">
+                    <i class="fa fa-headphones"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="ss-read-header-text">
+                <p class="text-light text-uppercase small mb-1">
+                  {{ moment(read.date, 'DD/MM/YYYY').format('dddd, MMMM DD') }}
+                </p>
+                <h3 class="text-white font-weight-bold mb-0">{{ read.title }}</h3>
+              </div>
+            </div>
+          </div>
+
+          <!-- Reader Content -->
+          <div *ngIf="read" class="ss-reader"
+               [class.ss-theme-light]="readerTheme === 'light'"
+               [class.ss-theme-sepia]="readerTheme === 'sepia'"
+               [class.ss-theme-dark]="readerTheme === 'dark'"
+               [class.ss-size-xs]="readerSize === '1'"
+               [class.ss-size-sm]="readerSize === '2'"
+               [class.ss-size-md]="readerSize === '3'"
+               [class.ss-size-lg]="readerSize === '4'"
+               [class.ss-size-xl]="readerSize === '5'">
+            <div #readerContent class="p-3 p-md-4 p-lg-5"
+                 [innerHTML]="read.content"
+                 (click)="onReaderClick($event)">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Audio Popup -->
+<app-modal [(open)]="audioOpen" title="Аудио">
+  <div *ngFor="let audioItem of audio" class="mb-3">
+    <audio controls class="w-100">
+      <source [src]="audioItem.src" [type]="audioItem.content_type || 'audio/mpeg'" />
+    </audio>
+    <p class="small text-muted mt-1">{{ audioItem.title }}</p>
+  </div>
+  <div *ngIf="!audio.length">
+    <p class="text-muted">Няма налично аудио за този урок.</p>
+  </div>
+</app-modal>
+
+<!-- Bible Verses Modal -->
+<app-modal [(open)]="bibleModalOpen" title="Библейски стихове" size="lg">
+  <div class="bible-modal-content" [innerHTML]="selectedBibleHtml"></div>
+</app-modal>

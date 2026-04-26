@@ -1,0 +1,32 @@
+.ss-cover {
+  width: 160px;
+  height: 220px;
+  background-position: center;
+  background-size: cover;
+}
+
+.ss-feature-icon {
+  width: 16px;
+  height: 16px;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.hover-bg-gray:hover {
+  background-color: #e9ecef !important;
+}
+
+.mt-n2 {
+  margin-top: -0.5rem;
+}
+
+.modal-backdrop {
+  z-index: 1040;
+}
+
+.modal-body {
+  max-height: 70vh;
+  overflow-y: auto;
+}
