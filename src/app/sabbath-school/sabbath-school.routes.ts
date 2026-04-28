@@ -1,13 +1,10 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-
+import { Routes } from '@angular/router';
 import { SabbathSchoolComponent } from './sabbath-school.component';
 import { SabbathSchoolQuarterliesComponent } from './sabbath-school-quarterlies/sabbath-school-quarterlies.component';
 import { SabbathSchoolLessonsComponent } from './sabbath-school-lessons/sabbath-school-lessons.component';
 import { SabbathSchoolReadComponent } from './sabbath-school-read/sabbath-school-read.component';
 
-
-const sabbathSchoolRoutes: Routes = [
+export const sabbathSchoolRoutes: Routes = [
   {
     path: '',
     component: SabbathSchoolComponent,
@@ -19,13 +16,3 @@ const sabbathSchoolRoutes: Routes = [
     ]
   },
 ];
-
-@NgModule({
-  imports: [
-    RouterModule.forChild(sabbathSchoolRoutes)
-  ],
-  exports: [
-    RouterModule
-  ]
-})
-export class SabbathSchoolRoutingModule { }

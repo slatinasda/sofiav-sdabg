@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import * as moment from 'moment-timezone';
+import moment from 'moment-timezone';
 
 /**
  * Calculates the start and end times for church services,
  * taking into account Daylight Saving
  */
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class WorshipTimeService {
   private timeZone: string = 'Europe/Sofia';
 

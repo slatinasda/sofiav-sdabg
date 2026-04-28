@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { HttpClient } from '@angular/common/http';
 
@@ -6,9 +8,13 @@ import { AppTitleService } from '../app-title.service';
 import { IChurchServiceAgenda } from './interfaces/church-service-agenda.interface';
 import { WorshipTimeService } from './services/worship-time.service';
 import { CurrentQuarterService } from '../sabbath-school/current-quarter.service';
+import { JoinPipe } from '../shared/pipes/join.pipe';
+import { BibleStudiesCtaComponent } from '../shared/components/bible-studies-cta/bible-studies-cta.component';
+import serviceTimesJson from './agenda/service-times.json';
+import serviceTimesDSTJson from './agenda/service-times-dst.json';
 
-const serviceTimes = require('./agenda/service-times.json');
-const serviceTimesDST = require('./agenda/service-times-dst.json');
+const serviceTimes = serviceTimesJson as ServiceTimes;
+const serviceTimesDST = serviceTimesDSTJson as ServiceTimes;
 
 
 interface NextLiveStream {
@@ -19,8 +25,19 @@ interface NextLiveStream {
   published: string,
 }
 
+interface ServiceTimes {
+  [key: string]: number[];
+}
+
 
 @Component({
+  standalone: true,
+  imports: [
+    CommonModule,
+    RouterModule,
+    JoinPipe,
+    BibleStudiesCtaComponent,
+  ],
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']

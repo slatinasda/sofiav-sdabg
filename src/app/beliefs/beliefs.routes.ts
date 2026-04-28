@@ -1,8 +1,4 @@
-import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
-
-import { BeliefsRoutingModule } from './beliefs-routing.module';
-
+import { Routes } from '@angular/router';
 import { BeliefsComponent } from './beliefs.component';
 import { DoctrineOfGodComponent } from './doctrine-of-god/doctrine-of-god.component';
 import { DoctrineOfHumanityComponent } from './doctrine-of-humanity/doctrine-of-humanity.component';
@@ -11,22 +7,18 @@ import { DoctrineOfChurchComponent } from './doctrine-of-church/doctrine-of-chur
 import { DoctrineOfLivingComponent } from './doctrine-of-living/doctrine-of-living.component';
 import { DoctrineOfRestorationComponent } from './doctrine-of-restoration/doctrine-of-restoration.component';
 
-import { SharedModule } from '../shared/shared.module';
-
-@NgModule({
-  imports: [
-    BeliefsRoutingModule,
-    RouterModule,
-    SharedModule,
-  ],
-  declarations: [
-    BeliefsComponent,
-    DoctrineOfGodComponent,
-    DoctrineOfHumanityComponent,
-    DoctrineOfSalvationComponent,
-    DoctrineOfChurchComponent,
-    DoctrineOfLivingComponent,
-    DoctrineOfRestorationComponent,
-  ]
-})
-export class BeliefsModule { }
+export const beliefsRoutes: Routes = [
+  {
+    path: '',
+    component: BeliefsComponent,
+    children: [
+      { path: '', redirectTo: 'god', pathMatch: 'full' },
+      { path: 'god', component: DoctrineOfGodComponent },
+      { path: 'humanity', component: DoctrineOfHumanityComponent },
+      { path: 'salvation', component: DoctrineOfSalvationComponent },
+      { path: 'church', component: DoctrineOfChurchComponent },
+      { path: 'living', component: DoctrineOfLivingComponent },
+      { path: 'restoration', component: DoctrineOfRestorationComponent },
+    ]
+  },
+];

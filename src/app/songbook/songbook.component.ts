@@ -1,10 +1,13 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 import { AppTitleService } from '../app-title.service';
 import { RangePagination } from './range-pagination';
 
 
 @Component({
+  standalone: true,
+  imports: [CommonModule],
   selector: 'app-songbook',
   templateUrl: './songbook.component.html',
   styleUrls: ['./songbook.component.scss']

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
 import { SabbathSchoolApiService } from '../sabbath-school-api.service';
 import { AppTitleService } from '../../app-title.service';
 import { Quarterly } from '../interfaces/quarterly.interface';
@@ -11,6 +12,8 @@ interface GroupedQuarterly {
 }
 
 @Component({
+  standalone: true,
+  imports: [CommonModule, RouterModule],
   selector: 'app-sabbath-school-quarterlies',
   templateUrl: './sabbath-school-quarterlies.component.html',
   styleUrls: ['./sabbath-school-quarterlies.component.scss']

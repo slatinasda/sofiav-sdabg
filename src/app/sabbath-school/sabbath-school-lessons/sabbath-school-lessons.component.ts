@@ -1,13 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
 import { SabbathSchoolApiService } from '../sabbath-school-api.service';
 import { AppTitleService } from '../../app-title.service';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import * as moment from 'moment';
+import moment from 'moment';
 import { marked } from 'marked';
+import { ModalComponent } from '../../shared/components/modal/modal.component';
 import { QuarterlyDetail, Lesson, PublishingInfo } from '../interfaces/quarterly.interface';
 
 @Component({
+  standalone: true,
+  imports: [CommonModule, RouterModule, ModalComponent],
   selector: 'app-sabbath-school-lessons',
   templateUrl: './sabbath-school-lessons.component.html',
   styleUrls: ['./sabbath-school-lessons.component.scss']

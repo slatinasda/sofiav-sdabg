@@ -1,14 +1,18 @@
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
 import { SabbathSchoolApiService } from '../sabbath-school-api.service';
 import { AppTitleService } from '../../app-title.service';
 import { Subscription } from 'rxjs';
-import * as moment from 'moment';
+import moment from 'moment';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { marked } from 'marked';
+import { ModalComponent } from '../../shared/components/modal/modal.component';
 import { QuarterlyDetail, LessonDetail, DayRead, AudioItem } from '../interfaces/quarterly.interface';
 
 @Component({
+  standalone: true,
+  imports: [CommonModule, RouterModule, ModalComponent],
   selector: 'app-sabbath-school-read',
   templateUrl: './sabbath-school-read.component.html',
   styleUrls: ['./sabbath-school-read.component.scss']

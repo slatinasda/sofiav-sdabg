@@ -1,12 +1,27 @@
-import { enableProdMode } from '@angular/core';
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import { enableProdMode, LOCALE_ID, provideZoneChangeDetection } from '@angular/core';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { registerLocaleData } from '@angular/common';
+import localeBg from '@angular/common/locales/bg';
+import { provideRouter } from '@angular/router';
 
-import { AppModule } from './app/app.module';
+import { AppComponent } from './app/app.component';
+import { AppTitleService } from './app/app-title.service';
+import { appRoutes } from './app/app-routes';
 import { environment } from './environments/environment';
+
+registerLocaleData(localeBg, 'bg');
 
 if (environment.production) {
   enableProdMode();
 }
 
-platformBrowserDynamic().bootstrapModule(AppModule)
-  .catch(err => console.error(err));
+bootstrapApplication(AppComponent, {
+  providers: [
+    provideRouter(appRoutes),
+    provideHttpClient(withInterceptorsFromDi()),
+    provideZoneChangeDetection(),
+    AppTitleService,
+    { provide: LOCALE_ID, useValue: 'bg' },
+  ]
+}).catch(err => console.error(err));

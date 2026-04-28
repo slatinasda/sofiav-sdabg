@@ -1,6 +1,9 @@
 import { Component, Input, Output, EventEmitter, HostListener, OnInit, OnDestroy, NgZone } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 @Component({
+  standalone: true,
+  imports: [CommonModule],
   selector: 'app-modal',
   templateUrl: './modal.component.html',
   styleUrls: ['./modal.component.scss']
@@ -51,7 +54,7 @@ export class ModalComponent implements OnInit, OnDestroy {
   };
 
   @HostListener('document:keydown.escape', ['$event'])
-  onKeydownHandler(event: KeyboardEvent): void {
+  onKeydownHandler(event: Event): void {
     if (this._open) {
       this.goBack();
     }

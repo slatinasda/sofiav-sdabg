@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { CommonModule } from '@angular/common';
 
 import { AppTitleService } from '../app-title.service';
+import { BibleStudiesCtaComponent } from '../shared/components/bible-studies-cta/bible-studies-cta.component';
 
 interface VideoItem {
   title: string,
@@ -12,6 +14,8 @@ interface VideoItem {
 }
 
 @Component({
+  standalone: true,
+  imports: [CommonModule, BibleStudiesCtaComponent],
   selector: 'app-video-archive',
   templateUrl: './video-archive.component.html',
   styleUrls: ['./video-archive.component.scss']
@@ -32,7 +36,7 @@ export class VideoArchiveComponent implements OnInit {
   }
 
   latestVideos() {
-    const feed = this.httpClient.get<VideoItem[]>(this.feedUrl);
-    feed.subscribe((items: VideoItem[]) => this.videos = items);
+    this.httpClient.get<VideoItem[]>(this.feedUrl)
+      .subscribe((items: VideoItem[]) => this.videos = items);
   }
 }

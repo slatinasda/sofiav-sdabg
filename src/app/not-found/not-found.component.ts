@@ -1,7 +1,10 @@
 import { Component } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import { AppTitleService } from '../app-title.service';
 
 @Component({
+  standalone: true,
+  imports: [RouterModule],
   selector: 'app-not-found',
   templateUrl: './not-found.component.html',
 })
