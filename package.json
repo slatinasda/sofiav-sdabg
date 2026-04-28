@@ -7,7 +7,8 @@
     "build": "npm run trim-moment-locales && ng build --configuration production",
     "watch": "ng build --watch --configuration development",
     "trim-moment-locales": "find node_modules/moment/locale -type f -not \\( -name \"bg.js\" -o -name \"en-gb.js\" \\) -exec rm {} \\;",
-    "prettify": "prettier --write 'src/**/*.{ts,js,json,html,css,scss}' --ignore-path .prettierignore"
+    "prettify": "prettier --write 'src/**/*.{ts,js,json,html,css,scss}' --ignore-path .prettierignore",
+    "prepare": "husky"
   },
   "private": true,
   "packageManager": "npm@11.6.1",
@@ -35,6 +36,7 @@
     "@types/jquery": "^4.0.0",
     "@types/marked": "^5.0.2",
     "@types/node": "^25.6.0",
+    "husky": "^9.1.7",
     "jsdom": "^28.0.0",
     "prettier": "^3.8.1",
     "typescript": "~5.9.2",
