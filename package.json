@@ -6,7 +6,8 @@
     "start": "ng serve --host 0.0.0.0",
     "build": "npm run trim-moment-locales && ng build --configuration production",
     "watch": "ng build --watch --configuration development",
-    "trim-moment-locales": "find node_modules/moment/locale -type f -not \\( -name \"bg.js\" -o -name \"en-gb.js\" \\) -exec rm {} \\;"
+    "trim-moment-locales": "find node_modules/moment/locale -type f -not \\( -name \"bg.js\" -o -name \"en-gb.js\" \\) -exec rm {} \\;",
+    "prettify": "prettier --write 'src/**/*.{ts,js,json,html,css,scss}' --ignore-path .prettierignore"
   },
   "private": true,
   "packageManager": "npm@11.6.1",
