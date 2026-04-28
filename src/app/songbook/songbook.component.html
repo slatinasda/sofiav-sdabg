@@ -1,29 +1,33 @@
 <div class="container p-md-4 py-lg-5">
-
   <div class="jumbotron">
     <h1 class="mb-4">Църковни песни</h1>
     <p class="lead">
-      Музиката и песните заемат важна част в поклонението на вярващите.
-      На тази страница ще намерите музикален съпровод на орган за всички 300 песни, които се пеят в църквата на Адвентистите от седмия ден.
+      Музиката и песните заемат важна част в поклонението на вярващите. На тази страница ще намерите
+      музикален съпровод на орган за всички 300 песни, които се пеят в църквата на Адвентистите от
+      седмия ден.
     </p>
   </div>
 
   <div class="mb-5">
     <h3>PDF и MIDI файлове</h3>
-    <p class="mb-1">
-      На страницата ни в Github може да намерите PDF и MIDI файлове на песните:
-    </p>
-    <a href="https://github.com/slatinasda/sdabg-church-songbook-sheets" class="btn btn-lg btn-primary py-2 px-4" target="_blank">
+    <p class="mb-1">На страницата ни в Github може да намерите PDF и MIDI файлове на песните:</p>
+    <a
+      href="https://github.com/slatinasda/sdabg-church-songbook-sheets"
+      class="btn btn-lg btn-primary py-2 px-4"
+      target="_blank"
+    >
       Линк към Github
     </a>
   </div>
 
   <div class="mb-5">
     <h3>Текст към песните</h3>
-    <p class="mb-1">
-      Свалете текста към песните във формат PDF, PPTX, ODP:
-    </p>
-    <a href="/files/church-songbook/text/Church songbook - Text.zip" class="btn btn-lg btn-primary py-2 px-4" target="_blank">
+    <p class="mb-1">Свалете текста към песните във формат PDF, PPTX, ODP:</p>
+    <a
+      href="/files/church-songbook/text/Church songbook - Text.zip"
+      class="btn btn-lg btn-primary py-2 px-4"
+      target="_blank"
+    >
       Линк за сваляне
     </a>
   </div>
@@ -31,17 +35,17 @@
   <div class="mb-5">
     <h3 class="mb-3">MP3 записи</h3>
 
-    <p class="mb-2">
-      Кликнете на номера на песента за да я изтеглите.
-    </p>
+    <p class="mb-2">Кликнете на номера на песента за да я изтеглите.</p>
 
     <div class="song-grid">
-      <a *ngFor="let songNum of organSongNumbers()"
-         class="song-grid-item"
-         href="/files/church-songbook/organ/{{songNum}}.mp3"
-         target="_blank"
-         title="Свали песен {{songNum}}">
-        {{songNum}}
+      <a
+        *ngFor="let songNum of organSongNumbers()"
+        class="song-grid-item"
+        href="/files/church-songbook/organ/{{ songNum }}.mp3"
+        target="_blank"
+        title="Свали песен {{ songNum }}"
+      >
+        {{ songNum }}
       </a>
     </div>
 
@@ -53,6 +57,6 @@
         <button class="page-link" (click)="organPagination.setNextPage()">Напред</button>
       </li>
     </ul>
-  </div> <!-- MP3 section end -->
-
+  </div>
+  <!-- MP3 section end -->
 </div>

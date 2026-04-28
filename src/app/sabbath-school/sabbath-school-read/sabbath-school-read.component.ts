@@ -8,14 +8,19 @@ import moment from 'moment';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { marked } from 'marked';
 import { ModalComponent } from '../../shared/components/modal/modal.component';
-import { QuarterlyDetail, LessonDetail, DayRead, AudioItem } from '../interfaces/quarterly.interface';
+import {
+  QuarterlyDetail,
+  LessonDetail,
+  DayRead,
+  AudioItem,
+} from '../interfaces/quarterly.interface';
 
 @Component({
   standalone: true,
   imports: [CommonModule, RouterModule, ModalComponent],
   selector: 'app-sabbath-school-read',
   templateUrl: './sabbath-school-read.component.html',
-  styleUrls: ['./sabbath-school-read.component.scss']
+  styleUrls: ['./sabbath-school-read.component.scss'],
 })
 export class SabbathSchoolReadComponent implements OnInit, OnDestroy {
   @ViewChild('readerContent') readerContent!: ElementRef;
@@ -48,17 +53,17 @@ export class SabbathSchoolReadComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private appTitleService: AppTitleService,
-    private sanitizer: DomSanitizer
-  ) { }
+    private sanitizer: DomSanitizer,
+  ) {}
 
   ngOnInit() {
     this.loadSettings();
     // Subscribe to route param changes so component reloads when day changes
-    this.routeSub = this.route.paramMap.subscribe(params => {
+    this.routeSub = this.route.paramMap.subscribe((params) => {
       this.routeParams = {
         quarter: params.get('quarter') || '',
         lessonId: params.get('lesson') || '',
-        day: params.get('day') || '01'
+        day: params.get('day') || '01',
       };
       this.loadData();
     });
@@ -109,14 +114,20 @@ export class SabbathSchoolReadComponent implements OnInit, OnDestroy {
       '2': 'ss-size-sm',
       '3': 'ss-size-md',
       '4': 'ss-size-lg',
-      '5': 'ss-size-xl'
+      '5': 'ss-size-xl',
     };
     return sizeMap[this.readerSize] || 'ss-size-md';
   }
 
-  get quarter(): string { return this.routeParams.quarter; }
-  get lessonId(): string { return this.routeParams.lessonId; }
-  get dayParam(): string { return this.routeParams.day; }
+  get quarter(): string {
+    return this.routeParams.quarter;
+  }
+  get lessonId(): string {
+    return this.routeParams.lessonId;
+  }
+  get dayParam(): string {
+    return this.routeParams.day;
+  }
 
   get readIndex(): string {
     return `bg-${this.quarter}-${this.lessonId}-${this.dayParam}`;
@@ -127,7 +138,7 @@ export class SabbathSchoolReadComponent implements OnInit, OnDestroy {
     this.api.getQuarterly(this.quarter).subscribe({
       next: (data: QuarterlyDetail) => {
         this.quarterlyDetail = data;
-      }
+      },
     });
   }
 
@@ -150,13 +161,13 @@ export class SabbathSchoolReadComponent implements OnInit, OnDestroy {
               this.quarter,
               'lessons',
               this.lessonId,
-              String(dayIndex + 1).padStart(2, '0')
+              String(dayIndex + 1).padStart(2, '0'),
             ]);
             return;
           }
         }
         this.loadDay();
-      }
+      },
     });
   }
 
@@ -165,7 +176,10 @@ export class SabbathSchoolReadComponent implements OnInit, OnDestroy {
     let day = this.dayParam;
 
     if (/^\d{2}-?/g.test(day) && this.lessonDetail) {
-      if (this.lessonDetail.days.length && this.lessonDetail.days[Number(day.substring(0, 2)) - 1]) {
+      if (
+        this.lessonDetail.days.length &&
+        this.lessonDetail.days[Number(day.substring(0, 2)) - 1]
+      ) {
         day = this.lessonDetail.days[Number(day.substring(0, 2)) - 1].id;
       }
     }
@@ -179,7 +193,7 @@ export class SabbathSchoolReadComponent implements OnInit, OnDestroy {
       },
       error: () => {
         this.loading = false;
-      }
+      },
     });
   }
 
@@ -189,15 +203,13 @@ export class SabbathSchoolReadComponent implements OnInit, OnDestroy {
     }
 
     // For bg locale, there is 1 audio per lesson. The target day is always 01
-    const targetDay = '01'
+    const targetDay = '01';
     const audioIndex = `bg-${this.quarter}-${this.lessonId}-${targetDay}`;
     this.api.getAudio(this.quarter).subscribe({
       next: (data: AudioItem[]) => {
-        this.audio = data.filter((item: AudioItem) =>
-          item.targetIndex === audioIndex
-        );
+        this.audio = data.filter((item: AudioItem) => item.targetIndex === audioIndex);
       },
-      error: () => {}
+      error: () => {},
     });
   }
 
@@ -217,7 +229,7 @@ export class SabbathSchoolReadComponent implements OnInit, OnDestroy {
     // Find RIBBD first, fall back to any available translation
     const preferred = 'RIBBD';
 
-    let translation: any = this.bibleData.find(t => t.name === preferred);
+    let translation: any = this.bibleData.find((t) => t.name === preferred);
     if (!translation && this.bibleData.length) {
       translation = this.bibleData[0];
     }
@@ -255,7 +267,7 @@ export class SabbathSchoolReadComponent implements OnInit, OnDestroy {
           margin-top: 1.5rem;
         }
       </style>
-    `
+    `;
     const content = htmlStyles + html;
     this.selectedBibleHtml = this.sanitizer.bypassSecurityTrustHtml(content);
     this.bibleModalOpen = true;

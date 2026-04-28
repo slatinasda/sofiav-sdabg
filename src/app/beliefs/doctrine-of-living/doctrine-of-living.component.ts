@@ -4,6 +4,6 @@ import { Component } from '@angular/core';
   standalone: true,
   selector: 'app-doctrine-of-living',
   templateUrl: './doctrine-of-living.component.html',
-  styleUrls: ['./doctrine-of-living.component.scss']
+  styleUrls: ['./doctrine-of-living.component.scss'],
 })
-export class DoctrineOfLivingComponent { }
+export class DoctrineOfLivingComponent {}

@@ -6,11 +6,11 @@ import { AppTitleService } from '../app-title.service';
 import { BibleStudiesCtaComponent } from '../shared/components/bible-studies-cta/bible-studies-cta.component';
 
 interface VideoItem {
-  title: string,
-  link: string,
-  videoId: string,
-  thumbnail: string,
-  published: string,
+  title: string;
+  link: string;
+  videoId: string;
+  thumbnail: string;
+  published: string;
 }
 
 @Component({
@@ -18,7 +18,7 @@ interface VideoItem {
   imports: [CommonModule, BibleStudiesCtaComponent],
   selector: 'app-video-archive',
   templateUrl: './video-archive.component.html',
-  styleUrls: ['./video-archive.component.scss']
+  styleUrls: ['./video-archive.component.scss'],
 })
 export class VideoArchiveComponent implements OnInit {
   private feedUrl: string = 'https://sofia-v.sdabg.net/api/youtube_feed.php';
@@ -36,7 +36,8 @@ export class VideoArchiveComponent implements OnInit {
   }
 
   latestVideos() {
-    this.httpClient.get<VideoItem[]>(this.feedUrl)
-      .subscribe((items: VideoItem[]) => this.videos = items);
+    this.httpClient
+      .get<VideoItem[]>(this.feedUrl)
+      .subscribe((items: VideoItem[]) => (this.videos = items));
   }
 }

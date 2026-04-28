@@ -8,7 +8,7 @@ import { CurrentQuarterService } from './sabbath-school/current-quarter.service'
   imports: [CommonModule, RouterModule],
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
   @ViewChild('navbarMain') navbarMain: ElementRef | null = null;

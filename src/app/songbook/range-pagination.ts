@@ -18,7 +18,7 @@ export class RangePagination {
   }
 
   getCurrentRange(): [number, number] {
-    const start = (this.startRange - 1) + ((this.currentPage - 1) * this.perPage);
+    const start = this.startRange - 1 + (this.currentPage - 1) * this.perPage;
     const end = Math.min(this.endRange, start + this.perPage);
     return [start, end];
   }

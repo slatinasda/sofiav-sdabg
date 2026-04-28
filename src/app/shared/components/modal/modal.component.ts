@@ -1,4 +1,13 @@
-import { Component, Input, Output, EventEmitter, HostListener, OnInit, OnDestroy, NgZone } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  HostListener,
+  OnInit,
+  OnDestroy,
+  NgZone,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -6,7 +15,7 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule],
   selector: 'app-modal',
   templateUrl: './modal.component.html',
-  styleUrls: ['./modal.component.scss']
+  styleUrls: ['./modal.component.scss'],
 })
 export class ModalComponent implements OnInit, OnDestroy {
   @Input() title = '';

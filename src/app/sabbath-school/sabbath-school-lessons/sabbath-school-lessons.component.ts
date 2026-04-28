@@ -14,7 +14,7 @@ import { QuarterlyDetail, Lesson, PublishingInfo } from '../interfaces/quarterly
   imports: [CommonModule, RouterModule, ModalComponent],
   selector: 'app-sabbath-school-lessons',
   templateUrl: './sabbath-school-lessons.component.html',
-  styleUrls: ['./sabbath-school-lessons.component.scss']
+  styleUrls: ['./sabbath-school-lessons.component.scss'],
 })
 export class SabbathSchoolLessonsComponent implements OnInit {
   private readonly lang = 'bg';
@@ -30,23 +30,28 @@ export class SabbathSchoolLessonsComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private appTitleService: AppTitleService,
-    private sanitizer: DomSanitizer
-  ) { }
+    private sanitizer: DomSanitizer,
+  ) {}
 
   ngOnInit() {
     this.getQuarterly();
   }
 
   get lessonTarget(): string | null {
-    if (!this.quarterlyDetail || !this.quarterlyDetail.lessons || !this.quarterlyDetail.lessons.length) {
+    if (
+      !this.quarterlyDetail ||
+      !this.quarterlyDetail.lessons ||
+      !this.quarterlyDetail.lessons.length
+    ) {
       return null;
     }
     const now = moment().startOf('day');
-    const lesson = this.quarterlyDetail.lessons.find((x: Lesson) => {
-      const startDate = moment(x.start_date, 'DD/MM/YYYY').startOf('day');
-      const endDate = moment(x.end_date, 'DD/MM/YYYY').endOf('day');
-      return moment(now).isBetween(startDate, endDate, null, '[]');
-    }) || this.quarterlyDetail.lessons[0];
+    const lesson =
+      this.quarterlyDetail.lessons.find((x: Lesson) => {
+        const startDate = moment(x.start_date, 'DD/MM/YYYY').startOf('day');
+        const endDate = moment(x.end_date, 'DD/MM/YYYY').endOf('day');
+        return moment(now).isBetween(startDate, endDate, null, '[]');
+      }) || this.quarterlyDetail.lessons[0];
     return `/sabbath-school/${this.quarter}/lessons/${lesson.id}/01`;
   }
 
@@ -60,14 +65,12 @@ export class SabbathSchoolLessonsComponent implements OnInit {
       next: (data: QuarterlyDetail) => {
         this.quarterlyDetail = data;
         this.loading = false;
-        this.appTitleService.setTitle(
-          `${this.quarterlyDetail.quarterly.title} - Съботен урок`
-        );
+        this.appTitleService.setTitle(`${this.quarterlyDetail.quarterly.title} - Съботен урок`);
         this.loadPublishingInfo();
       },
       error: () => {
         this.loading = false;
-      }
+      },
     });
   }
 
@@ -81,20 +84,14 @@ export class SabbathSchoolLessonsComponent implements OnInit {
           next: (data: PublishingInfo) => {
             this.publishingInfo = data;
           },
-          error: () => {}
+          error: () => {},
         });
       }
     } catch (e) {}
   }
 
   navigateToLesson(lessonId: string): void {
-    this.router.navigate([
-      '/sabbath-school',
-      this.quarter,
-      'lessons',
-      lessonId,
-      '01'
-    ]);
+    this.router.navigate(['/sabbath-school', this.quarter, 'lessons', lessonId, '01']);
   }
 
   parseInt(value: string): number {

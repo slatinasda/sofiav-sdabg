@@ -8,7 +8,7 @@ import { BibleStudiesCtaComponent } from '../shared/components/bible-studies-cta
   imports: [RouterModule, BibleStudiesCtaComponent],
   selector: 'app-beliefs',
   templateUrl: './beliefs.component.html',
-  styleUrls: ['./beliefs.component.scss']
+  styleUrls: ['./beliefs.component.scss'],
 })
 export class BeliefsComponent {
   constructor(private appTitleService: AppTitleService) {

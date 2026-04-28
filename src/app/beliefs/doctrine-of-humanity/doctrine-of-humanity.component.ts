@@ -4,6 +4,6 @@ import { Component } from '@angular/core';
   standalone: true,
   selector: 'app-doctrine-of-humanity',
   templateUrl: './doctrine-of-humanity.component.html',
-  styleUrls: ['./doctrine-of-humanity.component.scss']
+  styleUrls: ['./doctrine-of-humanity.component.scss'],
 })
-export class DoctrineOfHumanityComponent { }
+export class DoctrineOfHumanityComponent {}

@@ -1,10 +1,7 @@
 <div class="container p-md-4 py-lg-5">
-
   <div class="jumbotron">
     <h1 class="mb-4">Видео архив</h1>
-    <p class="lead">
-      На тази страница може да намерите последните излъчвания от нашата църква.
-    </p>
+    <p class="lead">На тази страница може да намерите последните излъчвания от нашата църква.</p>
   </div>
 
   <div class="mb-5">
@@ -20,15 +17,15 @@
           <div *ngFor="let video of videos" class="col-md-6 col-lg-4 d-flex align-items-stretch">
             <div class="card">
               <a [href]="video.link" target="_blank">
-                <img class="card-img-top" [src]="video.thumbnail" alt="Video thumbnail">
+                <img class="card-img-top" [src]="video.thumbnail" alt="Video thumbnail" />
               </a>
               <div class="card-body">
                 <h5 class="card-title">
-                  <a [href]="video.link">{{video.title}}</a>
+                  <a [href]="video.link">{{ video.title }}</a>
                 </h5>
               </div>
               <div class="card-footer">
-                <small class="text-muted">{{video.published | date:'longDate'}}</small>
+                <small class="text-muted">{{ video.published | date: 'longDate' }}</small>
               </div>
             </div>
           </div>
@@ -36,13 +33,16 @@
       </ng-template>
 
       <div *ngIf="videos.length > 0" class="row d-flex justify-content-center mt-5">
-        <a class="btn btn-lg btn-primary btn-rounded py-3 px-4" href="https://youtube.com/@slatinasda/videos" target="_blank">
+        <a
+          class="btn btn-lg btn-primary btn-rounded py-3 px-4"
+          href="https://youtube.com/@slatinasda/videos"
+          target="_blank"
+        >
           Вижте всички записи<i class="fa fa-arrow-right ml-2"></i>
         </a>
       </div>
     </div>
   </div>
-
 </div>
 
 <app-bible-studies-cta></app-bible-studies-cta>

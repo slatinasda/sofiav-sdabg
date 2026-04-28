@@ -11,9 +11,10 @@
       <!-- Sidebar with cover and credits -->
       <div class="col-12 col-md-3">
         <div class="text-center text-md-right mb-4">
-          <div class="ss-cover d-inline-block mb-3 shadow-sm rounded"
-               [style.background-image]="'url(' + quarterlyDetail.quarterly.cover + ')'">
-          </div>
+          <div
+            class="ss-cover d-inline-block mb-3 shadow-sm rounded"
+            [style.background-image]="'url(' + quarterlyDetail.quarterly.cover + ')'"
+          ></div>
           <p class="text-uppercase text-muted small">
             {{ quarterlyDetail.quarterly.human_date }}
           </p>
@@ -33,53 +34,68 @@
 
       <!-- Main content -->
       <div class="col-12 col-md-9">
-        <a routerLink="/sabbath-school" class="d-inline-block mb-3 font-weight-bold text-primary hover-text-underline">
+        <a
+          routerLink="/sabbath-school"
+          class="d-inline-block mb-3 font-weight-bold text-primary hover-text-underline"
+        >
           <i class="fa fa-arrow-left mr-1"></i> Всички уроци
         </a>
         <h2 class="mb-3 font-weight-bold">{{ quarterlyDetail.quarterly.title }}</h2>
 
         <!-- Publishing info -->
-        <a *ngIf="publishingInfo && publishingInfo.data"
-           [href]="publishingInfo.data.url"
-           target="_blank"
-           class="d-block p-3 bg-light rounded mb-3 text-decoration-none hover-bg-gray">
+        <a
+          *ngIf="publishingInfo && publishingInfo.data"
+          [href]="publishingInfo.data.url"
+          target="_blank"
+          class="d-block p-3 bg-light rounded mb-3 text-decoration-none hover-bg-gray"
+        >
           <p class="text-muted small mb-0">{{ publishingInfo.data.message }}</p>
         </a>
 
         <!-- Description -->
         <div class="mb-3">
           <p>{{ quarterlyDetail.quarterly.description }}</p>
-          <button *ngIf="quarterlyDetail.quarterly.introduction &&
-                     (quarterlyDetail.quarterly.introduction.length - (quarterlyDetail.quarterly.description?.length || 0) > 100)"
-                  (click)="open = !open"
-                  class="btn btn-link p-0 font-italic">
+          <button
+            *ngIf="
+              quarterlyDetail.quarterly.introduction &&
+              quarterlyDetail.quarterly.introduction.length -
+                (quarterlyDetail.quarterly.description?.length || 0) >
+                100
+            "
+            (click)="open = !open"
+            class="btn btn-link p-0 font-italic"
+          >
             повече
           </button>
         </div>
 
         <!-- Lesson navigation -->
         <div *ngIf="lessonTarget" class="mb-3">
-          <a [routerLink]="lessonTarget"
-             class="btn btn-primary rounded-pill px-4 text-uppercase font-weight-bold small">
+          <a
+            [routerLink]="lessonTarget"
+            class="btn btn-primary rounded-pill px-4 text-uppercase font-weight-bold small"
+          >
             Прочети
           </a>
         </div>
 
         <!-- Lessons list -->
         <div class="mt-4 mb-4">
-          <div *ngFor="let lesson of quarterlyDetail.lessons; let i = index"
-               class="d-flex align-items-start mb-3">
-            <span *ngIf="isNumericId(lesson.id)"
-                  class="h3 font-weight-bold text-muted mr-3 mt-0">
+          <div
+            *ngFor="let lesson of quarterlyDetail.lessons; let i = index"
+            class="d-flex align-items-start mb-3"
+          >
+            <span *ngIf="isNumericId(lesson.id)" class="h3 font-weight-bold text-muted mr-3 mt-0">
               {{ parseInt(lesson.id) }}
             </span>
-            <span *ngIf="!isNumericId(lesson.id)"
-                  class="h3 font-weight-bold text-muted mr-3 mt-n2">
+            <span *ngIf="!isNumericId(lesson.id)" class="h3 font-weight-bold text-muted mr-3 mt-n2">
               ·
             </span>
             <div>
-              <a class="h5 font-weight-bold text-primary cursor-pointer"
-                 (click)="navigateToLesson(lesson.id)">
+              <a
+                class="h5 font-weight-bold text-primary cursor-pointer"
+                (click)="navigateToLesson(lesson.id)"
+              >
                 {{ lesson.title }}
               </a>
               <p class="text-muted small">
@@ -106,6 +122,11 @@
 </div>
 
 <!-- Introduction modal -->
-<app-modal [(open)]="open" [title]="quarterlyDetail?.quarterly?.title || ''" size="lg" urlFragment="intro">
+<app-modal
+  [(open)]="open"
+  [title]="quarterlyDetail?.quarterly?.title || ''"
+  size="lg"
+  urlFragment="intro"
+>
   <div [innerHTML]="parseMarkdown(quarterlyDetail?.quarterly?.introduction || '')"></div>
 </app-modal>

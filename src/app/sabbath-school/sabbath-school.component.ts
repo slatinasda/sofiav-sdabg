@@ -7,13 +7,10 @@ import { AppTitleService } from '../app-title.service';
   imports: [RouterModule],
   selector: 'app-sabbath-school',
   templateUrl: './sabbath-school.component.html',
-  styleUrls: ['./sabbath-school.component.scss']
+  styleUrls: ['./sabbath-school.component.scss'],
 })
 export class SabbathSchoolComponent {
-
-  constructor(
-    private appTitleService: AppTitleService,
-  ) {
+  constructor(private appTitleService: AppTitleService) {
     this.appTitleService.setTitle('Съботен урок');
   }
 }

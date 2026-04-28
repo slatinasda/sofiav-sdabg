@@ -16,31 +16,24 @@ import serviceTimesDSTJson from './agenda/service-times-dst.json';
 const serviceTimes = serviceTimesJson as ServiceTimes;
 const serviceTimesDST = serviceTimesDSTJson as ServiceTimes;
 
-
 interface NextLiveStream {
-  title: string,
-  url: string,
-  embedUrl: string,
-  videoId: string,
-  published: string,
+  title: string;
+  url: string;
+  embedUrl: string;
+  videoId: string;
+  published: string;
 }
 
 interface ServiceTimes {
   [key: string]: number[];
 }
 
-
 @Component({
   standalone: true,
-  imports: [
-    CommonModule,
-    RouterModule,
-    JoinPipe,
-    BibleStudiesCtaComponent,
-  ],
+  imports: [CommonModule, RouterModule, JoinPipe, BibleStudiesCtaComponent],
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
   liveStreamApi: string = 'https://sofia-v.sdabg.net/api/next_live_stream.php';
@@ -64,7 +57,8 @@ export class HomeComponent implements OnInit {
   }
 
   nextLiveStream() {
-    this.httpClient.get<NextLiveStream>(this.liveStreamApi)
+    this.httpClient
+      .get<NextLiveStream>(this.liveStreamApi)
       .subscribe((response: NextLiveStream) => {
         this.liveStreamEmbedUrl = this.sanitizer.bypassSecurityTrustResourceUrl(response.embedUrl);
       });
@@ -112,7 +106,7 @@ export class HomeComponent implements OnInit {
       {
         day: 'Събота сутрин',
         label: this.sanitizer.bypassSecurityTrustHtml(
-          `Групова дискусия върху <a href="/sabbath-school/${this.quarterService.yearAndQuarter()}">съботно училищния урок</a>`
+          `Групова дискусия върху <a href="/sabbath-school/${this.quarterService.yearAndQuarter()}">съботно училищния урок</a>`,
         ),
         time: {
           startHour: agenda['saturdayMorningSchoolStart'].format('HH:mm'),
@@ -140,5 +134,4 @@ export class HomeComponent implements OnInit {
       },
     ];
   }
-
 }

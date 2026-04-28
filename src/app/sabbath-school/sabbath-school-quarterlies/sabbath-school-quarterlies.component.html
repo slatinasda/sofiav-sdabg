@@ -1,6 +1,5 @@
 <div class="bg-white py-3 py-lg-4">
   <div class="container">
-
     <!-- Loading -->
     <div *ngIf="loading" class="text-center py-5">
       <div class="spinner-border text-primary" role="status">
@@ -15,11 +14,15 @@
           <p class="text-uppercase font-weight-bold text-primary mb-0">{{ group.name }}</p>
         </div>
         <div class="row">
-          <div *ngFor="let quarterly of group.quarterlies.slice(0, 4)" class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
+          <div
+            *ngFor="let quarterly of group.quarterlies.slice(0, 4)"
+            class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4"
+          >
             <a class="d-block cursor-pointer" (click)="navigateToQuarterly(quarterly.id)">
-              <div class="ss-cover mb-3 rounded shadow-sm"
-                   [style.background-image]="'url(' + quarterly.cover + ')'">
-              </div>
+              <div
+                class="ss-cover mb-3 rounded shadow-sm"
+                [style.background-image]="'url(' + quarterly.cover + ')'"
+              ></div>
               <p class="mt-2 mb-1 font-weight-bold">{{ quarterly.title }}</p>
               <p class="text-uppercase text-muted small mb-0">{{ quarterly.human_date }}</p>
             </a>
@@ -32,10 +35,11 @@
     <div *ngIf="!loading && !groupedQuarterlies.length && quarterlies.length" class="row">
       <div *ngFor="let quarterly of quarterlies" class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
         <a class="d-block cursor-pointer" (click)="navigateToQuarterly(quarterly.id)">
-          <div class="ss-cover mb-3 rounded shadow-sm"
-                style="height: 100%"
-                [style.background-image]="'url(' + quarterly.cover + ')'">
-          </div>
+          <div
+            class="ss-cover mb-3 rounded shadow-sm"
+            style="height: 100%"
+            [style.background-image]="'url(' + quarterly.cover + ')'"
+          ></div>
           <p class="mt-2 mb-1 font-weight-bold">{{ quarterly.title }}</p>
           <p class="text-uppercase text-muted small mb-0">{{ quarterly.human_date }}</p>
         </a>

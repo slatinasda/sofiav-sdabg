@@ -19,6 +19,6 @@ export const beliefsRoutes: Routes = [
       { path: 'church', component: DoctrineOfChurchComponent },
       { path: 'living', component: DoctrineOfLivingComponent },
       { path: 'restoration', component: DoctrineOfRestorationComponent },
-    ]
+    ],
   },
 ];

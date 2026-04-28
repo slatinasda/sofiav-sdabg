@@ -16,7 +16,7 @@ interface GroupedQuarterly {
   imports: [CommonModule, RouterModule],
   selector: 'app-sabbath-school-quarterlies',
   templateUrl: './sabbath-school-quarterlies.component.html',
-  styleUrls: ['./sabbath-school-quarterlies.component.scss']
+  styleUrls: ['./sabbath-school-quarterlies.component.scss'],
 })
 export class SabbathSchoolQuarterliesComponent implements OnInit {
   loading = false;
@@ -28,8 +28,8 @@ export class SabbathSchoolQuarterliesComponent implements OnInit {
   constructor(
     private api: SabbathSchoolApiService,
     private router: Router,
-    private appTitleService: AppTitleService
-  ) { }
+    private appTitleService: AppTitleService,
+  ) {}
 
   ngOnInit() {
     this.appTitleService.setTitle('Съботен урок');
@@ -46,7 +46,7 @@ export class SabbathSchoolQuarterliesComponent implements OnInit {
       },
       error: () => {
         this.loading = false;
-      }
+      },
     });
   }
 
@@ -59,10 +59,10 @@ export class SabbathSchoolQuarterliesComponent implements OnInit {
         const quarterlyGroup: GroupedQuarterly = {
           name: quarterly.quarterly_group.name,
           order: quarterly.quarterly_group.order,
-          quarterlies: [quarterly]
+          quarterlies: [quarterly],
         };
         const quarterlyGroupIndex = this.groupedQuarterlies.findIndex(
-          (item: GroupedQuarterly) => item.name === quarterlyGroup.name
+          (item: GroupedQuarterly) => item.name === quarterlyGroup.name,
         );
         if (quarterlyGroupIndex < 0) {
           this.groupedQuarterlies.push(quarterlyGroup);
@@ -77,15 +77,15 @@ export class SabbathSchoolQuarterliesComponent implements OnInit {
     if (this.groupedQuarterlies.length) {
       this.groupedQuarterlies[0].quarterlies = [
         ...this.groupedQuarterlies[0].quarterlies,
-        ...emptyGroup
+        ...emptyGroup,
       ];
       this.groupedQuarterlies = this.groupedQuarterlies.sort(
-        (a: GroupedQuarterly, b: GroupedQuarterly) => a.order - b.order
+        (a: GroupedQuarterly, b: GroupedQuarterly) => a.order - b.order,
       );
     }
 
     // Filter out "Уроци за юноши" as they require a PDF reader
-    this.groupedQuarterlies = this.groupedQuarterlies.filter(q => q.name !== 'Уроци за юноши');
+    this.groupedQuarterlies = this.groupedQuarterlies.filter((q) => q.name !== 'Уроци за юноши');
   }
 
   navigateToQuarterly(quarterlyId: string): void {

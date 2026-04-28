@@ -11,8 +11,12 @@ export const sabbathSchoolRoutes: Routes = [
     children: [
       { path: '', component: SabbathSchoolQuarterliesComponent, pathMatch: 'full' },
       { path: ':quarter', component: SabbathSchoolLessonsComponent },
-      { path: ':quarter/lessons/:lesson', redirectTo: ':quarter/lessons/:lesson/01', pathMatch: 'full' },
+      {
+        path: ':quarter/lessons/:lesson',
+        redirectTo: ':quarter/lessons/:lesson/01',
+        pathMatch: 'full',
+      },
       { path: ':quarter/lessons/:lesson/:day', component: SabbathSchoolReadComponent },
-    ]
+    ],
   },
 ];

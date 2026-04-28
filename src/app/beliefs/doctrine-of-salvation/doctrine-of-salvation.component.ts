@@ -4,6 +4,6 @@ import { Component } from '@angular/core';
   standalone: true,
   selector: 'app-doctrine-of-salvation',
   templateUrl: './doctrine-of-salvation.component.html',
-  styleUrls: ['./doctrine-of-salvation.component.scss']
+  styleUrls: ['./doctrine-of-salvation.component.scss'],
 })
-export class DoctrineOfSalvationComponent { }
+export class DoctrineOfSalvationComponent {}

@@ -23,5 +23,5 @@ bootstrapApplication(AppComponent, {
     provideZoneChangeDetection(),
     AppTitleService,
     { provide: LOCALE_ID, useValue: 'bg' },
-  ]
-}).catch(err => console.error(err));
+  ],
+}).catch((err) => console.error(err));
