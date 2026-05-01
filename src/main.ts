@@ -9,8 +9,11 @@ import { AppComponent } from './app/app.component';
 import { AppTitleService } from './app/app-title.service';
 import { appRoutes } from './app/app-routes';
 import { environment } from './environments/environment';
+import moment from 'moment';
+import 'moment/locale/bg';
 
 registerLocaleData(localeBg, 'bg');
+moment.locale('bg');
 
 if (environment.production) {
   enableProdMode();
