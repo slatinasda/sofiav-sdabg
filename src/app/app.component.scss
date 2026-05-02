@@ -1,3 +1,12 @@
+:host {
+  opacity: 0;
+  transition: opacity 0.25s ease-in;
+
+  &.app-root--ready {
+    opacity: 1;
+  }
+}
+
 .l-wrap {
   display: flex;
   flex-wrap: nowrap;
