@@ -1,3 +1,5 @@
+@use '../../../styles/tokens/colors' as c;
+
 .ss-sidebar-cover {
   max-width: 160px;
 }
@@ -105,8 +107,8 @@
   }
 
   blockquote {
-    background: #f8f9fa;
-    border-left: 5px solid #55a79a;
+    background: c.$ui-surface-light;
+    border-left: 5px solid c.$ui-brand-primary;
     padding: 0.5em 10px;
     margin-bottom: 1rem;
 
@@ -138,7 +140,7 @@
 
   code {
     font-family: inherit;
-    background: #f8f9fa;
+    background: c.$ui-surface-light;
     padding: 20px;
     display: block;
     font-weight: bold;
@@ -155,7 +157,7 @@
     tr {
       border-top: 1px solid #dee2e6;
       &:nth-child(2n) {
-        background: #f8f9fa;
+        background: c.$ui-surface-light;
       }
     }
 
@@ -202,12 +204,12 @@
 }
 
 .hover-bg-light:hover {
-  background-color: #f8f9fa;
+  background-color: c.$ui-surface-light;
   text-decoration: none;
 }
 
 .hover-text-primary:hover {
-  color: #55a79a !important;
+  color: c.$ui-brand-primary !important;
   text-decoration: none;
 }
 
@@ -238,7 +240,7 @@
     margin-bottom: 0.75rem;
   }
   .ss-donation-appeal-title {
-    background: linear-gradient(90deg, #55a79a, #6ec0b0);
+    background: linear-gradient(90deg, c.$ui-brand-primary, #6ec0b0);
     padding: 2px 6px;
     border-radius: 3px;
     cursor: pointer;
@@ -251,7 +253,7 @@
   .ss-donation-appeal-text {
     display: none;
     padding: 6px;
-    background: #e8f5f0;
+    background: rgba(c.$ui-brand-primary, 0.1);
     border-radius: 0 0 3px 3px;
   }
   .ss-donation-appeal-title-expanded {
@@ -264,66 +266,66 @@
 
 .dropdown-menu .btn-group .btn {
   &.active {
-    background: #55a79a;
+    background: c.$ui-brand-primary;
     color: #fff;
-    border-color: #55a79a;
+    border-color: c.$ui-brand-primary;
   }
 
   &:not(.active):hover {
-    background: rgba(85, 167, 154, 0.1);
-    border-color: #55a79a;
-    color: #55a79a;
+    background: rgba(c.$ui-brand-primary, 0.1);
+    border-color: c.$ui-brand-primary;
+    color: c.$ui-brand-primary;
   }
 }
 
 /* Range slider green accent */
 .custom-range::-webkit-slider-thumb {
-  background: #55a79a;
+  background: c.$ui-brand-primary;
 }
 .custom-range::-webkit-slider-thumb:active {
-  background: #4c968a;
+  background: darken(c.$ui-brand-primary, 8%);
 }
 .custom-range::-moz-range-thumb {
-  background: #55a79a;
-  border-color: #55a79a;
+  background: c.$ui-brand-primary;
+  border-color: c.$ui-brand-primary;
 }
 .custom-range::-moz-range-thumb:active {
-  background: #4c968a;
+  background: darken(c.$ui-brand-primary, 8%);
 }
 .custom-range::-ms-thumb {
-  background: #55a79a;
-  border-color: #55a79a;
+  background: c.$ui-brand-primary;
+  border-color: c.$ui-brand-primary;
 }
 .custom-range::-ms-thumb:active {
-  background: #4c968a;
+  background: darken(c.$ui-brand-primary, 8%);
 }
 .custom-range::-ms-fill-lower {
-  background: #55a79a;
+  background: c.$ui-brand-primary;
 }
 .custom-range:focus::-webkit-slider-thumb {
   box-shadow:
     0 0 0 1px #fff,
-    0 0 0 0.2rem rgba(85, 167, 154, 0.25);
+    0 0 0 0.2rem rgba(c.$ui-brand-primary, 0.25);
 }
 .custom-range:focus::-moz-range-thumb {
   box-shadow:
     0 0 0 1px #fff,
-    0 0 0 0.2rem rgba(85, 167, 154, 0.25);
+    0 0 0 0.2rem rgba(c.$ui-brand-primary, 0.25);
 }
 .custom-range:focus::-ms-thumb {
   box-shadow:
     0 0 0 1px #fff,
-    0 0 0 0.2rem rgba(85, 167, 154, 0.25);
+    0 0 0 0.2rem rgba(c.$ui-brand-primary, 0.25);
 }
 
 /* Brand colors */
 .ss-brand-bg {
-  background-color: #55a79a;
+  background-color: c.$ui-brand-primary;
   color: #fff !important;
 }
 
 .text-brand {
-  color: #55a79a !important;
+  color: c.$ui-brand-primary !important;
 }
 
 /* Bible modal content */

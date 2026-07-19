@@ -1,6 +1,7 @@
+@use 'tokens/colors' as c;
 @import 'bootstrap/scss/functions';
 
-$primary: #55a79a;
+$primary: c.$ui-brand-primary;
 $dark: #343a40;
 
 $grid-gutter-width: 30px;

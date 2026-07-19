@@ -50,18 +50,18 @@
     margin-right: 5px;
     margin-bottom: -1px;
     background: transparent;
-    border: 1px solid #e6e6e6;
+    border: 1px solid c.$ui-border-light;
 
     &:hover {
       background: #f7f7f7;
-      border-color: #e6e6e6;
+      border-color: c.$ui-border-light;
     }
 
     &.active,
     &.active:hover,
     &.active:focus {
       color: c.$ui-brand-primary;
-      border: 1px solid #e6e6e6 !important;
+      border: 1px solid c.$ui-border-light !important;
       border-bottom-color: #fff !important;
       background: #fff;
 
