@@ -1,17 +1,18 @@
-import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { Component, OnInit, Renderer2 } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
 import { CurrentQuarterService } from './sabbath-school/current-quarter.service';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, NgbCollapse],
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  @ViewChild('navbarMain') navbarMain: ElementRef | null = null;
+  mobileMenuOpen = false;
 
   today = Date.now();
   sabbathSchoolLink: string;
@@ -32,6 +33,6 @@ export class AppComponent implements OnInit {
   }
 
   hideMobileMenu() {
-    this.navbarMain?.nativeElement.classList.remove('show');
+    this.mobileMenuOpen = false;
   }
 }

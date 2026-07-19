@@ -3,14 +3,14 @@
     <!-- Loading -->
     <div *ngIf="loading" class="text-center py-5">
       <div class="spinner-border text-primary" role="status">
-        <span class="sr-only">Зареждане...</span>
+        <span class="visually-hidden">Зареждане...</span>
       </div>
     </div>
 
     <div *ngIf="!loading && quarterlyDetail" class="row">
       <!-- Sidebar with cover and credits -->
       <div class="col-12 col-md-3">
-        <div class="text-center text-md-right mb-4">
+        <div class="text-center text-md-end mb-4">
           <div
             class="ss-cover d-inline-block mb-3 shadow-sm rounded"
             [style.background-image]="'url(' + quarterlyDetail.quarterly.cover + ')'"
@@ -19,13 +19,13 @@
             {{ quarterlyDetail.quarterly.human_date }}
           </p>
           <div class="mb-3">
-            <span *ngFor="let feature of quarterlyDetail.quarterly.features" class="mr-2">
+            <span *ngFor="let feature of quarterlyDetail.quarterly.features" class="me-2">
               <img [src]="feature.image" class="ss-feature-icon" [alt]="feature.title" />
             </span>
           </div>
-          <div class="text-md-right">
+          <div class="text-md-end">
             <div *ngFor="let credit of quarterlyDetail.quarterly.credits" class="mb-3">
-              <p class="font-weight-bold mb-0 small">{{ credit.name }}</p>
+              <p class="fw-bold mb-0 small">{{ credit.name }}</p>
               <p class="text-muted small mb-0">{{ credit.value }}</p>
             </div>
           </div>
@@ -36,11 +36,11 @@
       <div class="col-12 col-md-9">
         <a
           routerLink="/sabbath-school"
-          class="d-inline-block mb-3 font-weight-bold text-primary hover-text-underline"
+          class="d-inline-block mb-3 fw-bold text-primary hover-text-underline"
         >
-          <i class="fa fa-arrow-left mr-1"></i> Всички уроци
+          <i class="fa fa-arrow-left me-1"></i> Всички уроци
         </a>
-        <h2 class="mb-3 font-weight-bold">{{ quarterlyDetail.quarterly.title }}</h2>
+        <h2 class="mb-3 fw-bold">{{ quarterlyDetail.quarterly.title }}</h2>
 
         <!-- Publishing info -->
         <a
@@ -63,7 +63,7 @@
                 100
             "
             (click)="open = !open"
-            class="btn btn-link p-0 font-italic"
+            class="btn btn-link p-0 fst-italic"
           >
             повече
           </button>
@@ -73,7 +73,7 @@
         <div *ngIf="lessonTarget" class="mb-3">
           <a
             [routerLink]="lessonTarget"
-            class="btn btn-primary rounded-pill px-4 text-uppercase font-weight-bold small"
+            class="btn btn-primary rounded-pill px-4 text-uppercase fw-bold small"
           >
             Прочети
           </a>
@@ -85,15 +85,15 @@
             *ngFor="let lesson of quarterlyDetail.lessons; let i = index"
             class="d-flex align-items-start mb-3"
           >
-            <span *ngIf="isNumericId(lesson.id)" class="h3 font-weight-bold text-muted mr-3 mt-0">
+            <span *ngIf="isNumericId(lesson.id)" class="h3 fw-bold text-muted me-3 mt-0">
               {{ parseInt(lesson.id) }}
             </span>
-            <span *ngIf="!isNumericId(lesson.id)" class="h3 font-weight-bold text-muted mr-3 mt-n2">
+            <span *ngIf="!isNumericId(lesson.id)" class="h3 fw-bold text-muted me-3 mt-n2">
               ·
             </span>
             <div>
               <a
-                class="h5 font-weight-bold text-primary cursor-pointer"
+                class="h5 fw-bold text-primary cursor-pointer"
                 (click)="navigateToLesson(lesson.id)"
               >
                 {{ lesson.title }}
@@ -110,8 +110,8 @@
         <div class="mb-3">
           <div *ngFor="let feature of quarterlyDetail.quarterly.features" class="mb-3">
             <div class="d-flex align-items-center mb-1">
-              <img [src]="feature.image" class="ss-feature-icon mr-2" />
-              <p class="font-weight-bold mb-0">{{ feature.title }}</p>
+              <img [src]="feature.image" class="ss-feature-icon me-2" />
+              <p class="fw-bold mb-0">{{ feature.title }}</p>
             </div>
             <p class="text-muted small mb-0">{{ feature.description }}</p>
           </div>

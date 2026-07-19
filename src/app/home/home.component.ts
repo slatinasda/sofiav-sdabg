@@ -8,8 +8,8 @@ import { AppTitleService } from '../app-title.service';
 import { IChurchServiceAgenda } from './interfaces/church-service-agenda.interface';
 import { WorshipTimeService } from './services/worship-time.service';
 import { CurrentQuarterService } from '../sabbath-school/current-quarter.service';
-import { JoinPipe } from '../shared/pipes/join.pipe';
 import { BibleStudiesCtaComponent } from '../shared/components/bible-studies-cta/bible-studies-cta.component';
+import { NgbCarousel, NgbSlide } from '@ng-bootstrap/ng-bootstrap';
 import serviceTimesJson from './agenda/service-times.json';
 import serviceTimesDSTJson from './agenda/service-times-dst.json';
 
@@ -30,7 +30,7 @@ interface ServiceTimes {
 
 @Component({
   standalone: true,
-  imports: [CommonModule, RouterModule, JoinPipe, BibleStudiesCtaComponent],
+  imports: [CommonModule, RouterModule, BibleStudiesCtaComponent, NgbCarousel, NgbSlide],
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
@@ -62,14 +62,6 @@ export class HomeComponent implements OnInit {
       .subscribe((response: NextLiveStream) => {
         this.liveStreamEmbedUrl = this.sanitizer.bypassSecurityTrustResourceUrl(response.embedUrl);
       });
-  }
-
-  mainSectionImages(): string[] {
-    return [
-      'assets/img/backgrounds/bible-book-christian.jpg',
-      'assets/img/backgrounds/atmosphere-blue-cloud.jpg',
-      'assets/img/backgrounds/back-view-backlit-clouds.jpg',
-    ];
   }
 
   serviceTimesMoment(): { [key: string]: moment.Moment } {

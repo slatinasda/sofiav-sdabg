@@ -1,12 +1,3 @@
-.jumbotron {
-  background-color: transparent;
-
-  // Medium devices (tablets, 768px and up)
-  @media (min-width: 768px) {
-    text-align: center;
-  }
-}
-
 .card {
   width: 100%;
   box-shadow: 0 4px 6px 0 rgba(22, 22, 26, 0.1);

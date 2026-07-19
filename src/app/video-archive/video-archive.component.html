@@ -8,7 +8,7 @@
     <div class="container">
       <div *ngIf="videos.length === 0; else videoItems" class="row d-flex justify-content-center">
         <div class="spinner-border text-primary" role="status">
-          <span class="sr-only">Loading...</span>
+          <span class="visually-hidden">Loading...</span>
         </div>
       </div>
 
@@ -34,11 +34,11 @@
 
       <div *ngIf="videos.length > 0" class="row d-flex justify-content-center mt-5">
         <a
-          class="btn btn-lg btn-primary btn-rounded py-3 px-4"
+          class="col-auto btn btn-lg btn-primary btn-rounded py-3 px-4"
           href="https://youtube.com/@slatinasda/videos"
           target="_blank"
         >
-          Вижте всички записи<i class="fa fa-arrow-right ml-2"></i>
+          Вижте всички записи<i class="fa fa-arrow-right ms-2"></i>
         </a>
       </div>
     </div>

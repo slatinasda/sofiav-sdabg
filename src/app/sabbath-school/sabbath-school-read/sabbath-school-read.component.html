@@ -3,7 +3,7 @@
     <!-- Loading -->
     <div *ngIf="loading" class="text-center py-5">
       <div class="spinner-border text-primary" role="status">
-        <span class="sr-only">Зареждане...</span>
+        <span class="visually-hidden">Зареждане...</span>
       </div>
     </div>
 
@@ -19,10 +19,10 @@
           </a>
         </div>
 
-        <div *ngIf="lessonDetail" class="text-md-right">
+        <div *ngIf="lessonDetail" class="text-md-end">
           <a
             [routerLink]="['/sabbath-school', quarter]"
-            class="d-block mb-3 font-weight-bold text-dark hover-text-primary"
+            class="d-block mb-3 fw-bold text-dark hover-text-primary"
           >
             {{ quarterlyDetail.quarterly.title }}
           </a>
@@ -38,7 +38,7 @@
               <p class="small text-muted mb-0">
                 {{ moment(day.date, 'DD/MM/YYYY').format('dddd, MMMM DD') }}
               </p>
-              <span class="small" [class.font-weight-bold]="read && day && day.id === read.id">
+              <span class="small" [class.fw-bold]="read && day && day.id === read.id">
                 {{ day.title }}
               </span>
             </a>
@@ -59,17 +59,17 @@
               <div class="d-flex justify-content-end p-2">
                 <div class="ss-toolbar">
                   <!-- Reader Options -->
-                  <div class="dropdown d-inline-block mr-2">
+                  <div class="dropdown d-inline-block me-2">
                     <button
                       class="btn btn-sm btn-dark dropdown-toggle"
                       type="button"
-                      data-toggle="dropdown"
+                      data-bs-toggle="dropdown"
                     >
                       <i class="fa fa-cog"></i>
                     </button>
-                    <div class="dropdown-menu dropdown-menu-right p-3" style="min-width: 250px">
+                    <div class="dropdown-menu dropdown-menu-end p-3" style="min-width: 250px">
                       <div class="mb-2">
-                        <label class="small font-weight-bold d-block">Тема</label>
+                        <label class="small fw-bold d-block">Тема</label>
                         <div class="btn-group btn-group-sm w-100">
                           <button
                             class="btn btn-outline-secondary"
@@ -95,19 +95,19 @@
                         </div>
                       </div>
                       <div>
-                        <label class="small font-weight-bold d-block">Размер</label>
+                        <label class="small fw-bold d-block">Размер</label>
                         <div class="d-flex align-items-center">
-                          <span class="small mr-2">A</span>
+                          <span class="small me-2">A</span>
                           <input
                             type="range"
-                            class="custom-range"
+                            class="form-range"
                             min="1"
                             max="5"
                             step="1"
                             [value]="readerSize"
                             (input)="onSizeChange($event)"
                           />
-                          <span class="font-weight-bold ml-2">A</span>
+                          <span class="fw-bold ms-2">A</span>
                         </div>
                       </div>
                     </div>
@@ -115,7 +115,7 @@
 
                   <button
                     *ngIf="audio.length"
-                    class="btn btn-sm btn-dark mr-2"
+                    class="btn btn-sm btn-dark me-2"
                     (click)="audioOpen = !audioOpen"
                   >
                     <i class="fa fa-headphones"></i>
@@ -126,7 +126,7 @@
                 <p class="text-light text-uppercase small mb-1">
                   {{ moment(read.date, 'DD/MM/YYYY').format('dddd, MMMM DD') }}
                 </p>
-                <h3 class="text-white font-weight-bold mb-0">{{ read.title }}</h3>
+                <h3 class="text-white fw-bold mb-0">{{ read.title }}</h3>
               </div>
             </div>
           </div>

@@ -3,7 +3,7 @@
     <!-- Loading -->
     <div *ngIf="loading" class="text-center py-5">
       <div class="spinner-border text-primary" role="status">
-        <span class="sr-only">Зареждане...</span>
+        <span class="visually-hidden">Зареждане...</span>
       </div>
     </div>
 
@@ -11,7 +11,7 @@
     <div *ngIf="!loading && groupedQuarterlies.length">
       <div *ngFor="let group of groupedQuarterlies" class="mb-5">
         <div class="mb-4 d-flex justify-content-between align-items-center">
-          <p class="text-uppercase font-weight-bold text-primary mb-0">{{ group.name }}</p>
+          <p class="text-uppercase fw-bold text-primary mb-0">{{ group.name }}</p>
         </div>
         <div class="row">
           <div
@@ -23,7 +23,7 @@
                 class="ss-cover mb-3 rounded shadow-sm"
                 [style.background-image]="'url(' + quarterly.cover + ')'"
               ></div>
-              <p class="mt-2 mb-1 font-weight-bold">{{ quarterly.title }}</p>
+              <p class="mt-2 mb-1 fw-bold">{{ quarterly.title }}</p>
               <p class="text-uppercase text-muted small mb-0">{{ quarterly.human_date }}</p>
             </a>
           </div>
@@ -40,7 +40,7 @@
             style="height: 100%"
             [style.background-image]="'url(' + quarterly.cover + ')'"
           ></div>
-          <p class="mt-2 mb-1 font-weight-bold">{{ quarterly.title }}</p>
+          <p class="mt-2 mb-1 fw-bold">{{ quarterly.title }}</p>
           <p class="text-uppercase text-muted small mb-0">{{ quarterly.human_date }}</p>
         </a>
       </div>

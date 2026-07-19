@@ -1,11 +1,4 @@
-.jumbotron {
-  background-color: transparent;
-
-  // Medium devices (tablets, 768px and up)
-  @media (min-width: 768px) {
-    text-align: center;
-  }
-}
+@use '../../styles/tokens/colors' as c;
 
 .song-grid {
   display: grid;
@@ -41,14 +34,14 @@
     border-color 0.15s ease;
 
   &:hover {
-    background-color: #488e83;
+    background-color: c.$ui-brand-primary-invert;
     color: #fff;
-    border-color: #488e83;
+    border-color: c.$ui-brand-primary-invert;
   }
 
   &:active {
-    background-color: #3b796f;
-    border-color: #3b796f;
+    background-color: darken(c.$ui-brand-primary-invert, 8%);
+    border-color: darken(c.$ui-brand-primary-invert, 8%);
   }
 }
 
@@ -57,8 +50,8 @@
 }
 
 .pagination .page-item:not(.disabled) .page-link:hover {
-  background-color: #488e83;
-  border-color: #488e83;
+  background-color: c.$ui-brand-primary-invert;
+  border-color: c.$ui-brand-primary-invert;
   color: #fff;
 }
 

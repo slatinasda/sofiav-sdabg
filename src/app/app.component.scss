@@ -1,3 +1,5 @@
+@use '../styles/tokens/colors' as c;
+
 :host {
   opacity: 0;
   transition: opacity 0.25s ease-in;
@@ -60,5 +62,123 @@
   .header-logo {
     width: 100%;
     height: 40px;
+  }
+}
+
+.header {
+  background: #fff;
+  padding: 25px 0;
+  border-bottom: 1px solid rgba(85, 167, 154, 0.6);
+  color: c.$ui-header-text;
+
+  @media (max-width: 575.98px) {
+    padding: 15px 0 !important;
+  }
+}
+
+.header-inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.header-brand {
+  margin-right: auto;
+
+  @media (min-width: 768px) {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
+}
+
+.header-block {
+  @media (min-width: 768px) {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
+}
+
+.header-brand-text {
+  font-family: 'Rambla', sans-serif;
+  font-weight: bold;
+  line-height: 1;
+  margin: 0;
+  padding: 0;
+  text-decoration: none;
+
+  h1 {
+    font-weight: 400;
+    margin: 0;
+    padding: 0;
+    line-height: 1;
+    font-family: 'Rambla', sans-serif;
+  }
+
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+.header-slogan {
+  color: c.$ui-header-slogan;
+}
+
+.header-divider {
+  width: 20px;
+  height: 40px;
+  position: relative;
+  display: block;
+
+  &::after {
+    content: '';
+    width: 1px;
+    height: 100%;
+    background: #e6e6e6;
+    position: absolute;
+  }
+}
+
+.navbar {
+  padding: 0;
+}
+
+.navbar-nav-onepager .nav-link {
+  padding: 18px 14px;
+  border-top: 3px solid transparent;
+  border-bottom: 1px solid transparent;
+  color: c.$ui-navbar-link;
+  text-transform: uppercase;
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: none;
+  }
+
+  .nav-link-icon {
+    font-size: 17px;
+    margin-top: -5px;
+  }
+}
+
+#footer {
+  background: c.$ui-footer-bg;
+  border-top: 2px solid c.$ui-brand-primary;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.footer-links a {
+  color: rgba(255, 255, 255, 0.9);
+
+  &:hover {
+    color: #fff;
   }
 }

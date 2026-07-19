@@ -28,7 +28,8 @@
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "polyfills": [
-              "zone.js"
+              "zone.js",
+              "@angular/localize/init"
             ],
             "allowedCommonJsDependencies": [
               "moment",
@@ -57,16 +58,11 @@
               }
             ],
             "styles": [
-              "node_modules/bootstrap/scss/bootstrap.scss",
-              "src/styles/scss/theme-style.scss",
+              "src/styles/bootstrap-custom.scss",
               "src/styles.scss"
             ],
             "scripts": [
-              "node_modules/jquery/dist/jquery.min.js",
-              "node_modules/popper.js/dist/umd/popper.min.js",
-              "node_modules/bootstrap/dist/js/bootstrap.min.js",
-              "src/assets/js/script.min.js",
-              "src/assets/js/custom-script.js"
+              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
             ]
           },
           "configurations": {
