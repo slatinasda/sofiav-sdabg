@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, OnInit, PLATFORM_ID, Inject } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { HttpClient } from '@angular/common/http';
@@ -36,6 +36,7 @@ interface ServiceTimes {
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
+  private readonly isBrowser: boolean;
   liveStreamApi: string = 'https://sofia-v.sdabg.net/api/next_live_stream.php';
   liveStreamEmbedUrl: SafeResourceUrl;
   isDaylightSaving: boolean;
@@ -46,14 +47,19 @@ export class HomeComponent implements OnInit {
     private httpClient: HttpClient,
     private workshipTimeService: WorshipTimeService,
     private quarterService: CurrentQuarterService,
+    @Inject(PLATFORM_ID) platformId: object,
   ) {
     this.appTitleService.setTitle('Начало');
     this.liveStreamEmbedUrl = this.sanitizer.bypassSecurityTrustResourceUrl('');
     this.isDaylightSaving = this.workshipTimeService.isDaylightSaving();
+    this.isBrowser = isPlatformBrowser(platformId);
   }
 
   ngOnInit() {
-    this.nextLiveStream();
+    // Skip during SSR prerendering phase, hydrate when page JS loads
+    if (this.isBrowser) {
+      this.nextLiveStream();
+    }
   }
 
   nextLiveStream() {

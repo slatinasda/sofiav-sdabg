@@ -27,14 +27,8 @@
             "browser": "src/main.ts",
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
-            "polyfills": [
-              "zone.js",
-              "@angular/localize/init"
-            ],
-            "allowedCommonJsDependencies": [
-              "moment",
-              "moment-timezone"
-            ],
+            "polyfills": ["zone.js", "@angular/localize/init"],
+            "allowedCommonJsDependencies": ["moment", "moment-timezone"],
             "stylePreprocessorOptions": {
               "sass": {
                 "silenceDeprecations": [
@@ -57,13 +51,10 @@
                 "output": "/assets"
               }
             ],
-            "styles": [
-              "src/styles/bootstrap-custom.scss",
-              "src/styles.scss"
-            ],
-            "scripts": [
-              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
-            ]
+            "styles": ["src/styles/bootstrap-custom.scss", "src/styles.scss"],
+            "scripts": ["node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"],
+            "server": "src/main.server.ts",
+            "outputMode": "static"
           },
           "configurations": {
             "production": {

@@ -7,8 +7,10 @@ import {
   OnInit,
   OnDestroy,
   NgZone,
+  PLATFORM_ID,
+  Inject,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 
 @Component({
   standalone: true,
@@ -25,8 +27,14 @@ export class ModalComponent implements OnInit, OnDestroy {
   @Output() closeEvent = new EventEmitter<void>();
 
   private _open = false;
+  private readonly isBrowser: boolean;
 
-  constructor(private zone: NgZone) {}
+  constructor(
+    private zone: NgZone,
+    @Inject(PLATFORM_ID) platformId: object,
+  ) {
+    this.isBrowser = isPlatformBrowser(platformId);
+  }
 
   @Input()
   set open(value: boolean) {
@@ -41,7 +49,7 @@ export class ModalComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    if (this.urlFragment) {
+    if (this.urlFragment && this.isBrowser) {
       // Listen for browser back/forward navigation
       // When the user presses back and the #fragment is removed, close the modal
       window.addEventListener('popstate', this.onPopState);
@@ -49,7 +57,9 @@ export class ModalComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    window.removeEventListener('popstate', this.onPopState);
+    if (this.isBrowser) {
+      window.removeEventListener('popstate', this.onPopState);
+    }
   }
 
   private onPopState = (): void => {
@@ -79,13 +89,13 @@ export class ModalComponent implements OnInit, OnDestroy {
    * Closes the modal by triggering the browser back button.
    */
   goBack(): void {
-    if (this._open) {
+    if (this._open && this.isBrowser) {
       window.history.back();
     }
   }
 
   private addFragment(): void {
-    if (this.urlFragment) {
+    if (this.urlFragment && this.isBrowser) {
       const path = window.location.pathname + window.location.search;
       const fragment = '#' + this.urlFragment;
       if (!path.endsWith(fragment)) {

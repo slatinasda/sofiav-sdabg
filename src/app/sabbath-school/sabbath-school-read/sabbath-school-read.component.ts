@@ -1,6 +1,14 @@
-import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  ViewChild,
+  ElementRef,
+  PLATFORM_ID,
+  Inject,
+} from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { CommonModule } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { SabbathSchoolApiService } from '../sabbath-school-api.service';
 import { AppTitleService } from '../../app-title.service';
 import { Subscription } from 'rxjs';
@@ -48,13 +56,18 @@ export class SabbathSchoolReadComponent implements OnInit, OnDestroy {
   private routeSub!: Subscription;
   private routeParams: any = {};
 
+  private readonly isBrowser: boolean;
+
   constructor(
     private api: SabbathSchoolApiService,
     private route: ActivatedRoute,
     private router: Router,
     private appTitleService: AppTitleService,
     private sanitizer: DomSanitizer,
-  ) {}
+    @Inject(PLATFORM_ID) platformId: object,
+  ) {
+    this.isBrowser = isPlatformBrowser(platformId);
+  }
 
   ngOnInit() {
     this.loadSettings();
@@ -82,11 +95,17 @@ export class SabbathSchoolReadComponent implements OnInit, OnDestroy {
   }
 
   private loadSettings(): void {
+    if (!this.isBrowser) {
+      return;
+    }
     this.readerTheme = localStorage.getItem(this.READER_THEME_KEY) || 'light';
     this.readerSize = localStorage.getItem(this.READER_SIZE_KEY) || '3';
   }
 
   private saveSettings(): void {
+    if (!this.isBrowser) {
+      return;
+    }
     localStorage.setItem(this.READER_THEME_KEY, this.readerTheme);
     localStorage.setItem(this.READER_SIZE_KEY, this.readerSize);
   }

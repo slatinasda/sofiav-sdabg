@@ -1,3 +1,4 @@
+RewriteOptions inherit
 RewriteEngine on
 
 # Permanent redirect to sofia-v, including www to non-www
@@ -12,18 +13,26 @@ RewriteRule ^(.*)$ https://sofia-v.sdabg.net/$1 [R=301,L,NC,QSA]
 RewriteCond %{HTTP_HOST} ^www.sofia-v.sdabg.net [NC]
 RewriteRule ^(.*)$ https://sofia-v.sdabg.net/$1 [R=301,L,NC,QSA]
 
+# Permanent redirect to sofia-v
 RewriteCond %{HTTP_HOST} ^sofiav.sdabg.net [NC]
 RewriteRule ^(.*)$ https://sofia-v.sdabg.net/$1 [R=301,L,NC,QSA]
 
 # Redirect old index.htm to new index.html
 RewriteRule ^index.htm$ /index.html [R,L]
 
-# If an existing asset or directory is requested go to it as it is
+# If an existing asset or directory is requested go to it as it is.
+# Prerendered routes (home, beliefs/*, songbook) are real directories with
+# their own index.html, so they're served as-is here.
 RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} -f [OR]
 RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} -d
 RewriteRule ^ - [L]
-# If the requested resource doesn't exist, use index.html
-RewriteRule ^ /index.html
+# If the requested resource doesn't exist, use the client-rendered shell.
+# This catches sabbath-school/** and video-archive/** (both excluded from
+# prerendering since their content comes from an external API at runtime)
+# and genuine 404s. index.csr.html is a bare <app-root></app-root> shell
+# with no baked-in content, so Angular's router can safely take over
+# without a hydration mismatch.
+RewriteRule ^ /index.csr.html
 
 # Disable directory index browsing
 # Set +Indexes to enable directory listing
@@ -35,6 +44,8 @@ IndexOptions +Charset=UTF-8
 # Make the name column longer in directory listing
 IndexOptions NameWidth=100
 
+Header set X-Frame-Options "SAMEORIGIN"
+
 # Tests
 # http://sofiav.sdabg.net/ -> Should lead to https://sofia-v.sdabg.net/ - PASS
 # http://sofia-v.sdabg.net/home -> Should open the home page in Angular - PASS
@@ -42,6 +53,10 @@ IndexOptions NameWidth=100
 # http://sofia-v.sdabg.net/assets/img/logos/sda-logo.svg -> should open the file - PASS
 # http://sofiav.sdabg.net/assets/img/logos/sda-logo.svg -> Should redirect to sofia-v and open the file - PASS
 # http://www.sofiav.sdabg.net/assets/img/logos/sda-logo.svg -> Should redirect to sofia-v and open the file - PASS
+# http://sofia-v.sdabg.net/beliefs/god -> Should serve the prerendered static page (view-source has real content)
+# http://sofia-v.sdabg.net/sabbath-school -> Should serve index.csr.html and boot client-side, fetching from the API
+# http://sofia-v.sdabg.net/video-archive -> Should serve index.csr.html and boot client-side, fetching the YouTube feed
+# http://sofia-v.sdabg.net/does-not-exist -> Should serve index.csr.html and render the Angular 404 page
 
 # Sample configs
 # https://angular.io/guide/deployment#server-configuration
