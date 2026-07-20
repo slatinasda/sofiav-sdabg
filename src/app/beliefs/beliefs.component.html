@@ -1,44 +1,27 @@
-<div class="container p-md-4 py-lg-5">
+<div class="container p-3 p-md-4 py-lg-5">
   <div class="jumbotron">
     <h1 class="mb-4">Вярвания</h1>
-    <p class="lead">
+    <p class="lead d-none d-md-block">
       Адвентистите от седмия ден приемаме Библията като единствен източник на истина за нашата вяра.
       Смятаме, че нашето движение се е сформирало като резултат от Протестантското убеждение "sola
       scriptura" ("единствено писанието") – Библията като единствен стандарт за вярата и практиката
       на християните.
     </p>
-    <p>
-      Понастоящем, приемаме <strong>28 основни учения</strong>, които могат да бъдат организирани в
-      6 категории – доктрините за Бог, човека, спасението, църквата, християнския живот и събитията
-      от последното време. Във всяко учение Бог е архитектът, който в своята мъдрост, мислост и
-      безкрайна любов, възстановява връзката с човечеството която ще продължи цяла вечност.
+    <p class="lead d-md-none">
+      Адвентистите от седмия ден приемаме Библията като единствен източник на истина за нашата вяра
+      - 28 основни учения, организирани в следните 6 категории.
     </p>
   </div>
 
-  <ul class="nav nav-tabs nav-fill mb-6">
-    <li class="nav-item">
-      <a class="nav-link" routerLink="/beliefs/god" routerLinkActive="active"> Бог </a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" routerLink="/beliefs/humanity" routerLinkActive="active"> Човека </a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" routerLink="/beliefs/salvation" routerLinkActive="active"> Спасението </a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" routerLink="/beliefs/church" routerLinkActive="active"> Църквата </a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" routerLink="/beliefs/living" routerLinkActive="active">
-        Християнския живот
+  <div class="row g-3 g-md-4 mb-6">
+    <div class="col-6 col-md-6 col-lg-4" *ngFor="let category of categories">
+      <a class="category-card" [routerLink]="['/beliefs', category.path]" routerLinkActive="active">
+        <i class="fa {{ category.icon }} category-card-icon"></i>
+        <h4 class="category-card-title">{{ category.title }}</h4>
+        <span class="category-card-count">{{ category.teachingsCount }} учения</span>
       </a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" routerLink="/beliefs/restoration" routerLinkActive="active">
-        Събитията от последното време
-      </a>
-    </li>
-  </ul>
+    </div>
+  </div>
 
   <!-- Used to render the subcomponents of this component -->
   <router-outlet></router-outlet>

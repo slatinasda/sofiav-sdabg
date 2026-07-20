@@ -1,0 +1,75 @@
+@use '../../styles/tokens/colors' as c;
+
+.jumbotron {
+  padding-bottom: 0;
+  margin-bottom: 1.5rem;
+}
+
+.category-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  height: 100%;
+  padding: 1.25rem 0.75rem;
+  text-align: center;
+
+  @media (min-width: 768px) {
+    gap: 0.75rem;
+    padding: 2.5rem 1.5rem;
+  }
+  text-decoration: none;
+  color: c.$ui-text-muted;
+  background-color: #fff;
+  border: 1px solid c.$ui-border-muted;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px 0 rgba(22, 22, 26, 0.1);
+  transition:
+    transform 0.25s ease,
+    border-color 0.15s ease,
+    box-shadow 0.25s ease;
+
+  &:hover {
+    transform: translateY(-5px);
+    border-color: c.$ui-brand-primary-invert;
+    box-shadow: 0 8px 16px 0 rgba(22, 22, 26, 0.12);
+    text-decoration: none;
+    color: c.$ui-text-muted;
+  }
+
+  &.active {
+    border-color: c.$ui-brand-primary;
+    border-width: 2px;
+  }
+}
+
+.category-card-icon {
+  font-size: 2rem;
+  color: c.$ui-brand-primary-invert;
+
+  @media (min-width: 768px) {
+    font-size: 3.25rem;
+  }
+}
+
+.category-card-title {
+  font-weight: 700;
+  margin: 0;
+  font-size: 0.95rem;
+
+  @media (min-width: 768px) {
+    font-size: 1.25rem;
+  }
+}
+
+.category-card-count {
+  font-size: 0.7rem;
+  color: c.$ui-text-secondary;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+
+  @media (min-width: 768px) {
+    font-size: 0.85rem;
+  }
+}

@@ -1,0 +1,87 @@
+@use '../../../styles/tokens/colors' as c;
+
+.teachings {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.teaching {
+  padding: 1.5rem 1.75rem;
+  background-color: #fff;
+  border: 1px solid c.$ui-border-muted;
+  border-left: 4px solid c.$ui-brand-primary;
+  border-radius: 0.375rem;
+  box-shadow: 0 2px 4px 0 rgba(22, 22, 26, 0.06);
+}
+
+.teaching-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.teaching-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 50%;
+  background-color: c.$ui-brand-primary;
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.teaching-title {
+  margin: 0;
+}
+
+.teaching p {
+  max-width: 70ch;
+  line-height: 1.7;
+}
+
+.teaching-refs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.4rem 0.5rem;
+  margin: 1rem 0 0;
+  padding-top: 1rem;
+  border-top: 1px solid c.$ui-border-light;
+  font-size: 0.85rem;
+  max-width: none;
+}
+
+.teaching-refs-label {
+  font-weight: 600;
+  color: c.$ui-text-muted;
+  margin-right: 0.15rem;
+}
+
+.teaching-ref {
+  padding: 0.15rem 0.55rem;
+  background-color: c.$ui-surface-light;
+  border-radius: 1rem;
+  text-decoration: none;
+  color: c.$ui-text-muted;
+  white-space: nowrap;
+
+  &:hover {
+    background-color: c.$ui-brand-primary-invert;
+    color: #fff;
+    text-decoration: none;
+  }
+}
+
+.teaching-source {
+  margin: 0.75rem 0 0;
+  color: c.$ui-text-secondary;
+  font-size: 0.8rem;
+  font-style: italic;
+  max-width: none;
+}
