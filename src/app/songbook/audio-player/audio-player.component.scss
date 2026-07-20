@@ -1,0 +1,81 @@
+@use '../../../styles/tokens/colors' as c;
+
+:host {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1030;
+  background: #fff;
+  border-top: 1px solid c.$ui-border-light;
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.audio-player {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1rem;
+  padding: 0.5rem 1rem;
+  max-width: 1140px;
+  margin: 0 auto;
+
+  @media (min-width: 768px) {
+    flex-wrap: nowrap;
+  }
+}
+
+.audio-player-title {
+  flex: 1 1 100%;
+  font-weight: 600;
+  color: c.$ui-header-text;
+
+  @media (min-width: 768px) {
+    flex: 0 1 auto;
+    min-width: 6rem;
+    max-width: 12rem;
+  }
+}
+
+.audio-player-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex: 0 0 auto;
+}
+
+.audio-player-progress {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.audio-player-time {
+  font-variant-numeric: tabular-nums;
+  font-size: 0.8rem;
+  color: c.$ui-header-slogan;
+  flex: 0 0 auto;
+}
+
+.audio-player-seek {
+  flex: 1 1 auto;
+  min-width: 0;
+  accent-color: c.$ui-brand-primary;
+}
+
+.audio-player-speed {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  flex: 0 0 auto;
+}
+
+.audio-player-speed-value {
+  font-variant-numeric: tabular-nums;
+  font-size: 0.8rem;
+  color: c.$ui-header-slogan;
+  min-width: 2.5rem;
+  text-align: center;
+}

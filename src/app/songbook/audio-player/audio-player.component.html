@@ -1,0 +1,89 @@
+<div class="audio-player">
+  <audio
+    #audioEl
+    [src]="src"
+    [playbackRate]="playbackRate"
+    (timeupdate)="onTimeUpdate(audioEl)"
+    (loadedmetadata)="onLoadedMetadata(audioEl)"
+    (play)="isPlaying = true"
+    (pause)="isPlaying = false"
+    (ended)="isPlaying = false"
+  ></audio>
+
+  <div class="audio-player-title text-truncate">{{ title }}</div>
+
+  <div class="audio-player-controls">
+    <button
+      type="button"
+      class="btn btn-link btn-icon"
+      (click)="skip(audioEl, -10)"
+      title="-10 секунди"
+    >
+      <i class="fa fa-backward"></i>
+    </button>
+    <button
+      type="button"
+      class="btn btn-primary btn-icon btn-rounded"
+      (click)="togglePlay(audioEl)"
+      [title]="isPlaying ? 'Пауза' : 'Пусни'"
+    >
+      <i class="fa" [class.fa-pause]="isPlaying" [class.fa-play]="!isPlaying"></i>
+    </button>
+    <button
+      type="button"
+      class="btn btn-link btn-icon"
+      (click)="skip(audioEl, 10)"
+      title="+10 секунди"
+    >
+      <i class="fa fa-forward"></i>
+    </button>
+  </div>
+
+  <div class="audio-player-progress">
+    <span class="audio-player-time">{{ formatTime(currentTime) }}</span>
+    <input
+      type="range"
+      class="audio-player-seek"
+      min="0"
+      [max]="duration || 0"
+      step="0.1"
+      [value]="currentTime"
+      (input)="seek(audioEl, $event)"
+      aria-label="Позиция на песента"
+    />
+    <span class="audio-player-time">{{ formatTime(duration) }}</span>
+  </div>
+
+  <div class="audio-player-speed">
+    <button
+      type="button"
+      class="btn btn-link btn-icon btn-sm"
+      [disabled]="playbackRate <= minSpeed"
+      (click)="changeSpeed(-speedStep)"
+      title="Намали скоростта с 5%"
+    >
+      <i class="fa fa-minus"></i>
+    </button>
+    <span class="audio-player-speed-value">{{ playbackRateLabel }}</span>
+    <button
+      type="button"
+      class="btn btn-link btn-icon btn-sm"
+      [disabled]="playbackRate >= maxSpeed"
+      (click)="changeSpeed(speedStep)"
+      title="Увеличи скоростта с 5%"
+    >
+      <i class="fa fa-plus"></i>
+    </button>
+  </div>
+
+  <a
+    *ngIf="downloadHref"
+    class="btn btn-link btn-icon"
+    [href]="downloadHref"
+    [attr.target]="downloadOpenInNewTab ? '_blank' : null"
+    download
+    title="Изтегли текущата песен"
+  >
+    <i class="fa fa-download"></i>
+  </a>
+</div>
