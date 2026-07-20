@@ -146,6 +146,11 @@
 
 .navbar {
   padding: 0;
+
+  @media (max-width: 767.98px) {
+    flex: 0 0 100%;
+    width: 100%;
+  }
 }
 
 .navbar-nav-onepager .nav-link {
