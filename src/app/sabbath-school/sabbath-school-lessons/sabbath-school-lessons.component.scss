@@ -1,8 +1,39 @@
+@use '../../../styles/tokens/colors' as c;
+
+.ss-cover-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  @media (min-width: 768px) {
+    display: block;
+  }
+}
+
 .ss-cover {
-  width: 160px;
-  height: 220px;
+  width: 90px;
+  flex-shrink: 0;
+  aspect-ratio: 2 / 3;
   background-position: center;
   background-size: cover;
+
+  @media (min-width: 768px) {
+    width: 160px;
+    display: inline-block;
+    margin-bottom: 0.75rem;
+  }
+}
+
+.ss-more-link {
+  display: inline;
+  vertical-align: baseline;
+  color: c.$ui-brand-primary-invert;
+  text-decoration: underline;
+  font-style: normal;
+
+  &:hover {
+    color: c.$ui-brand-primary;
+  }
 }
 
 .ss-feature-icon {

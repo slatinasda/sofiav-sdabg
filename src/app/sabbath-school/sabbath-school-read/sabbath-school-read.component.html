@@ -1,4 +1,4 @@
-<div class="bg-white py-3 py-lg-4">
+<div class="py-3 py-lg-4">
   <div class="container">
     <!-- Loading -->
     <div *ngIf="loading" class="text-center py-5">
@@ -9,45 +9,50 @@
 
     <div *ngIf="!loading" class="row">
       <!-- Sidebar -->
-      <div *ngIf="quarterlyDetail" class="col-12 col-md-3 order-last order-md-first">
-        <div class="text-center mb-3">
-          <a [routerLink]="['/sabbath-school', quarter]">
-            <img
-              [src]="quarterlyDetail.quarterly.cover"
-              class="img-fluid rounded shadow-sm ss-sidebar-cover"
-            />
-          </a>
-        </div>
-
-        <div *ngIf="lessonDetail" class="text-md-end">
-          <a
-            [routerLink]="['/sabbath-school', quarter]"
-            class="d-block mb-3 fw-bold text-dark hover-text-primary"
-          >
-            {{ quarterlyDetail.quarterly.title }}
-          </a>
-
-          <!-- Day Navigation -->
-          <div>
-            <a
-              *ngFor="let day of lessonDetail.days; let i = index"
-              [routerLink]="['/sabbath-school', quarter, 'lessons', lessonId, slugify(i + 1)]"
-              class="d-block p-2 rounded mb-1 hover-bg-light"
-              [class.bg-light]="read && day && day.id === read.id"
-            >
-              <p class="small text-muted mb-0">
-                {{ moment(day.date, 'DD/MM/YYYY').format('dddd, MMMM DD') }}
-              </p>
-              <span class="small" [class.fw-bold]="read && day && day.id === read.id">
-                {{ day.title }}
-              </span>
+      <div
+        *ngIf="quarterlyDetail"
+        class="col-12 col-md-3 order-last order-md-first mt-4 mt-md-0 ss-sidebar-col"
+      >
+        <div class="ss-sidebar-row">
+          <div class="ss-sidebar-cover-wrap text-center text-md-end mb-3">
+            <a [routerLink]="['/sabbath-school', quarter]">
+              <img
+                [src]="quarterlyDetail.quarterly.cover"
+                class="img-fluid rounded shadow-sm ss-sidebar-cover"
+              />
             </a>
+          </div>
+
+          <div *ngIf="lessonDetail" class="text-md-end ss-sidebar-info">
+            <a
+              [routerLink]="['/sabbath-school', quarter]"
+              class="d-block mb-3 fw-bold text-dark hover-text-primary"
+            >
+              {{ quarterlyDetail.quarterly.title }}
+            </a>
+
+            <!-- Day Navigation -->
+            <div>
+              <a
+                *ngFor="let day of lessonDetail.days; let i = index"
+                [routerLink]="['/sabbath-school', quarter, 'lessons', lessonId, slugify(i + 1)]"
+                class="d-block py-2 mb-1 ss-day-link"
+                [class.active]="read && day && day.id === read.id"
+              >
+                <p class="small text-muted mb-0">
+                  {{ moment(day.date, 'DD/MM/YYYY').format('dddd, MMMM DD') }}
+                </p>
+                <span class="small" [class.fw-bold]="read && day && day.id === read.id">
+                  {{ day.title }}
+                </span>
+              </a>
+            </div>
           </div>
         </div>
       </div>
 
       <!-- Main Reading Area -->
-      <div class="col-12 col-md-9 mt-4 mt-md-0 order-first order-md-last">
+      <div class="col-12 col-md-9 mt-4 mt-md-0 order-first order-md-last ss-reader-col">
         <div *ngIf="lessonDetail" class="border rounded">
           <!-- Header with cover image -->
           <div
@@ -59,34 +64,36 @@
               <div class="d-flex justify-content-end p-2">
                 <div class="ss-toolbar">
                   <!-- Reader Options -->
-                  <div class="dropdown d-inline-block me-2">
+                  <div class="dropdown ss-toolbar-item">
                     <button
-                      class="btn btn-sm btn-dark dropdown-toggle"
+                      class="ss-toolbar-btn dropdown-toggle"
                       type="button"
                       data-bs-toggle="dropdown"
                     >
-                      <i class="fa fa-cog"></i>
+                      Aa
                     </button>
-                    <div class="dropdown-menu dropdown-menu-end p-3" style="min-width: 250px">
-                      <div class="mb-2">
-                        <label class="small fw-bold d-block">Тема</label>
-                        <div class="btn-group btn-group-sm w-100">
+                    <div class="dropdown-menu dropdown-menu-end ss-settings-panel">
+                      <div class="ss-settings-group">
+                        <div class="ss-segmented">
                           <button
-                            class="btn btn-outline-secondary"
+                            type="button"
+                            class="ss-segmented-btn"
                             [class.active]="readerTheme === 'light'"
                             (click)="setTheme('light')"
                           >
                             Светла
                           </button>
                           <button
-                            class="btn btn-outline-secondary"
+                            type="button"
+                            class="ss-segmented-btn"
                             [class.active]="readerTheme === 'sepia'"
                             (click)="setTheme('sepia')"
                           >
                             Сепия
                           </button>
                           <button
-                            class="btn btn-outline-secondary"
+                            type="button"
+                            class="ss-segmented-btn"
                             [class.active]="readerTheme === 'dark'"
                             (click)="setTheme('dark')"
                           >
@@ -94,20 +101,19 @@
                           </button>
                         </div>
                       </div>
-                      <div>
-                        <label class="small fw-bold d-block">Размер</label>
+                      <div class="ss-settings-group">
                         <div class="d-flex align-items-center">
-                          <span class="small me-2">A</span>
+                          <span class="ss-size-label small">A</span>
                           <input
                             type="range"
-                            class="form-range"
+                            class="form-range mx-2"
                             min="1"
                             max="5"
                             step="1"
                             [value]="readerSize"
                             (input)="onSizeChange($event)"
                           />
-                          <span class="fw-bold ms-2">A</span>
+                          <span class="ss-size-label ss-size-label-lg">A</span>
                         </div>
                       </div>
                     </div>
@@ -115,7 +121,7 @@
 
                   <button
                     *ngIf="audio.length"
-                    class="btn btn-sm btn-dark me-2"
+                    class="ss-toolbar-btn ss-toolbar-item"
                     (click)="audioOpen = !audioOpen"
                   >
                     <i class="fa fa-headphones"></i>
@@ -157,18 +163,15 @@
   </div>
 </div>
 
-<!-- Audio Popup -->
-<app-modal [(open)]="audioOpen" title="Аудио" urlFragment="audio">
-  <div *ngFor="let audioItem of audio" class="mb-3">
-    <audio controls class="w-100">
-      <source [src]="audioItem.src" [type]="audioItem.content_type || 'audio/mpeg'" />
-    </audio>
-    <p class="small text-muted mt-1">{{ audioItem.title }}</p>
-  </div>
-  <div *ngIf="!audio.length">
-    <p class="text-muted">Няма налично аудио за този урок.</p>
-  </div>
-</app-modal>
+<!-- Audio Player -->
+<app-audio-player
+  *ngIf="audioOpen && audio.length"
+  [src]="audio[0].src"
+  [title]="audio[0].title"
+  [downloadHref]="audio[0].src"
+  [downloadOpenInNewTab]="false"
+  (closed)="audioOpen = false"
+></app-audio-player>
 
 <!-- Bible Verses Modal -->
 <app-modal [(open)]="bibleModalOpen" title="Библейски стихове" size="lg" urlFragment="bible">

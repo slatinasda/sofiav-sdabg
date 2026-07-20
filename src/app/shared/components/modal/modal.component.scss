@@ -2,24 +2,34 @@
   display: contents;
 }
 
-.modal,
-.modal-content,
-.modal-body {
-  &::-webkit-scrollbar {
-    width: 2px;
-  }
+.modal-content {
+  border: none;
+  border-radius: 0.75rem;
+  box-shadow: 0 10px 40px 0 rgba(22, 22, 26, 0.25);
+  overflow: hidden;
+}
 
-  &::-webkit-scrollbar-track {
-    background: transparent;
-  }
+.modal-header {
+  border-bottom: none;
+  padding-bottom: 0.5rem;
+}
 
-  &::-webkit-scrollbar-thumb {
-    background-color: rgba(0, 0, 0, 0.2);
-    border-radius: 3px;
-  }
+.modal-title {
+  font-weight: 700;
+  font-size: 1.75rem;
 }
 
 .modal-body {
   max-height: 70vh;
   overflow-y: auto;
+  font-size: 1.2em;
+  line-height: 1.5em;
+}
+
+.modal-backdrop {
+  background-color: #4a5568;
+
+  &.show {
+    opacity: 0.6;
+  }
 }

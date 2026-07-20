@@ -1,4 +1,4 @@
-<div class="bg-white py-3 py-lg-4">
+<div class="py-3 py-lg-4">
   <div class="container">
     <!-- Loading -->
     <div *ngIf="loading" class="text-center py-5">
@@ -10,24 +10,24 @@
     <div *ngIf="!loading && quarterlyDetail" class="row">
       <!-- Sidebar with cover and credits -->
       <div class="col-12 col-md-3">
-        <div class="text-center text-md-end mb-4">
+        <div class="ss-cover-row mb-3 mb-md-4 text-md-end">
           <div
-            class="ss-cover d-inline-block mb-3 shadow-sm rounded"
+            class="ss-cover shadow-sm rounded"
             [style.background-image]="'url(' + quarterlyDetail.quarterly.cover + ')'"
           ></div>
-          <p class="text-uppercase text-muted small">
+          <p class="text-uppercase text-muted small mb-0">
             {{ quarterlyDetail.quarterly.human_date }}
           </p>
-          <div class="mb-3">
-            <span *ngFor="let feature of quarterlyDetail.quarterly.features" class="me-2">
-              <img [src]="feature.image" class="ss-feature-icon" [alt]="feature.title" />
-            </span>
-          </div>
-          <div class="text-md-end">
-            <div *ngFor="let credit of quarterlyDetail.quarterly.credits" class="mb-3">
-              <p class="fw-bold mb-0 small">{{ credit.name }}</p>
-              <p class="text-muted small mb-0">{{ credit.value }}</p>
-            </div>
+        </div>
+        <div class="mb-3 text-center text-md-end">
+          <span *ngFor="let feature of quarterlyDetail.quarterly.features" class="me-2">
+            <img [src]="feature.image" class="ss-feature-icon" [alt]="feature.title" />
+          </span>
+        </div>
+        <div class="text-center text-md-end">
+          <div *ngFor="let credit of quarterlyDetail.quarterly.credits" class="mb-3">
+            <p class="fw-bold mb-0 small">{{ credit.name }}</p>
+            <p class="text-muted small mb-0">{{ credit.value }}</p>
           </div>
         </div>
       </div>
@@ -54,19 +54,21 @@
 
         <!-- Description -->
         <div class="mb-3">
-          <p>{{ quarterlyDetail.quarterly.description }}</p>
-          <button
-            *ngIf="
-              quarterlyDetail.quarterly.introduction &&
-              quarterlyDetail.quarterly.introduction.length -
-                (quarterlyDetail.quarterly.description?.length || 0) >
-                100
-            "
-            (click)="open = !open"
-            class="btn btn-link p-0 fst-italic"
-          >
-            повече
-          </button>
+          <p>
+            {{ quarterlyDetail.quarterly.description }}
+            <button
+              *ngIf="
+                quarterlyDetail.quarterly.introduction &&
+                quarterlyDetail.quarterly.introduction.length -
+                  (quarterlyDetail.quarterly.description?.length || 0) >
+                  100
+              "
+              (click)="open = !open"
+              class="btn btn-link p-0 ss-more-link"
+            >
+              повече
+            </button>
+          </p>
         </div>
 
         <!-- Lesson navigation -->

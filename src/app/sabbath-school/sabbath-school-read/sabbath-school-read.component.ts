@@ -6,6 +6,7 @@ import {
   ElementRef,
   PLATFORM_ID,
   Inject,
+  ViewEncapsulation,
 } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
@@ -16,6 +17,7 @@ import moment from 'moment';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { marked } from 'marked';
 import { ModalComponent } from '../../shared/components/modal/modal.component';
+import { AudioPlayerComponent } from '../../songbook/audio-player/audio-player.component';
 import {
   QuarterlyDetail,
   LessonDetail,
@@ -25,10 +27,12 @@ import {
 
 @Component({
   standalone: true,
-  imports: [CommonModule, RouterModule, ModalComponent],
+  imports: [CommonModule, RouterModule, ModalComponent, AudioPlayerComponent],
   selector: 'app-sabbath-school-read',
   templateUrl: './sabbath-school-read.component.html',
   styleUrls: ['./sabbath-school-read.component.scss'],
+  // [innerHTML] content bypasses Angular's style encapsulation, so scoped styles won't reach it.
+  encapsulation: ViewEncapsulation.None,
 })
 export class SabbathSchoolReadComponent implements OnInit, OnDestroy {
   @ViewChild('readerContent') readerContent!: ElementRef;

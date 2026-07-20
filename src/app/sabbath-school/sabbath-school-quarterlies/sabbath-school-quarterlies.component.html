@@ -1,4 +1,4 @@
-<div class="bg-white py-3 py-lg-4">
+<div class="py-3 py-lg-4">
   <div class="container">
     <!-- Loading -->
     <div *ngIf="loading" class="text-center py-5">
@@ -37,7 +37,6 @@
         <a class="d-block cursor-pointer" (click)="navigateToQuarterly(quarterly.id)">
           <div
             class="ss-cover mb-3 rounded shadow-sm"
-            style="height: 100%"
             [style.background-image]="'url(' + quarterly.cover + ')'"
           ></div>
           <p class="mt-2 mb-1 fw-bold">{{ quarterly.title }}</p>
