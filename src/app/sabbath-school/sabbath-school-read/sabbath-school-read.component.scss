@@ -155,7 +155,7 @@
     margin: 15px 0;
 
     tr {
-      border-top: 1px solid #dee2e6;
+      border-top: 1px solid c.$ui-border-muted;
       &:nth-child(2n) {
         background: c.$ui-surface-light;
       }
@@ -163,7 +163,7 @@
 
     th,
     td {
-      border: 1px solid #dee2e6;
+      border: 1px solid c.$ui-border-muted;
       padding: 6px 13px;
       text-align: left;
     }
@@ -171,7 +171,7 @@
 
   hr {
     border: none;
-    border-top: 1px solid #dee2e6;
+    border-top: 1px solid c.$ui-border-muted;
   }
 }
 
