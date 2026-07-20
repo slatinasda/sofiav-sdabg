@@ -1,5 +1,48 @@
 @use '../../styles/tokens/colors' as c;
 
+.download-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  height: 100%;
+  padding: 2rem 1rem;
+  text-align: center;
+  text-decoration: none;
+  color: c.$ui-text-muted;
+  background-color: #fff;
+  border: 1px solid c.$ui-border-muted;
+  border-radius: 0.375rem;
+  box-shadow: 0 4px 6px 0 rgba(22, 22, 26, 0.1);
+  transition:
+    transform 0.25s ease,
+    border-color 0.15s ease;
+
+  &:hover {
+    transform: translateY(-5px);
+    border-color: c.$ui-brand-primary-invert;
+    text-decoration: none;
+    color: c.$ui-text-muted;
+  }
+}
+
+.download-card-icon {
+  font-size: 2.75rem;
+  color: c.$ui-brand-primary-invert;
+}
+
+.download-card-title {
+  font-weight: 700;
+  font-size: 1.1rem;
+  text-transform: uppercase;
+}
+
+.download-card-desc {
+  font-size: 0.85rem;
+  color: c.$ui-text-secondary;
+}
+
 .song-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
