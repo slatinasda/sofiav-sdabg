@@ -55,4 +55,13 @@ export class RangePagination {
     const newPage = this.currentPage + 1;
     this.currentPage = newPage;
   }
+
+  setPage(page: number): void {
+    const totalPages = this.getTotalPages();
+    this.currentPage = Math.min(Math.max(page, 1), totalPages);
+  }
+
+  getPageForItem(item: number): number {
+    return Math.floor((item - this.startRange) / this.perPage) + 1;
+  }
 }

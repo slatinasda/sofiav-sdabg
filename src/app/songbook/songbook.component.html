@@ -47,24 +47,52 @@
     </div>
   </div>
 
-  <div class="mb-5">
+  <div class="mb-5" [class.pb-6]="selectedSong !== null">
     <h3 class="mb-3">MP3 записи</h3>
 
-    <p class="mb-2">Кликнете на номера на песента за да я изтеглите.</p>
+    <p class="mb-3">Изберете номер на песен, за да я пуснете.</p>
 
-    <div class="song-grid">
-      <a
-        *ngFor="let songNum of organSongNumbers()"
-        class="song-grid-item"
-        href="/files/church-songbook/organ/{{ songNum }}.mp3"
-        target="_blank"
-        title="Свали песен {{ songNum }}"
-      >
-        {{ songNum }}
-      </a>
+    <div class="song-jump mb-4">
+      <label for="song-jump-input" class="form-label">Отиди на песен №</label>
+      <div class="input-group song-jump-group">
+        <input
+          id="song-jump-input"
+          type="number"
+          class="form-control"
+          [class.is-invalid]="songJumpError"
+          [min]="firstSongNumber"
+          [max]="totalSongs"
+          [placeholder]="'От ' + firstSongNumber + ' до ' + totalSongs"
+          [(ngModel)]="songNumberInput"
+          (keyup.enter)="goToSongNumber()"
+        />
+        <button type="button" class="btn btn-primary" (click)="goToSongNumber()">Пусни</button>
+      </div>
+      <div class="invalid-feedback d-block" *ngIf="songJumpError">{{ songJumpError }}</div>
     </div>
 
-    <ul class="pagination justify-content-center mt-4">
+    <app-audio-player
+      *ngIf="selectedSong !== null"
+      [src]="selectedSongSrc"
+      [title]="selectedSongTitle"
+      [downloadHref]="selectedSongSrc"
+      [downloadOpenInNewTab]="false"
+    ></app-audio-player>
+
+    <div class="song-grid">
+      <button
+        *ngFor="let songNum of organSongNumbers()"
+        type="button"
+        class="song-grid-item"
+        [class.active]="selectedSong === songNum"
+        (click)="playSong(songNum)"
+        title="Пусни песен {{ songNum }}"
+      >
+        <i class="fa fa-volume-up me-1" *ngIf="selectedSong === songNum"></i>{{ songNum }}
+      </button>
+    </div>
+
+    <ul class="pagination justify-content-center mt-4 flex-wrap">
       <li class="page-item" [class.disabled]="!organPagination.hasPreviousPage()">
         <button class="page-link" (click)="organPagination.setPreviousPage()">Назад</button>
       </li>
