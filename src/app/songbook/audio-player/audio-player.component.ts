@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 const SPEED_STEP = 0.05;
@@ -17,6 +17,7 @@ export class AudioPlayerComponent implements OnChanges {
   @Input({ required: true }) title!: string;
   @Input() downloadHref?: string;
   @Input() downloadOpenInNewTab = false;
+  @Output() closed = new EventEmitter<void>();
 
   readonly minSpeed = MIN_SPEED;
   readonly maxSpeed = MAX_SPEED;
@@ -65,6 +66,11 @@ export class AudioPlayerComponent implements OnChanges {
     audioEl.play().catch(() => {
       // Autoplay was blocked by the browser; the user can press play manually.
     });
+  }
+
+  close(audioEl: HTMLAudioElement): void {
+    audioEl.pause();
+    this.closed.emit();
   }
 
   changeSpeed(delta: number): void {

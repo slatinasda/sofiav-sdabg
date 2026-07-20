@@ -42,6 +42,14 @@
   align-items: center;
   gap: 0.5rem;
   flex: 0 0 auto;
+
+  .fa-play {
+    margin-left: 4px;
+  }
+
+  .fa-pause {
+    margin-left: 1px;
+  }
 }
 
 .audio-player-progress {

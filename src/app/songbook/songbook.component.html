@@ -77,6 +77,7 @@
       [title]="selectedSongTitle"
       [downloadHref]="selectedSongSrc"
       [downloadOpenInNewTab]="false"
+      (closed)="selectedSong = null"
     ></app-audio-player>
 
     <div class="song-grid">
