@@ -1,6 +1,9 @@
 RewriteOptions inherit
 RewriteEngine on
 
+# Force UTF-8 in the HTTP Content-Type header
+AddDefaultCharset UTF-8
+
 # Permanent redirect to sofia-v, including www to non-www
 
 # http to https
