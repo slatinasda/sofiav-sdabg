@@ -1,15 +1,117 @@
-.card {
+@use '../../styles/tokens/colors' as c;
+
+.yt-card {
+  display: flex;
+  flex-direction: column;
   width: 100%;
-  box-shadow: 0 4px 6px 0 rgba(22, 22, 26, 0.1);
+  border-radius: 16px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 2px 10px rgba(22, 22, 26, 0.08);
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 26px rgba(22, 22, 26, 0.16);
+
+    .yt-card__thumb img {
+      transform: scale(1.05);
+    }
+  }
 }
 
-.card:hover {
-  transform: translateY(-5px);
-  transition: all 0.25s ease;
+.yt-card__thumb {
+  display: block;
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: c.$ui-surface-disabled;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.35s ease;
+  }
 }
 
-.card-img-top {
-  width: 100%;
-  height: 186px;
-  object-fit: cover;
+.yt-card__body {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 16px 18px;
+}
+
+.yt-card__avatar {
+  flex: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(22, 22, 26, 0.15);
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+}
+
+.yt-card__meta {
+  min-width: 0;
+  flex: 1;
+}
+
+.yt-card__title {
+  margin: 0 0 4px;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.35;
+
+  a {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    color: c.$ui-header-text;
+    text-decoration: none;
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: c.$ui-brand-primary;
+    }
+  }
+}
+
+.yt-card__channel {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: c.$ui-text-secondary;
+  text-decoration: none;
+
+  &:hover {
+    color: c.$ui-brand-primary;
+  }
+}
+
+.yt-card__date {
+  font-size: 0.78rem;
+  color: c.$ui-text-muted;
+  margin-bottom: 6px;
+}
+
+.yt-card__description {
+  margin: 0;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  color: c.$ui-text-secondary;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  white-space: pre-line;
 }

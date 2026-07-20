@@ -4,18 +4,23 @@ import { CommonModule } from '@angular/common';
 
 import { AppTitleService } from '../app-title.service';
 import { BibleStudiesCtaComponent } from '../shared/components/bible-studies-cta/bible-studies-cta.component';
+import { RelativeTimePipe } from '../shared/pipes/relative-time.pipe';
 
 interface VideoItem {
   title: string;
   link: string;
   videoId: string;
   thumbnail: string;
+  description: string;
   published: string;
+  channelTitle: string;
+  channelLink: string;
+  channelAvatar: string;
 }
 
 @Component({
   standalone: true,
-  imports: [CommonModule, BibleStudiesCtaComponent],
+  imports: [CommonModule, BibleStudiesCtaComponent, RelativeTimePipe],
   selector: 'app-video-archive',
   templateUrl: './video-archive.component.html',
   styleUrls: ['./video-archive.component.scss'],
@@ -28,7 +33,7 @@ export class VideoArchiveComponent implements OnInit {
     private appTitleService: AppTitleService,
     private httpClient: HttpClient,
   ) {
-    this.appTitleService.setTitle('Архив');
+    this.appTitleService.setTitle('Проповеди');
   }
 
   ngOnInit() {

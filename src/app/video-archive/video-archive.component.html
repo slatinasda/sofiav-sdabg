@@ -1,7 +1,10 @@
 <div class="container p-md-4 py-lg-5">
   <div class="jumbotron">
-    <h1 class="mb-4">Видео архив</h1>
-    <p class="lead">На тази страница може да намерите последните излъчвания от нашата църква.</p>
+    <h1 class="mb-4">Последни проповеди</h1>
+    <p class="lead">
+      Гледайте видеозаписи от последните ни проповеди и богослужения, споделени в YouTube канала на
+      църквата.
+    </p>
   </div>
 
   <div class="mb-5">
@@ -13,19 +16,40 @@
       </div>
 
       <ng-template #videoItems>
-        <div class="row">
+        <div class="row g-4">
           <div *ngFor="let video of videos" class="col-md-6 col-lg-4 d-flex align-items-stretch">
-            <div class="card">
-              <a [href]="video.link" target="_blank">
-                <img class="card-img-top" [src]="video.thumbnail" alt="Video thumbnail" />
+            <div class="yt-card">
+              <a class="yt-card__thumb" [href]="video.link" target="_blank" rel="noopener">
+                <img [src]="video.thumbnail" alt="Видео миниатюра" loading="lazy" />
               </a>
-              <div class="card-body">
-                <h5 class="card-title">
-                  <a [href]="video.link">{{ video.title }}</a>
-                </h5>
-              </div>
-              <div class="card-footer">
-                <small class="text-muted">{{ video.published | date: 'longDate' }}</small>
+
+              <div class="yt-card__body">
+                <a
+                  class="yt-card__avatar"
+                  [href]="video.channelLink"
+                  target="_blank"
+                  rel="noopener"
+                >
+                  <img [src]="video.channelAvatar" [alt]="video.channelTitle" loading="lazy" />
+                </a>
+
+                <div class="yt-card__meta">
+                  <h3 class="yt-card__title">
+                    <a [href]="video.link" target="_blank" rel="noopener">{{ video.title }}</a>
+                  </h3>
+                  <a
+                    class="yt-card__channel"
+                    [href]="video.channelLink"
+                    target="_blank"
+                    rel="noopener"
+                  >
+                    {{ video.channelTitle }}
+                  </a>
+                  <div class="yt-card__date" [title]="video.published | date: 'longDate'">
+                    {{ video.published | relativeTime }}
+                  </div>
+                  <p class="yt-card__description">{{ video.description }}</p>
+                </div>
               </div>
             </div>
           </div>
