@@ -20,6 +20,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { marked } from 'marked';
 import { ModalComponent } from '../../shared/components/modal/modal.component';
 import { AudioPlayerComponent } from '../../songbook/audio-player/audio-player.component';
+import { SwipeNavigateDirective } from '../../shared/directives/swipe-navigate.directive';
 import {
   QuarterlyDetail,
   LessonDetail,
@@ -40,7 +41,13 @@ const SEPIA_READER_THEME: ReaderTheme = 'sepia';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, RouterModule, ModalComponent, AudioPlayerComponent],
+  imports: [
+    CommonModule,
+    RouterModule,
+    ModalComponent,
+    AudioPlayerComponent,
+    SwipeNavigateDirective,
+  ],
   selector: 'app-sabbath-school-read',
   templateUrl: './sabbath-school-read.component.html',
   styleUrls: ['./sabbath-school-read.component.scss'],
@@ -329,5 +336,31 @@ export class SabbathSchoolReadComponent implements OnInit, OnDestroy {
     const content = htmlStyles + html;
     this.selectedBibleHtml = this.sanitizer.bypassSecurityTrustHtml(content);
     this.bibleModalOpen = true;
+  }
+
+  private get currentDayIndex(): number {
+    if (!this.lessonDetail || !this.read) {
+      return -1;
+    }
+
+    return this.lessonDetail.days.findIndex((d) => d.id === this.read!.id);
+  }
+
+  get prevDayRoute(): any[] | null {
+    const ind = this.currentDayIndex;
+    if (ind > 0) {
+      return ['/sabbath-school', this.quarter, 'lessons', this.lessonId, this.slugify(ind)];
+    }
+
+    return null;
+  }
+
+  get nextDayRoute(): any[] | null {
+    const ind = this.currentDayIndex;
+    if (this.lessonDetail && ind >= 0 && ind < this.lessonDetail.days.length - 1) {
+      return ['/sabbath-school', this.quarter, 'lessons', this.lessonId, this.slugify(ind + 2)];
+    }
+
+    return null;
   }
 }
