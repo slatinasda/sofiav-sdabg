@@ -75,6 +75,7 @@
                       class="ss-toolbar-btn dropdown-toggle"
                       type="button"
                       data-bs-toggle="dropdown"
+                      data-bs-auto-close="outside"
                     >
                       Aa
                     </button>
@@ -96,18 +97,25 @@
                         </div>
                       </div>
                       <div class="ss-settings-group">
-                        <div class="d-flex align-items-center">
-                          <span class="ss-size-label small">A</span>
-                          <input
-                            type="range"
-                            class="form-range mx-2"
-                            min="1"
-                            max="5"
-                            step="1"
-                            [value]="readerSize"
-                            (input)="onSizeChange($event)"
-                          />
-                          <span class="ss-size-label ss-size-label-lg">A</span>
+                        <div class="ss-size-pill">
+                          <button
+                            type="button"
+                            class="ss-size-pill-btn"
+                            [disabled]="readerSize === minReaderSize"
+                            (click)="decreaseSize()"
+                            aria-label="Намали шрифта"
+                          >
+                            -<span class="ss-size-pill-label ss-size-pill-label-sm">A</span>
+                          </button>
+                          <button
+                            type="button"
+                            class="ss-size-pill-btn"
+                            [disabled]="readerSize === maxReaderSize"
+                            (click)="increaseSize()"
+                            aria-label="Увеличи шрифта"
+                          >
+                            +<span class="ss-size-pill-label ss-size-pill-label-lg">A</span>
+                          </button>
                         </div>
                       </div>
                     </div>
@@ -138,11 +146,11 @@
             [class.ss-theme-light]="readerTheme === 'light'"
             [class.ss-theme-sepia]="readerTheme === 'sepia'"
             [class.ss-theme-dark]="readerTheme === 'dark'"
-            [class.ss-size-xs]="readerSize === '1'"
-            [class.ss-size-sm]="readerSize === '2'"
-            [class.ss-size-md]="readerSize === '3'"
-            [class.ss-size-lg]="readerSize === '4'"
-            [class.ss-size-xl]="readerSize === '5'"
+            [class.ss-size-xs]="readerSize === 1"
+            [class.ss-size-sm]="readerSize === 2"
+            [class.ss-size-md]="readerSize === 3"
+            [class.ss-size-lg]="readerSize === 4"
+            [class.ss-size-xl]="readerSize === 5"
           >
             <div
               #readerContent

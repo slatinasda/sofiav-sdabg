@@ -39,6 +39,9 @@ export const READER_THEMES: { value: ReaderTheme; label: string }[] = [
 const DEFAULT_READER_THEME: ReaderTheme = 'light';
 const SEPIA_READER_THEME: ReaderTheme = 'sepia';
 
+const MIN_READER_SIZE = 1;
+const MAX_READER_SIZE = 5;
+
 @Component({
   standalone: true,
   imports: [
@@ -72,8 +75,10 @@ export class SabbathSchoolReadComponent implements OnInit, OnDestroy {
   selectedBibleHtml: SafeHtml = '';
 
   readonly readerThemes = READER_THEMES;
+  readonly minReaderSize = MIN_READER_SIZE;
+  readonly maxReaderSize = MAX_READER_SIZE;
   readerTheme: ReaderTheme = DEFAULT_READER_THEME;
-  readerSize = '3';
+  readerSize = 3;
 
   private readonly READER_THEME_KEY = 'ss-reader-theme';
   private readonly READER_SIZE_KEY = 'ss-reader-size';
@@ -145,7 +150,7 @@ export class SabbathSchoolReadComponent implements OnInit, OnDestroy {
 
     const storedTheme = localStorage.getItem(this.READER_THEME_KEY) as ReaderTheme | null;
     this.readerTheme = storedTheme ?? DEFAULT_READER_THEME;
-    this.readerSize = localStorage.getItem(this.READER_SIZE_KEY) || '3';
+    this.readerSize = parseInt(localStorage.getItem(this.READER_SIZE_KEY) || '') || 3;
   }
 
   private saveSettings(): void {
@@ -153,7 +158,7 @@ export class SabbathSchoolReadComponent implements OnInit, OnDestroy {
       return;
     }
     localStorage.setItem(this.READER_THEME_KEY, this.readerTheme);
-    localStorage.setItem(this.READER_SIZE_KEY, this.readerSize);
+    localStorage.setItem(this.READER_SIZE_KEY, this.readerSize.toString());
   }
 
   setTheme(theme: ReaderTheme): void {
@@ -161,25 +166,26 @@ export class SabbathSchoolReadComponent implements OnInit, OnDestroy {
     this.saveSettings();
   }
 
-  setSize(size: string): void {
+  setSize(size: number): void {
     this.readerSize = size;
     this.saveSettings();
   }
 
-  onSizeChange(event: Event): void {
-    const target = event.target as HTMLInputElement;
-    if (target) {
-      this.setSize(target.value);
-    }
+  decreaseSize(): void {
+    this.setSize(Math.max(MIN_READER_SIZE, this.readerSize - 1));
+  }
+
+  increaseSize(): void {
+    this.setSize(Math.min(MAX_READER_SIZE, this.readerSize + 1));
   }
 
   get fontSizeClass(): string {
-    const sizeMap: { [key: string]: string } = {
-      '1': 'ss-size-xs',
-      '2': 'ss-size-sm',
-      '3': 'ss-size-md',
-      '4': 'ss-size-lg',
-      '5': 'ss-size-xl',
+    const sizeMap: { [key: number]: string } = {
+      1: 'ss-size-xs',
+      2: 'ss-size-sm',
+      3: 'ss-size-md',
+      4: 'ss-size-lg',
+      5: 'ss-size-xl',
     };
     return sizeMap[this.readerSize] || 'ss-size-md';
   }
