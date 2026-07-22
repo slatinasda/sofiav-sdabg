@@ -51,3 +51,10 @@
     height: 100%;
   }
 }
+
+// Bootstrap's `.bg-light` utility doesn't adapt to [data-bs-theme="dark"] on its own.
+:host-context([data-bs-theme='dark']) {
+  .bg-light {
+    background-color: c.$ui-dark-surface !important;
+  }
+}

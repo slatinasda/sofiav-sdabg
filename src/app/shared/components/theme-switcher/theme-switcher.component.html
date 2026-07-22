@@ -1,0 +1,40 @@
+<button
+  type="button"
+  class="btn btn-link btn-icon header-btn float-end"
+  title="Тема"
+  (click)="modalOpen = true"
+>
+  <i class="fa" [ngClass]="currentIcon"></i>
+</button>
+
+<app-modal [(open)]="modalOpen" title="Тема" size="lg" urlFragment="theme">
+  <p class="theme-intro">Задайте нова тема по подразбиране</p>
+  <div class="theme-cards">
+    <button
+      *ngFor="let theme of themeModes"
+      type="button"
+      class="theme-card"
+      [class.active]="themeService.mode() === theme.value"
+      (click)="setTheme(theme.value)"
+    >
+      <div class="theme-card-header">
+        <i class="fa" [ngClass]="theme.icon"></i>
+        <span>{{ theme.label }}</span>
+      </div>
+      <div class="theme-preview" [ngClass]="'theme-preview-' + theme.value">
+        <div class="theme-preview-bar"><span></span><span></span><span></span></div>
+        <div class="theme-preview-body">
+          <div class="theme-preview-sidebar"></div>
+          <div class="theme-preview-content">
+            <div class="theme-preview-line w-75"></div>
+            <div class="theme-preview-line w-50"></div>
+            <div class="theme-preview-pills">
+              <span class="pill pill-accent1"></span>
+              <span class="pill pill-accent2"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </button>
+  </div>
+</app-modal>

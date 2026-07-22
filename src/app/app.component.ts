@@ -3,10 +3,11 @@ import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
 import { CurrentQuarterService } from './sabbath-school/current-quarter.service';
+import { ThemeSwitcherComponent } from './shared/components/theme-switcher/theme-switcher.component';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, RouterModule, NgbCollapse],
+  imports: [CommonModule, RouterModule, NgbCollapse, ThemeSwitcherComponent],
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],

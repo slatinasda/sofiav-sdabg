@@ -1,3 +1,5 @@
+@use '../../../../styles/tokens/colors' as c;
+
 :host {
   display: contents;
 }
@@ -5,7 +7,7 @@
 .modal-content {
   border: none;
   border-radius: 0.75rem;
-  box-shadow: 0 10px 40px 0 rgba(22, 22, 26, 0.25);
+  box-shadow: 0 10px 40px 0 rgba(c.$ui-shadow-color, 0.25);
   overflow: hidden;
 }
 
@@ -27,7 +29,7 @@
 }
 
 .modal-backdrop {
-  background-color: #4a5568;
+  background-color: c.$ui-backdrop;
 
   &.show {
     opacity: 0.6;

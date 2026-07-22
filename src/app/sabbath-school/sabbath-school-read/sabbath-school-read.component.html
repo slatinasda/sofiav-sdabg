@@ -76,28 +76,13 @@
                       <div class="ss-settings-group">
                         <div class="ss-segmented">
                           <button
+                            *ngFor="let theme of readerThemes"
                             type="button"
                             class="ss-segmented-btn"
-                            [class.active]="readerTheme === 'light'"
-                            (click)="setTheme('light')"
+                            [class.active]="readerTheme === theme.value"
+                            (click)="setTheme(theme.value)"
                           >
-                            Светла
-                          </button>
-                          <button
-                            type="button"
-                            class="ss-segmented-btn"
-                            [class.active]="readerTheme === 'sepia'"
-                            (click)="setTheme('sepia')"
-                          >
-                            Сепия
-                          </button>
-                          <button
-                            type="button"
-                            class="ss-segmented-btn"
-                            [class.active]="readerTheme === 'dark'"
-                            (click)="setTheme('dark')"
-                          >
-                            Тъмна
+                            {{ theme.label }}
                           </button>
                         </div>
                       </div>

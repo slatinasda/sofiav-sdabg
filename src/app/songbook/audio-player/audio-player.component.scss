@@ -6,9 +6,9 @@
   left: 0;
   right: 0;
   z-index: 1030;
-  background: #fff;
+  background: c.$ui-white;
   border-top: 1px solid c.$ui-border-light;
-  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 -2px 8px rgba(c.$ui-shadow-color, 0.08);
 }
 
 .audio-player {
@@ -86,4 +86,13 @@
   color: c.$ui-header-slogan;
   min-width: 2.5rem;
   text-align: center;
+}
+
+:host-context([data-bs-theme='dark']) {
+  background: c.$ui-dark-bg;
+  border-top-color: c.$ui-dark-border;
+
+  .audio-player-title {
+    color: c.$ui-dark-text;
+  }
 }

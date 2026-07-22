@@ -7,6 +7,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
+    <script>
+      (function () {
+        try {
+          var storedMode = localStorage.getItem('theme-preference');
+          var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+          var theme = 'light';
+          if (storedMode === 'light' || storedMode === 'dark') {
+            theme = storedMode;
+          } else if (prefersDark) {
+            theme = 'dark';
+          }
+
+          document.documentElement.setAttribute('data-bs-theme', theme);
+        } catch (e) {
+          // Fall back to default CSS if localStorage/matchMedia throws (e.g. blocked in private mode)
+        }
+      })();
+    </script>
+
     <meta name="description" content="Църква на Адвентистите от Седмия Ден - София В Слатина" />
     <meta name="robots" content="index,follow" />
     <meta property="og:locale" content="bg_BG" />

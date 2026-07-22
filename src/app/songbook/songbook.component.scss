@@ -11,10 +11,10 @@
   text-align: center;
   text-decoration: none;
   color: c.$ui-text-muted;
-  background-color: #fff;
+  background-color: c.$ui-white;
   border: 1px solid c.$ui-border-muted;
   border-radius: 0.375rem;
-  box-shadow: 0 4px 6px 0 rgba(22, 22, 26, 0.1);
+  box-shadow: 0 4px 6px 0 rgba(c.$ui-shadow-color, 0.1);
   transition:
     transform 0.25s ease,
     border-color 0.15s ease;
@@ -101,7 +101,7 @@
 
   &:hover {
     background-color: c.$ui-brand-primary-invert;
-    color: #fff;
+    color: c.$ui-white;
     border-color: c.$ui-brand-primary-invert;
   }
 
@@ -113,7 +113,7 @@
   &.active {
     background-color: c.$ui-brand-primary;
     border-color: c.$ui-brand-primary;
-    color: #fff;
+    color: c.$ui-white;
   }
 }
 
@@ -124,7 +124,7 @@
 .pagination .page-item:not(.disabled) .page-link:hover {
   background-color: c.$ui-brand-primary-invert;
   border-color: c.$ui-brand-primary-invert;
-  color: #fff;
+  color: c.$ui-white;
 }
 
 .pagination .page-item.disabled .page-link {
@@ -132,4 +132,32 @@
   border-color: c.$ui-border-muted;
   color: c.$ui-text-muted;
   cursor: not-allowed;
+}
+
+:host-context([data-bs-theme='dark']) {
+  .download-card {
+    background-color: c.$ui-dark-surface;
+    border-color: c.$ui-dark-border;
+    color: c.$ui-dark-text;
+
+    &:hover {
+      color: c.$ui-dark-text;
+    }
+  }
+
+  .download-card-desc {
+    color: c.$ui-dark-text-muted;
+  }
+
+  .song-grid-item {
+    background-color: c.$ui-dark-bg;
+    border-color: c.$ui-dark-border;
+    color: c.$ui-dark-text;
+  }
+
+  .pagination .page-item.disabled .page-link {
+    background-color: c.$ui-dark-surface;
+    border-color: c.$ui-dark-border;
+    color: c.$ui-dark-text-muted;
+  }
 }

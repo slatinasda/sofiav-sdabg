@@ -46,7 +46,7 @@
 }
 
 .hover-bg-gray:hover {
-  background-color: #e9ecef !important;
+  background-color: c.$ui-surface-disabled !important;
 }
 
 .mt-n2 {
@@ -60,4 +60,16 @@
 .modal-body {
   max-height: 70vh;
   overflow-y: auto;
+}
+
+// Bootstrap's `.bg-light` utility doesn't adapt to [data-bs-theme="dark"] on its own.
+:host-context([data-bs-theme='dark']) {
+  .bg-light {
+    background-color: c.$ui-dark-surface !important;
+    color: c.$ui-dark-text !important;
+  }
+
+  .hover-bg-gray:hover {
+    background-color: c.$ui-dark-surface-hover !important;
+  }
 }

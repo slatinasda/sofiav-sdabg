@@ -21,10 +21,10 @@
   }
   text-decoration: none;
   color: c.$ui-text-muted;
-  background-color: #fff;
+  background-color: c.$ui-white;
   border: 1px solid c.$ui-border-muted;
   border-radius: 0.5rem;
-  box-shadow: 0 4px 6px 0 rgba(22, 22, 26, 0.1);
+  box-shadow: 0 4px 6px 0 rgba(c.$ui-shadow-color, 0.1);
   transition:
     transform 0.25s ease,
     border-color 0.15s ease,
@@ -33,7 +33,7 @@
   &:hover {
     transform: translateY(-5px);
     border-color: c.$ui-brand-primary-invert;
-    box-shadow: 0 8px 16px 0 rgba(22, 22, 26, 0.12);
+    box-shadow: 0 8px 16px 0 rgba(c.$ui-shadow-color, 0.12);
     text-decoration: none;
     color: c.$ui-text-muted;
   }
@@ -71,5 +71,21 @@
 
   @media (min-width: 768px) {
     font-size: 0.85rem;
+  }
+}
+
+:host-context([data-bs-theme='dark']) {
+  .category-card {
+    background-color: c.$ui-dark-surface;
+    border-color: c.$ui-dark-border;
+    color: c.$ui-dark-text;
+
+    &:hover {
+      color: c.$ui-dark-text;
+    }
+  }
+
+  .category-card-count {
+    color: c.$ui-dark-text-muted;
   }
 }

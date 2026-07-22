@@ -1,0 +1,8 @@
+@use '../../styles/tokens/colors' as c;
+
+// Bootstrap's `.bg-white` utility doesn't adapt to [data-bs-theme="dark"] on its own.
+:host-context([data-bs-theme='dark']) {
+  .bg-white {
+    background-color: c.$ui-dark-bg !important;
+  }
+}

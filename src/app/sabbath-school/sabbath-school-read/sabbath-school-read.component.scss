@@ -48,7 +48,7 @@
 }
 
 .ss-read-header-overlay {
-  background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.8));
+  background: linear-gradient(to bottom, transparent, rgba(c.$ui-black, 0.8));
   width: 100%;
   min-height: 200px;
   display: flex;
@@ -61,31 +61,31 @@
 }
 
 .ss-toolbar {
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(c.$ui-black, 0.6);
   border-radius: 0.5rem;
   display: inline-flex;
   align-items: stretch;
 }
 
 .ss-toolbar-item + .ss-toolbar-item {
-  border-left: 1px solid rgba(255, 255, 255, 0.2);
+  border-left: 1px solid rgba(c.$ui-white, 0.2);
 }
 
 .ss-toolbar-btn {
   background: transparent;
   border: none;
-  color: #fff;
+  color: c.$ui-white;
   padding: 0.65rem 1.1rem;
   font-weight: 700;
   font-size: 1.05rem;
-  line-height: 1;
+  line-height: 1em;
   display: inline-flex;
   align-items: center;
 
   &:hover,
   &:focus {
-    background: rgba(255, 255, 255, 0.1);
-    color: #fff;
+    background: rgba(c.$ui-white, 0.1);
+    color: c.$ui-white;
   }
 
   &.dropdown-toggle::after {
@@ -98,13 +98,12 @@
   padding: 1.1rem;
   border: none;
   border-radius: 0.5rem;
-  box-shadow: 0 10px 30px 0 rgba(22, 22, 26, 0.18);
+  box-shadow: 0 10px 30px 0 rgba(c.$ui-shadow-color, 0.18);
 }
 
 .ss-settings-group + .ss-settings-group {
   margin-top: 1rem;
   padding-top: 1rem;
-  border-top: 1px solid c.$ui-border-light;
 }
 
 .ss-segmented {
@@ -136,7 +135,7 @@
 
 .ss-size-label {
   color: c.$ui-text-muted;
-  line-height: 1;
+  line-height: 1em;
 
   &.ss-size-label-lg {
     font-size: 1.25rem;
@@ -149,16 +148,16 @@
 }
 
 .ss-theme-light {
-  background: #fff;
-  color: #333;
+  background: c.$ui-reader-light-bg;
+  color: c.$ui-reader-light-text;
 }
 .ss-theme-sepia {
-  background: #fbf0d9;
-  color: #5b4636;
+  background: c.$ui-reader-sepia-bg;
+  color: c.$ui-reader-sepia-text;
 }
 .ss-theme-dark {
-  background: #1c1c1e;
-  color: #e5e5e5;
+  background: c.$ui-reader-dark-bg;
+  color: c.$ui-reader-dark-text;
 }
 
 .ss-size-xs {
@@ -288,33 +287,33 @@
 
 .ss-theme-dark.ss-reader {
   blockquote {
-    background: #2c2c2e;
-    border-left-color: #66bba9;
+    background: c.$ui-reader-dark-surface;
+    border-left-color: c.$ui-brand-accent-light;
   }
   a {
-    color: #7ed5c3;
+    color: c.$ui-brand-accent-lighter;
   }
   code {
-    background: #2c2c2e;
-    border-left-color: #66bba9;
+    background: c.$ui-reader-dark-surface;
+    border-left-color: c.$ui-brand-accent-light;
   }
   table tr {
-    border-top-color: #444;
+    border-top-color: c.$ui-reader-dark-border;
     &:nth-child(2n) {
-      background: #2c2c2e;
+      background: c.$ui-reader-dark-surface;
     }
   }
   table th,
   table td {
-    border-color: #444;
+    border-color: c.$ui-reader-dark-border;
   }
 }
 
 .ss-theme-sepia.ss-reader {
   blockquote,
   code {
-    background: #efebe4;
-    border-left-color: #8b7355;
+    background: c.$ui-reader-sepia-surface;
+    border-left-color: c.$ui-reader-sepia-border;
   }
 }
 
@@ -355,16 +354,16 @@
     padding: 0 3px;
   }
   .highlight_orange {
-    background-color: #f59569;
+    background-color: c.$ui-highlight-orange;
   }
   .highlight_yellow {
-    background-color: #fff3a0;
+    background-color: c.$ui-highlight-yellow;
   }
   .highlight_green {
-    background-color: #63d724;
+    background-color: c.$ui-highlight-green;
   }
   .highlight_blue {
-    background-color: #69d2f5;
+    background-color: c.$ui-highlight-blue;
   }
 
   .ss-donation-appeal {
@@ -372,12 +371,12 @@
     margin-bottom: 0.75rem;
   }
   .ss-donation-appeal-title {
-    background: linear-gradient(90deg, c.$ui-brand-primary, #6ec0b0);
+    background: linear-gradient(90deg, c.$ui-brand-primary, c.$ui-brand-accent-light);
     padding: 2px 6px;
     border-radius: 3px;
     cursor: pointer;
     p {
-      color: #fff;
+      color: c.$ui-white;
       margin: 0;
       padding: 0;
     }
@@ -399,7 +398,7 @@
 /* Brand colors */
 .ss-brand-bg {
   background-color: c.$ui-brand-primary;
-  color: #fff !important;
+  color: c.$ui-white !important;
 }
 
 .text-brand {
@@ -408,5 +407,40 @@
 
 /* Bible modal content */
 .ss-theme-dark .bible-modal-content h2 {
-  color: #e5e5e5;
+  color: c.$ui-reader-dark-text;
+}
+
+/* Needs !important: Bootstrap's .text-dark utility uses it too. */
+[data-bs-theme='dark'] .ss-sidebar-info .text-dark {
+  color: c.$ui-dark-text !important;
+}
+
+/* Same specificity as the rule above; must come after it to win on hover. */
+[data-bs-theme='dark'] .hover-text-primary:hover {
+  color: c.$ui-brand-primary !important;
+}
+
+/* Panel bg adapts via Bootstrap; text/border colors here don't, so override them. */
+[data-bs-theme='dark'] {
+  .ss-settings-group + .ss-settings-group {
+    border-top-color: c.$ui-dark-border;
+  }
+
+  .ss-segmented-btn {
+    border-bottom-color: c.$ui-dark-border;
+    color: c.$ui-dark-text-muted;
+
+    &:hover {
+      color: c.$ui-brand-accent-light;
+    }
+
+    &.active {
+      color: c.$ui-brand-accent-light;
+      border-bottom-color: c.$ui-brand-primary;
+    }
+  }
+
+  .ss-size-label {
+    color: c.$ui-dark-text-muted;
+  }
 }

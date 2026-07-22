@@ -2,7 +2,7 @@
 @import 'bootstrap/scss/functions';
 
 $primary: c.$ui-brand-primary;
-$dark: #343a40;
+$dark: c.$ui-neutral-dark;
 
 $grid-gutter-width: 30px;
 $border-radius: 0.25rem;
@@ -40,17 +40,27 @@ $spacers: (
   10: 10.5rem,
 );
 
-$card-border-color: rgba(0, 0, 0, 0.125);
+$card-border-color: rgba(c.$ui-black, 0.125);
 $card-border-radius: 2px;
-$card-cap-bg: rgba(0, 0, 0, 0.03);
+$card-cap-bg: rgba(c.$ui-black, 0.03);
 $card-spacer-x: 1.25rem;
 $card-spacer-y: 1.25rem;
 $card-cap-padding-y: 0.75rem; // doesn't follow Bootstrap 5's derived formula
 $card-cap-padding-x: 1.25rem;
 
-$hr-color: #000;
+$hr-color: c.$ui-black;
 $hr-opacity: 0.1;
 
-$body-secondary-color: #6c757d;
+$body-secondary-color: c.$ui-text-secondary;
+
+// Dark theme (applied via [data-bs-theme="dark"]) - lighter grays than
+// Bootstrap's own near-black defaults.
+$body-bg-dark: c.$ui-dark-bg;
+$body-color-dark: c.$ui-dark-text;
+$body-secondary-bg-dark: c.$ui-dark-surface;
+$body-secondary-color-dark: c.$ui-dark-text-muted;
+$body-tertiary-bg-dark: c.$ui-dark-surface-hover;
+$border-color-dark: c.$ui-dark-border;
+$link-color-dark: c.$ui-dark-link;
 
 @import 'bootstrap/scss/bootstrap';

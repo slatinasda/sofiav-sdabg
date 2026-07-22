@@ -1,11 +1,24 @@
+// Brand
 $ui-brand-primary: #55a79a;
 $ui-brand-primary-invert: #44857b;
+$ui-brand-accent-light: #7cbfb4;
+$ui-brand-accent-lighter: #a3d3cb;
 
+// Neutrals
+$ui-white: #fff;
+$ui-black: #000;
+$ui-neutral-dark: #343a40;
+$ui-shadow-color: #16161a;
+$ui-backdrop: #4a5568;
+
+// Surface
 $ui-surface-light: #f8f9fa;
+$ui-surface-hover: #f7f7f7;
 $ui-surface-disabled: #e9ecef;
 $ui-border-light: #e6e6e6;
 $ui-border-muted: #dee2e6;
 
+// Header / footer / navbar
 $ui-header-text: #1b1b1b;
 $ui-footer-bg: #292b2c;
 $ui-header-slogan: #888888;
@@ -13,5 +26,37 @@ $ui-header-icon-muted: rgba(78, 78, 78, 0.8);
 $ui-header-icon-muted-hover: rgba(78, 78, 78, 1);
 $ui-navbar-link: rgba(0, 0, 0, 0.7);
 
+// Text
 $ui-text-muted: #495057;
 $ui-text-secondary: #6c757d;
+
+// Sabbath school reader themes
+$ui-reader-light-bg: #fff;
+$ui-reader-light-text: #333;
+$ui-reader-sepia-bg: #fbf0d9;
+$ui-reader-sepia-text: #5b4636;
+$ui-reader-sepia-surface: #efebe4;
+$ui-reader-sepia-border: #8b7355;
+$ui-reader-dark-bg: #1c1c1e;
+$ui-reader-dark-text: #e5e5e5;
+$ui-reader-dark-surface: #2c2c2e;
+$ui-reader-dark-border: #444;
+
+// Reader highlighter swatches
+$ui-highlight-orange: #f59569;
+$ui-highlight-yellow: #fff3a0;
+$ui-highlight-green: #63d724;
+$ui-highlight-blue: #69d2f5;
+
+// Site-wide dark theme (data-bs-theme="dark")
+$ui-dark-bg: #2c2c2e;
+$ui-dark-surface: #3a3a3c;
+$ui-dark-surface-hover: #48484a;
+$ui-dark-border: #5a5a5a;
+$ui-dark-text: #e5e7eb;
+$ui-dark-text-muted: #adb5bd;
+$ui-dark-link: #6fbaad;
+
+// Theme-picker mockup preview swatches (decorative, mimic generic UI content)
+$ui-preview-pill-red: #ff6b81;
+$ui-preview-pill-green: #2ecc71;

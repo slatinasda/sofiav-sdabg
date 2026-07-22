@@ -8,11 +8,11 @@
 
 .teaching {
   padding: 1.5rem 1.75rem;
-  background-color: #fff;
+  background-color: c.$ui-white;
   border: 1px solid c.$ui-border-muted;
   border-left: 4px solid c.$ui-brand-primary;
   border-radius: 0.375rem;
-  box-shadow: 0 2px 4px 0 rgba(22, 22, 26, 0.06);
+  box-shadow: 0 2px 4px 0 rgba(c.$ui-shadow-color, 0.06);
 }
 
 .teaching-header {
@@ -31,7 +31,7 @@
   height: 2.25rem;
   border-radius: 50%;
   background-color: c.$ui-brand-primary;
-  color: #fff;
+  color: c.$ui-white;
   font-weight: 700;
   font-size: 0.95rem;
 }
@@ -73,7 +73,7 @@
 
   &:hover {
     background-color: c.$ui-brand-primary-invert;
-    color: #fff;
+    color: c.$ui-white;
     text-decoration: none;
   }
 }
@@ -84,4 +84,32 @@
   font-size: 0.8rem;
   font-style: italic;
   max-width: none;
+}
+
+:host-context([data-bs-theme='dark']) {
+  .teaching {
+    background-color: c.$ui-dark-surface;
+    border-color: c.$ui-dark-border;
+  }
+
+  .teaching-refs {
+    border-top-color: c.$ui-dark-border;
+  }
+
+  .teaching-refs-label,
+  .teaching-ref {
+    color: c.$ui-dark-text;
+  }
+
+  .teaching-ref {
+    background-color: c.$ui-dark-bg;
+
+    &:hover {
+      color: c.$ui-white;
+    }
+  }
+
+  .teaching-source {
+    color: c.$ui-dark-text-muted;
+  }
 }

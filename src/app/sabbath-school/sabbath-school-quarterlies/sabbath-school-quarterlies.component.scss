@@ -1,3 +1,5 @@
+@use '../../../styles/tokens/colors' as c;
+
 .ss-cover {
   width: 100%;
   aspect-ratio: 2 / 3;
@@ -15,5 +17,5 @@
 }
 
 .cursor-pointer:hover .font-weight-bold {
-  color: var(--color-primary, #2e5797);
+  color: c.$ui-brand-primary-invert;
 }

@@ -65,7 +65,7 @@
 }
 
 .header {
-  background: #fff;
+  background: c.$ui-white;
   padding: 25px 0;
   border-bottom: 1px solid rgba(c.$ui-brand-primary, 0.6);
   color: c.$ui-header-text;
@@ -107,7 +107,7 @@
 .header-brand-text {
   font-family: 'Rambla', sans-serif;
   font-weight: bold;
-  line-height: 1;
+  line-height: 1em;
   margin: 0;
   padding: 0;
   text-decoration: none;
@@ -116,7 +116,7 @@
     font-weight: 400;
     margin: 0;
     padding: 0;
-    line-height: 1;
+    line-height: 1em;
     font-family: 'Rambla', sans-serif;
   }
 
@@ -151,6 +151,19 @@
     flex: 0 0 100%;
     width: 100%;
   }
+
+  @media (min-width: 768px) {
+    order: 2;
+  }
+}
+
+.header-block-actions {
+  @media (min-width: 768px) {
+    order: 3;
+    margin-left: 1rem;
+    padding-left: 1rem;
+    border-left: 1px solid c.$ui-border-light;
+  }
 }
 
 .navbar-nav-onepager .nav-link {
@@ -176,13 +189,43 @@
 #footer {
   background: c.$ui-footer-bg;
   border-top: 2px solid c.$ui-brand-primary;
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(c.$ui-white, 0.8);
 }
 
 .footer-links a {
-  color: rgba(255, 255, 255, 0.9);
+  color: rgba(c.$ui-white, 0.9);
 
   &:hover {
-    color: #fff;
+    color: c.$ui-white;
+  }
+}
+
+:host-context([data-bs-theme='dark']) {
+  .header {
+    background: c.$ui-dark-bg;
+    color: c.$ui-dark-text;
+  }
+
+  .l-wrap__sabbath,
+  .l-sabbath {
+    background-color: lighten(c.$ui-dark-bg, 6%);
+  }
+
+  .header-divider::after {
+    background: c.$ui-dark-border;
+  }
+
+  .header-block-actions {
+    @media (min-width: 768px) {
+      border-left-color: c.$ui-dark-border;
+    }
+  }
+
+  .navbar-nav-onepager .nav-link {
+    color: c.$ui-dark-text;
+  }
+
+  .header-slogan {
+    color: c.$ui-dark-text-muted;
   }
 }

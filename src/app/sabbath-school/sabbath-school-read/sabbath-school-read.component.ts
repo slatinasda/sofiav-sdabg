@@ -7,11 +7,13 @@ import {
   PLATFORM_ID,
   Inject,
   ViewEncapsulation,
+  effect,
 } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { SabbathSchoolApiService } from '../sabbath-school-api.service';
 import { AppTitleService } from '../../app-title.service';
+import { ThemeService } from '../../theme.service';
 import { Subscription } from 'rxjs';
 import moment from 'moment';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
@@ -24,6 +26,17 @@ import {
   DayRead,
   AudioItem,
 } from '../interfaces/quarterly.interface';
+
+export type ReaderTheme = 'light' | 'sepia' | 'dark';
+
+export const READER_THEMES: { value: ReaderTheme; label: string }[] = [
+  { value: 'light', label: 'Светла' },
+  { value: 'sepia', label: 'Сепия' },
+  { value: 'dark', label: 'Тъмна' },
+];
+
+const DEFAULT_READER_THEME: ReaderTheme = 'light';
+const SEPIA_READER_THEME: ReaderTheme = 'sepia';
 
 @Component({
   standalone: true,
@@ -51,7 +64,8 @@ export class SabbathSchoolReadComponent implements OnInit, OnDestroy {
   bibleModalOpen = false;
   selectedBibleHtml: SafeHtml = '';
 
-  readerTheme = 'light';
+  readonly readerThemes = READER_THEMES;
+  readerTheme: ReaderTheme = DEFAULT_READER_THEME;
   readerSize = '3';
 
   private readonly READER_THEME_KEY = 'ss-reader-theme';
@@ -61,6 +75,7 @@ export class SabbathSchoolReadComponent implements OnInit, OnDestroy {
   private routeParams: any = {};
 
   private readonly isBrowser: boolean;
+  private settingsLoaded = false;
 
   constructor(
     private api: SabbathSchoolApiService,
@@ -68,13 +83,31 @@ export class SabbathSchoolReadComponent implements OnInit, OnDestroy {
     private router: Router,
     private appTitleService: AppTitleService,
     private sanitizer: DomSanitizer,
+    private themeService: ThemeService,
     @Inject(PLATFORM_ID) platformId: object,
   ) {
     this.isBrowser = isPlatformBrowser(platformId);
+
+    // Sepia is a reader-exclusive manual choice
+    // Light/dark instead follow system-wide active theme
+    effect(() => {
+      const resolved = this.themeService.resolvedTheme();
+      if (!this.settingsLoaded || this.readerTheme === SEPIA_READER_THEME) {
+        return;
+      }
+
+      this.readerTheme = resolved;
+      this.saveSettings();
+    });
   }
 
   ngOnInit() {
     this.loadSettings();
+    this.settingsLoaded = true;
+    if (this.readerTheme !== SEPIA_READER_THEME) {
+      this.readerTheme = this.themeService.resolvedTheme();
+    }
+
     // Subscribe to route param changes so component reloads when day changes
     this.routeSub = this.route.paramMap.subscribe((params) => {
       this.routeParams = {
@@ -102,7 +135,9 @@ export class SabbathSchoolReadComponent implements OnInit, OnDestroy {
     if (!this.isBrowser) {
       return;
     }
-    this.readerTheme = localStorage.getItem(this.READER_THEME_KEY) || 'light';
+
+    const storedTheme = localStorage.getItem(this.READER_THEME_KEY) as ReaderTheme | null;
+    this.readerTheme = storedTheme ?? DEFAULT_READER_THEME;
     this.readerSize = localStorage.getItem(this.READER_SIZE_KEY) || '3';
   }
 
@@ -114,7 +149,7 @@ export class SabbathSchoolReadComponent implements OnInit, OnDestroy {
     localStorage.setItem(this.READER_SIZE_KEY, this.readerSize);
   }
 
-  setTheme(theme: string): void {
+  setTheme(theme: ReaderTheme): void {
     this.readerTheme = theme;
     this.saveSettings();
   }

@@ -9,7 +9,7 @@
 }
 
 .text-shadow {
-  text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.5);
+  text-shadow: 1px 1px 1px rgba(c.$ui-white, 0.5);
 }
 
 // Diagonal-hatch line with heading text masking it out.
@@ -20,9 +20,14 @@
   background: url('/assets/img/bg_divider.png') left center repeat-x;
 
   span {
-    background: #fff;
+    background: c.$ui-white;
     padding-right: 0.5em;
   }
+}
+
+[data-bs-theme='dark'] .title-divider span {
+  background: c.$ui-dark-bg;
+  color: c.$ui-dark-text;
 }
 
 .card {
@@ -41,6 +46,16 @@
   }
 }
 
+[data-bs-theme='dark'] .btn-link {
+  color: c.$ui-dark-text;
+
+  &:hover,
+  &:focus,
+  &:active {
+    color: c.$ui-white;
+  }
+}
+
 .nav-tabs {
   border-bottom: 0;
 
@@ -53,7 +68,7 @@
     border: 1px solid c.$ui-border-light;
 
     &:hover {
-      background: #f7f7f7;
+      background: c.$ui-surface-hover;
       border-color: c.$ui-border-light;
     }
 
@@ -62,8 +77,8 @@
     &.active:focus {
       color: c.$ui-brand-primary;
       border: 1px solid c.$ui-border-light !important;
-      border-bottom-color: #fff !important;
-      background: #fff;
+      border-bottom-color: c.$ui-white !important;
+      background: c.$ui-white;
 
       &::before {
         content: '';
@@ -110,19 +125,19 @@
 }
 
 .btn-primary {
-  color: #fff;
+  color: c.$ui-white;
 
   &:hover,
   &:focus,
   &:active {
-    color: #fff;
+    color: c.$ui-white;
   }
 }
 
 .btn-invert.btn-primary {
   background-color: c.$ui-brand-primary-invert;
   border-color: c.$ui-brand-primary;
-  color: #fff;
+  color: c.$ui-white;
 
   &:hover,
   &:focus {
@@ -138,14 +153,14 @@
   height: 38px;
   padding: 0;
   font-size: 20px;
-  line-height: 1;
+  line-height: 1em;
   border-radius: 2px;
 
   &.btn-sm {
     width: 30px;
     height: 30px;
     font-size: 18px;
-    line-height: 1;
+    line-height: 1em;
 
     &.btn-rounded {
       font-size: 16px;
@@ -159,11 +174,12 @@
 }
 
 .hr-primary {
-  border-top-color: c.$ui-brand-primary;
+  border-top-color: c.$ui-brand-accent-light;
+  opacity: 1;
 }
 
 .hr-inverse {
-  border-top-color: rgba(0, 0, 0, 0.1);
+  border-top-color: rgba(c.$ui-black, 0.1);
 }
 
 .blockquote-footer {
@@ -171,11 +187,11 @@
 }
 
 .text-grey {
-  color: #e9ecef !important;
+  color: c.$ui-surface-disabled !important;
 }
 
 .bg-op-1.bg-grey-dark {
-  background-color: rgba(73, 80, 87, 0.1) !important;
+  background-color: rgba(c.$ui-text-muted, 0.1) !important;
 }
 
 .text-xs {
