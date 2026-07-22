@@ -67,6 +67,18 @@
   align-items: stretch;
 }
 
+.ss-toolbar-item:first-child .ss-toolbar-btn,
+.ss-toolbar-item:first-child.ss-toolbar-btn {
+  border-top-left-radius: 0.5rem;
+  border-bottom-left-radius: 0.5rem;
+}
+
+.ss-toolbar-item:last-child .ss-toolbar-btn,
+.ss-toolbar-item:last-child.ss-toolbar-btn {
+  border-top-right-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
+}
+
 .ss-toolbar-item + .ss-toolbar-item {
   border-left: 1px solid rgba(c.$ui-white, 0.2);
 }
