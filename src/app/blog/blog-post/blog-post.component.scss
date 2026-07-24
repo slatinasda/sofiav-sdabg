@@ -1,0 +1,231 @@
+@use '../../../styles/tokens/colors' as c;
+@use '../../../styles/partials/blog-meta';
+
+.blog-post-container {
+  max-width: 920px;
+}
+
+.blog-post-title {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.blog-post-byline {
+  margin-top: 0.75rem;
+  margin-bottom: 2rem;
+}
+
+.blog-back-pill {
+  display: inline-block;
+  border-radius: 999px;
+  padding: 0.5rem 1.25rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  background: c.$ui-surface-light;
+  color: c.$ui-brand-primary;
+  border: 1px solid c.$ui-border-light;
+  text-decoration: none;
+
+  &:hover {
+    background: c.$ui-brand-accent-lighter;
+    color: c.$ui-brand-primary;
+    text-decoration: none;
+  }
+}
+
+.blog-post-cover {
+  max-height: 420px;
+  object-fit: cover;
+  margin-bottom: 2rem;
+}
+
+.blog-size-pill {
+  display: inline-flex;
+  border: 1px solid c.$ui-border-light;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.blog-size-pill-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  background: transparent;
+  border: none;
+  color: c.$ui-text-muted;
+  padding: 0.4rem 0.9rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  line-height: 1em;
+  transition:
+    color 0.15s ease,
+    background-color 0.15s ease;
+
+  &:hover:not(:disabled) {
+    color: c.$ui-brand-primary-invert;
+    background: c.$ui-surface-light;
+  }
+
+  &:disabled {
+    opacity: 0.4;
+    cursor: default;
+  }
+
+  & + & {
+    border-left: 1px solid c.$ui-border-light;
+  }
+}
+
+.blog-size-pill-label {
+  line-height: 1em;
+
+  &.blog-size-pill-label-sm {
+    font-size: 0.75rem;
+  }
+
+  &.blog-size-pill-label-lg {
+    font-size: 1.15rem;
+  }
+}
+
+.blog-post-content {
+  letter-spacing: 0.015em;
+  transition: all 0.3s ease;
+
+  img {
+    max-width: 100%;
+    border-radius: 0.25rem;
+  }
+
+  h2 {
+    margin-top: 2rem;
+  }
+
+  h3 {
+    margin-top: 1.5rem;
+  }
+
+  blockquote {
+    border-left: 3px solid c.$ui-brand-primary;
+    padding-left: 1rem;
+    color: c.$ui-text-secondary;
+  }
+
+  &.blog-size-xs {
+    font-size: 0.8em;
+    line-height: 1.3em;
+  }
+
+  &.blog-size-sm {
+    font-size: 1em;
+    line-height: 1.5em;
+  }
+
+  &.blog-size-md {
+    font-size: 1.2em;
+    line-height: 1.6em;
+  }
+
+  &.blog-size-lg {
+    font-size: 1.4em;
+    line-height: 1.7em;
+  }
+
+  &.blog-size-xl {
+    font-size: 1.6em;
+    line-height: 1.8em;
+  }
+}
+
+.blog-post-footer {
+  border-top: 1px solid c.$ui-border-light;
+
+  // Keeps a long category name from dominating the row next to the share icons.
+  .blog-category-pill {
+    max-width: 40%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+.blog-share-links a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  margin-left: 0.5rem;
+  color: c.$ui-header-text;
+  text-decoration: none;
+
+  &:hover {
+    color: c.$ui-brand-primary;
+    text-decoration: none;
+  }
+}
+
+[data-bs-theme='dark'] {
+  // Re-declared with plain selectors: :host-context() in _blog-meta.scss doesn't match under this component's ViewEncapsulation.None.
+  .blog-avatar {
+    border-color: c.$ui-dark-border;
+  }
+
+  .blog-category-pill {
+    background: c.$ui-dark-bg;
+    color: c.$ui-dark-text;
+    border-color: c.$ui-dark-border;
+
+    &:hover {
+      background: c.$ui-dark-surface-hover;
+      color: c.$ui-dark-text;
+    }
+  }
+
+  .blog-post-content blockquote {
+    border-left-color: c.$ui-dark-link;
+    color: c.$ui-dark-text-muted;
+  }
+
+  .blog-post-footer {
+    border-top-color: c.$ui-dark-border;
+  }
+
+  .blog-share-links a {
+    color: c.$ui-dark-text;
+
+    &:hover {
+      color: c.$ui-dark-link;
+    }
+  }
+
+  .blog-back-pill {
+    background: c.$ui-dark-bg;
+    border-color: c.$ui-dark-border;
+    color: c.$ui-dark-link;
+
+    &:hover {
+      background: c.$ui-dark-surface-hover;
+      color: c.$ui-dark-link;
+    }
+  }
+
+  .blog-size-pill {
+    border-color: c.$ui-dark-border;
+  }
+
+  .blog-size-pill-btn {
+    color: c.$ui-dark-text-muted;
+
+    &:hover:not(:disabled) {
+      color: c.$ui-brand-accent-light;
+      background: c.$ui-reader-dark-surface;
+    }
+  }
+
+  .blog-size-pill-btn + .blog-size-pill-btn {
+    border-left-color: c.$ui-dark-border;
+  }
+}

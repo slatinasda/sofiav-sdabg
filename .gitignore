@@ -42,3 +42,13 @@ __screenshots__/
 # System files
 .DS_Store
 Thumbs.db
+
+# Generated blog content
+/src/assets/blog/generated/
+/public/blog/
+/public/sitemap.xml
+/public/rss.xml
+/public/robots.txt
+/public/llms.txt
+
+/blog-content

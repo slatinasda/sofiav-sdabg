@@ -112,6 +112,30 @@
     </div>
   </div>
 
+  <!-- Latest blog posts -->
+  <div *ngIf="latestPosts.length" id="latest-posts" class="py-3 py-lg-6">
+    <div class="container">
+      <div>
+        <hr class="hr-lg mt-0 mb-3 w-10 mx-auto hr-primary" />
+        <h2 class="text-center text-uppercase fw-bold my-0">Блог</h2>
+        <h5 class="text-center fw-light mt-2 mb-0 text-muted">
+          Прочетете нашите последни статии на духовна тематика
+        </h5>
+        <hr class="mb-5 w-50 mx-auto" />
+      </div>
+      <div class="row g-3 g-md-4">
+        <div class="col-md-4" *ngFor="let post of latestPosts">
+          <app-blog-post-card [post]="post" [showReadMore]="false"></app-blog-post-card>
+        </div>
+      </div>
+      <div class="text-center mt-2 mt-lg-3 mb-2 mb-lg-3">
+        <a routerLink="/blog" class="btn btn-primary btn-rounded btn-lg py-lg-3 px-lg-5">
+          Всички публикации
+        </a>
+      </div>
+    </div>
+  </div>
+
   <!--Social media-->
   <div class="bg-op-1 bg-grey-dark py-3 py-lg-6">
     <div class="container">

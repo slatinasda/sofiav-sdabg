@@ -22,6 +22,10 @@ export const appRoutes: Routes = [
     loadChildren: () =>
       import('./sabbath-school/sabbath-school.routes').then((mod) => mod.sabbathSchoolRoutes),
   },
+  {
+    path: 'blog',
+    loadChildren: () => import('./blog/blog.routes').then((mod) => mod.blogRoutes),
+  },
   { path: '', component: HomeComponent, pathMatch: 'full' },
   { path: '**', component: NotFoundComponent },
 ];

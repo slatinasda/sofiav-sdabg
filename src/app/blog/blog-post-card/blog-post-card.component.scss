@@ -1,0 +1,72 @@
+@use '../../../styles/partials/blog-meta';
+
+.blog-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  margin-bottom: 2rem;
+}
+
+.blog-card-cover-link {
+  display: block;
+
+  // Overrides Bootstrap reboot's `a:hover { text-decoration: underline }`
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+.blog-card-cover {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.blog-card-featured .blog-card-cover {
+  aspect-ratio: 21 / 9;
+}
+
+.blog-card-featured .blog-card-title {
+  font-size: 1.6rem;
+}
+
+.blog-card-featured .blog-card-excerpt {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+}
+
+// Prevent the flex column from stretching the pill to full card width.
+.blog-card-read-more {
+  align-self: flex-start;
+  margin-top: auto;
+}
+
+// Reserve consistent space so cards line up in a grid row regardless of content length.
+.blog-card:not(.blog-card-featured) {
+  .blog-card-meta {
+    min-height: 2.2rem;
+  }
+
+  .blog-card-title {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    overflow: hidden;
+    min-height: 2.8rem;
+  }
+
+  .blog-card-excerpt {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    overflow: hidden;
+    flex-grow: 1;
+  }
+}

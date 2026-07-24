@@ -12,6 +12,11 @@ import { BibleStudiesCtaComponent } from '../shared/components/bible-studies-cta
 import { NgbCarousel, NgbSlide } from '@ng-bootstrap/ng-bootstrap';
 import serviceTimesJson from './agenda/service-times.json';
 import serviceTimesDSTJson from './agenda/service-times-dst.json';
+import { BlogApiService } from '../blog/blog-api.service';
+import { BlogPostSummary } from '../blog/interfaces/blog-post.interface';
+import { BlogPostCardComponent } from '../blog/blog-post-card/blog-post-card.component';
+
+const LATEST_POSTS_COUNT = 3;
 
 const serviceTimes = serviceTimesJson as ServiceTimes;
 const serviceTimesDST = serviceTimesDSTJson as ServiceTimes;
@@ -30,7 +35,14 @@ interface ServiceTimes {
 
 @Component({
   standalone: true,
-  imports: [CommonModule, RouterModule, BibleStudiesCtaComponent, NgbCarousel, NgbSlide],
+  imports: [
+    CommonModule,
+    RouterModule,
+    BibleStudiesCtaComponent,
+    NgbCarousel,
+    NgbSlide,
+    BlogPostCardComponent,
+  ],
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
@@ -39,6 +51,7 @@ export class HomeComponent implements OnInit {
   private readonly isBrowser: boolean;
   liveStreamApi: string = 'https://sofia-v.sdabg.net/api/next_live_stream.php';
   liveStreamEmbedUrl: SafeResourceUrl;
+  latestPosts: BlogPostSummary[] = [];
   isDaylightSaving: boolean;
 
   constructor(
@@ -47,11 +60,13 @@ export class HomeComponent implements OnInit {
     private httpClient: HttpClient,
     private workshipTimeService: WorshipTimeService,
     private quarterService: CurrentQuarterService,
+    private blogApi: BlogApiService,
     @Inject(PLATFORM_ID) platformId: object,
   ) {
     this.appTitleService.setTitle('Начало');
     this.liveStreamEmbedUrl = this.sanitizer.bypassSecurityTrustResourceUrl('');
     this.isDaylightSaving = this.workshipTimeService.isDaylightSaving();
+    this.latestPosts = this.blogApi.getPosts().slice(0, LATEST_POSTS_COUNT);
     this.isBrowser = isPlatformBrowser(platformId);
   }
 

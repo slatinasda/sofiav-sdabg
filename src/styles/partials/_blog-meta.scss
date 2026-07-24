@@ -1,0 +1,171 @@
+@use '../tokens/colors' as c;
+
+.blog-avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  background: c.$ui-white;
+  border: 1px solid c.$ui-border-light;
+  padding: 0.2rem;
+  margin-right: 0.35rem;
+  flex-shrink: 0;
+}
+
+.blog-avatar-logo {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.blog-card-meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  color: c.$ui-text-secondary;
+  font-size: 0.85rem;
+  margin-bottom: 0.5rem;
+}
+
+.blog-card-dot {
+  margin: 0 0.4rem;
+}
+
+.blog-category-pill {
+  display: inline-block;
+  border-radius: 999px;
+  padding: 0.5rem 1.25rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  background: c.$ui-surface-light;
+  color: c.$ui-header-text;
+  border: 1px solid c.$ui-border-light;
+  text-decoration: none;
+
+  &:hover {
+    background: c.$ui-brand-accent-lighter;
+    color: c.$ui-header-text;
+    text-decoration: none;
+  }
+}
+
+.blog-category-pill-active {
+  background: c.$ui-brand-primary;
+  border-color: c.$ui-brand-primary;
+  color: c.$ui-white;
+
+  &:hover {
+    background: c.$ui-brand-primary-invert;
+    border-color: c.$ui-brand-primary-invert;
+    color: c.$ui-white;
+  }
+}
+
+// Shown instead of .blog-card-cover/.blog-row-cover (which supply the aspect-ratio,
+// border-radius and margin) when a post has no cover image.
+.blog-cover-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, c.$ui-brand-primary, c.$ui-brand-accent-light);
+  container-type: inline-size;
+  text-decoration: none;
+
+  i {
+    color: rgba(c.$ui-white, 0.85);
+    font-size: 3rem;
+    font-size: 16cqw;
+  }
+}
+
+.blog-card-title {
+  font-weight: 700;
+  font-size: 1.15rem;
+  margin-bottom: 0.5rem;
+
+  a {
+    color: c.$ui-header-text;
+    text-decoration: none;
+  }
+}
+
+.blog-card-excerpt {
+  color: c.$ui-text-secondary;
+  margin-bottom: 0.5rem;
+}
+
+.blog-card-read-more {
+  display: inline-block;
+  border-radius: 999px;
+  padding: 0.5rem 1.25rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  background: c.$ui-surface-light;
+  color: c.$ui-brand-primary;
+  border: 1px solid c.$ui-border-light;
+  text-decoration: none;
+
+  i {
+    font-size: 0.75rem;
+    margin-left: 0.25rem;
+  }
+
+  &:hover {
+    background: c.$ui-brand-accent-lighter;
+    color: c.$ui-brand-primary;
+    text-decoration: none;
+  }
+}
+
+// :host-context() needed since plain `[data-bs-theme='dark']` won't match under Emulated encapsulation.
+:host-context([data-bs-theme='dark']) {
+  .blog-avatar {
+    border-color: c.$ui-dark-border;
+  }
+
+  .blog-card-title a {
+    color: c.$ui-dark-text;
+  }
+
+  .blog-card-meta,
+  .blog-card-excerpt {
+    color: c.$ui-dark-text-muted;
+  }
+
+  .blog-category-pill {
+    background: c.$ui-dark-bg;
+    color: c.$ui-dark-text;
+    border-color: c.$ui-dark-border;
+
+    &:hover {
+      background: c.$ui-dark-surface-hover;
+      color: c.$ui-dark-text;
+    }
+  }
+
+  // Must come after .blog-category-pill (same specificity) to win.
+  .blog-category-pill-active {
+    background: c.$ui-brand-primary;
+    border-color: c.$ui-brand-primary;
+    color: c.$ui-white;
+
+    &:hover {
+      background: c.$ui-brand-primary-invert;
+      border-color: c.$ui-brand-primary-invert;
+      color: c.$ui-white;
+    }
+  }
+
+  .blog-card-read-more {
+    background: c.$ui-dark-bg;
+    color: c.$ui-dark-link;
+    border-color: c.$ui-dark-border;
+
+    &:hover {
+      background: c.$ui-dark-surface-hover;
+      color: c.$ui-dark-link;
+    }
+  }
+}
