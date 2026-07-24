@@ -1,0 +1,27 @@
+<article class="blog-card" [class.blog-card-featured]="size === 'featured'">
+  <a [routerLink]="['/blog', post.slug]" class="blog-card-cover-link">
+    <img *ngIf="post.cover" [src]="post.cover" [alt]="post.title" class="blog-card-cover" />
+    <div *ngIf="!post.cover" class="blog-card-cover blog-cover-placeholder" aria-hidden="true">
+      <i class="fa fa-image"></i>
+    </div>
+  </a>
+
+  <div class="blog-card-meta">
+    <span class="blog-avatar"
+      ><img src="/assets/img/logos/logo-sda-square.svg" alt="" class="blog-avatar-logo"
+    /></span>
+    <span class="blog-card-author">{{ post.author }}</span>
+    <span class="blog-card-dot">&middot;</span>
+    <time [attr.datetime]="post.date">{{ post.date | date: 'dd MMM, y' }}</time>
+  </div>
+
+  <h3 class="blog-card-title">
+    <a [routerLink]="['/blog', post.slug]">{{ post.title }}</a>
+  </h3>
+
+  <p class="blog-card-excerpt">{{ post.description }}</p>
+
+  <a *ngIf="showReadMore" [routerLink]="['/blog', post.slug]" class="blog-card-read-more">
+    Прочети <i class="fa fa-chevron-right"></i>
+  </a>
+</article>

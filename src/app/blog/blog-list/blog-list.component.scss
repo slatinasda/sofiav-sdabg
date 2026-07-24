@@ -1,0 +1,226 @@
+@use '../../../styles/tokens/colors' as c;
+@use '../../../styles/partials/blog-meta';
+
+.blog-list-container {
+  max-width: 900px;
+}
+
+// Overrides Bootstrap reboot's `a:hover { text-decoration: underline }`
+.blog-row-cover-link:hover {
+  text-decoration: none;
+}
+
+.blog-search-bar {
+  width: 100%;
+  border: 1px solid c.$ui-border-muted;
+  border-radius: 999px;
+  padding: 0.35rem;
+  background: c.$ui-white;
+}
+
+.blog-search-bar:focus-within {
+  border-color: c.$ui-brand-primary;
+}
+
+.blog-search-input {
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  padding: 0.25rem 0.5rem;
+  color: inherit;
+
+  // Replaced by .blog-search-clear-btn, always visible instead of hover/focus-only.
+  &::-webkit-search-cancel-button {
+    display: none;
+  }
+}
+
+.blog-search-clear-btn {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.6rem;
+  height: 1.6rem;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: c.$ui-text-muted;
+  margin-right: 0.25rem;
+
+  &:hover {
+    background: c.$ui-surface-light;
+    color: c.$ui-header-text;
+  }
+}
+
+.blog-filter-pill {
+  flex-shrink: 0;
+  border: 0;
+  border-radius: 999px;
+  background: c.$ui-surface-light;
+  color: c.$ui-header-text;
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 0.4rem 1rem;
+  margin-left: 0.35rem;
+  white-space: nowrap;
+  max-width: 10rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  // Leaves room for the search input instead of crowding it out on narrow screens.
+  @media (max-width: 575.98px) {
+    max-width: 5rem;
+  }
+
+  &:hover {
+    background: c.$ui-brand-accent-lighter;
+  }
+}
+
+.blog-filter-pill-active {
+  background: c.$ui-brand-primary;
+  color: c.$ui-white;
+
+  &:hover {
+    background: c.$ui-brand-primary;
+  }
+}
+
+.blog-search-settings-btn {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.1rem;
+  height: 2.1rem;
+  border: 0;
+  border-radius: 50%;
+  background: c.$ui-surface-light;
+  color: c.$ui-header-text;
+  margin-left: 0.35rem;
+
+  &:hover {
+    background: c.$ui-brand-accent-lighter;
+  }
+}
+
+// :host-context() required here (Emulated encapsulation) - see _blog-meta.scss.
+:host-context([data-bs-theme='dark']) {
+  .blog-search-bar {
+    border-color: c.$ui-dark-border;
+    background: c.$ui-dark-surface;
+  }
+
+  .blog-search-input {
+    color: c.$ui-dark-text;
+
+    &::placeholder {
+      color: c.$ui-dark-text-muted;
+    }
+  }
+
+  .blog-search-clear-btn {
+    color: c.$ui-dark-text-muted;
+
+    &:hover {
+      background: c.$ui-dark-surface-hover;
+      color: c.$ui-dark-text;
+    }
+  }
+
+  .blog-filter-pill,
+  .blog-search-settings-btn {
+    background: c.$ui-dark-bg;
+    color: c.$ui-dark-text;
+
+    &:hover {
+      background: c.$ui-dark-surface-hover;
+    }
+  }
+
+  .blog-filter-pill-active {
+    background: c.$ui-brand-primary;
+    color: c.$ui-white;
+
+    &:hover {
+      background: c.$ui-brand-primary;
+    }
+  }
+
+  .blog-pagination .page-link {
+    color: c.$ui-dark-text;
+    background: transparent;
+  }
+
+  .blog-empty-state {
+    border-color: c.$ui-dark-border;
+    background: c.$ui-dark-bg;
+  }
+
+  .blog-empty-state-icon {
+    background: c.$ui-dark-surface;
+    color: c.$ui-dark-link;
+  }
+}
+
+.blog-empty-state {
+  padding: 3rem 1.5rem;
+  margin-bottom: 2rem;
+  border: 1px solid c.$ui-border-light;
+  border-radius: 0.75rem;
+  background: c.$ui-surface-light;
+}
+
+.blog-empty-state-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 4rem;
+  height: 4rem;
+  margin-bottom: 1.25rem;
+  border-radius: 50%;
+  background: c.$ui-brand-accent-lighter;
+  color: c.$ui-brand-primary-invert;
+  font-size: 1.5rem;
+}
+
+.blog-row-item {
+  margin-bottom: 3rem;
+}
+
+.blog-row-cover {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: 0.5rem;
+}
+
+.blog-row-item .blog-card-excerpt {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+}
+
+.blog-pagination .page-link {
+  border-radius: 0.6rem;
+  width: 2.25rem;
+  height: 2.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 0.15rem;
+  padding: 0;
+  color: c.$ui-header-text;
+  border: none;
+  background: transparent;
+}
+
+.blog-pagination .page-item.active .page-link {
+  background: c.$ui-brand-primary;
+  color: c.$ui-white;
+}

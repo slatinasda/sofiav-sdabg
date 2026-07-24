@@ -3,10 +3,11 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --host 0.0.0.0",
-    "build": "npm run trim-moment-locales && ng build --configuration production",
-    "watch": "ng build --watch --configuration development",
+    "start": "npm run prebuild:blog && ng serve --host 0.0.0.0",
+    "build": "npm run trim-moment-locales && npm run prebuild:blog && ng build --configuration production",
+    "watch": "npm run prebuild:blog && ng build --watch --configuration development",
     "trim-moment-locales": "find node_modules/moment/locale -type f -not \\( -name \"bg.js\" -o -name \"en-gb.js\" \\) -exec rm {} \\;",
+    "prebuild:blog": "node scripts/build-blog-content.mjs",
     "prettify": "prettier --write 'src/**/*.{ts,js,json,html,css,scss}' --ignore-path .prettierignore",
     "prepare": "husky"
   },
@@ -26,6 +27,7 @@
     "@ng-bootstrap/ng-bootstrap": "^20.0.0",
     "@popperjs/core": "^2.11.8",
     "bootstrap": "^5.3.8",
+    "gray-matter": "^4.0.3",
     "marked": "^18.0.2",
     "moment": "^2.30.1",
     "moment-timezone": "^0.6.2",

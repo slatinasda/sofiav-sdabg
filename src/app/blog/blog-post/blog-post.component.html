@@ -1,0 +1,111 @@
+<div class="pt-4 pb-4 pt-lg-5 pb-lg-5">
+  <div *ngIf="!post && !notFound" class="container text-center py-5">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Зареждане...</span>
+    </div>
+  </div>
+
+  <div class="container blog-post-container" *ngIf="post">
+    <div class="d-flex align-items-center justify-content-between mb-4">
+      <a routerLink="/blog" class="blog-back-pill">
+        <i class="fa fa-arrow-left me-1"></i> Всички публикации
+      </a>
+      <div class="blog-size-pill">
+        <button
+          type="button"
+          class="blog-size-pill-btn"
+          [disabled]="readerSize === minReaderSize"
+          (click)="decreaseSize()"
+          aria-label="Намали шрифта"
+        >
+          -<span class="blog-size-pill-label blog-size-pill-label-sm">A</span>
+        </button>
+        <button
+          type="button"
+          class="blog-size-pill-btn"
+          [disabled]="readerSize === maxReaderSize"
+          (click)="increaseSize()"
+          aria-label="Увеличи шрифта"
+        >
+          +<span class="blog-size-pill-label blog-size-pill-label-lg">A</span>
+        </button>
+      </div>
+    </div>
+
+    <h1 class="fw-bold blog-post-title">{{ post.title }}</h1>
+    <p class="text-muted blog-post-byline">
+      <span class="blog-avatar"
+        ><img src="/assets/img/logos/logo-sda-square.svg" alt="" class="blog-avatar-logo"
+      /></span>
+      {{ post.author }}
+      <span class="blog-card-dot">|</span>
+      <time [attr.datetime]="post.date">{{ post.date | date: 'dd MMMM y' }}</time>
+    </p>
+
+    <img
+      *ngIf="post.cover"
+      [src]="post.cover"
+      [alt]="post.title"
+      class="blog-post-cover rounded shadow-sm w-100"
+    />
+
+    <div
+      class="blog-post-content"
+      [class.blog-size-xs]="readerSize === 1"
+      [class.blog-size-sm]="readerSize === 2"
+      [class.blog-size-md]="readerSize === 3"
+      [class.blog-size-lg]="readerSize === 4"
+      [class.blog-size-xl]="readerSize === 5"
+      [innerHTML]="contentHtml"
+    ></div>
+
+    <div
+      class="d-flex align-items-center justify-content-between flex-wrap mt-4 pt-3 blog-post-footer"
+    >
+      <a [routerLink]="['/blog/category', post.category]" class="blog-category-pill">
+        {{ post.category }}
+      </a>
+      <div *ngIf="shareLinks" class="blog-share-links">
+        <a
+          [href]="shareLinks.facebook"
+          target="_blank"
+          rel="noopener"
+          aria-label="Сподели във Facebook"
+        >
+          <i class="fab fa-facebook-f"></i>
+        </a>
+        <a [href]="shareLinks.x" target="_blank" rel="noopener" aria-label="Сподели в X">
+          <i class="fa-brands fa-x-twitter"></i>
+        </a>
+        <a [href]="shareLinks.email" aria-label="Сподели по имейл">
+          <i class="fa fa-envelope"></i>
+        </a>
+        <a
+          [href]="shareLinks.whatsapp"
+          target="_blank"
+          rel="noopener"
+          aria-label="Сподели в WhatsApp"
+        >
+          <i class="fab fa-whatsapp"></i>
+        </a>
+        <a [href]="shareLinks.viber" rel="noopener" aria-label="Сподели във Viber">
+          <i class="fab fa-viber"></i>
+        </a>
+      </div>
+    </div>
+
+    <div *ngIf="relatedPosts.length" class="mt-6">
+      <h3 class="fw-bold mb-3">Други интересни статии</h3>
+      <div class="row">
+        <div *ngFor="let related of relatedPosts" class="col-12 col-md-6">
+          <app-blog-post-card [post]="related" [showReadMore]="false"></app-blog-post-card>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="notFound" class="container text-center py-5">
+    <h2 class="fw-bold">Публикацията не е намерена</h2>
+    <a routerLink="/blog" class="text-primary fw-bold text-decoration-none">Обратно към блога</a>
+  </div>
+</div>

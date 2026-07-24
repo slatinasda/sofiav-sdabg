@@ -57,6 +57,9 @@ Header set X-Frame-Options "SAMEORIGIN"
 # http://sofiav.sdabg.net/assets/img/logos/sda-logo.svg -> Should redirect to sofia-v and open the file - PASS
 # http://www.sofiav.sdabg.net/assets/img/logos/sda-logo.svg -> Should redirect to sofia-v and open the file - PASS
 # http://sofia-v.sdabg.net/beliefs/god -> Should serve the prerendered static page (view-source has real content)
+# http://sofia-v.sdabg.net/blog -> Should serve the prerendered blog list page
+# http://sofia-v.sdabg.net/blog/welcome-to-our-blog -> Should serve the prerendered post, including its cover image
+# http://sofia-v.sdabg.net/sitemap.xml, /rss.xml, /robots.txt, /llms.txt -> Should serve the generated files directly
 # http://sofia-v.sdabg.net/sabbath-school -> Should serve index.csr.html and boot client-side, fetching from the API
 # http://sofia-v.sdabg.net/video-archive -> Should serve index.csr.html and boot client-side, fetching the YouTube feed
 # http://sofia-v.sdabg.net/does-not-exist -> Should serve index.csr.html and render the Angular 404 page
