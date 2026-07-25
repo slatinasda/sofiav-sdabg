@@ -8,21 +8,26 @@ import {
   PLATFORM_ID,
   Inject,
 } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
+import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { Router } from '@angular/router';
 
 /**
- * Adds resistance-based horizontal swipe navigation to its host element (e.g. "swipe left/right
- * for next/previous day"). Vertical drags are left untouched so page scrolling keeps working.
+ * Adds resistance-based horizontal swipe navigation to its host element.
+ * Vertical drags are left untouched so page scrolling keeps working.
+ *
+ * The host element itself is never moved. Instead, a small circular arrow indicator is shown in
+ * the middle of the screen while dragging - it grows/fades in with a rubber-band resistance
+ * curve as the drag progresses, and lights up once the drag passes the trigger threshold,
+ * similar to the edge "back" gesture indicator on mobile OSes.
  *
  * Usage:
  *   <div appSwipeNavigate [swipePrevRoute]="prevRoute" [swipeNextRoute]="nextRoute">...</div>
  *
- * Pass `null` for a direction that has no target (e.g. there's no previous day) - the drag
- * will still resist in that direction, but capped low and never triggers navigation.
+ * Pass `null` for a direction that has no target - the drag will still resist in that
+ * direction, but the indicator stays hidden and it never triggers navigation.
  *
- * Mark any nested control that shouldn't trigger swiping (e.g. a settings popup with a
- * range slider) with the `data-swipe-ignore` attribute - touches starting inside it are ignored.
+ * Mark any nested control that shouldn't trigger swiping (e.g. a popup with a range slider)
+ * with the `data-swipe-ignore` attribute - touches starting inside it are ignored.
  */
 @Directive({
   selector: '[appSwipeNavigate]',
@@ -48,11 +53,15 @@ export class SwipeNavigateDirective implements OnInit, OnDestroy {
   private touchMoveListener?: (event: TouchEvent) => void;
   private touchEndListener?: (event: TouchEvent) => void;
 
+  private indicatorEl: HTMLElement | null = null;
+  private indicatorIconEl: HTMLElement | null = null;
+
   constructor(
     private el: ElementRef<HTMLElement>,
     private renderer: Renderer2,
     private router: Router,
     @Inject(PLATFORM_ID) platformId: object,
+    @Inject(DOCUMENT) private document: Document,
   ) {
     this.isBrowser = isPlatformBrowser(platformId);
   }
@@ -64,7 +73,8 @@ export class SwipeNavigateDirective implements OnInit, OnDestroy {
 
     const el = this.el.nativeElement;
     this.renderer.setStyle(el, 'touch-action', 'pan-y');
-    this.renderer.setStyle(el, 'will-change', 'transform');
+
+    this.createIndicator();
 
     this.touchStartListener = (event: TouchEvent) => this.onTouchStart(event);
     this.touchMoveListener = (event: TouchEvent) => this.onTouchMove(event);
@@ -95,6 +105,28 @@ export class SwipeNavigateDirective implements OnInit, OnDestroy {
       el.removeEventListener('touchend', this.touchEndListener);
       el.removeEventListener('touchcancel', this.touchEndListener);
     }
+
+    if (this.indicatorEl) {
+      this.indicatorEl.remove();
+      this.indicatorEl = null;
+      this.indicatorIconEl = null;
+    }
+  }
+
+  private createIndicator(): void {
+    const indicator = this.renderer.createElement('div') as HTMLElement;
+    this.renderer.addClass(indicator, 'ss-swipe-indicator');
+
+    const icon = this.renderer.createElement('i') as HTMLElement;
+    this.renderer.addClass(icon, 'fa');
+    this.renderer.addClass(icon, 'fa-chevron-left');
+    this.renderer.appendChild(indicator, icon);
+
+    // Appended to <body> so it centers on the viewport, not the host.
+    this.renderer.appendChild(this.document.body, indicator);
+
+    this.indicatorEl = indicator;
+    this.indicatorIconEl = icon;
   }
 
   private onTouchStart(event: TouchEvent): void {
@@ -108,7 +140,7 @@ export class SwipeNavigateDirective implements OnInit, OnDestroy {
       return;
     }
 
-    this.setTransition(false);
+    this.setIndicatorTransition(false);
     this.directionLocked = null;
     this.touchStartX = event.touches[0].clientX;
     this.touchStartY = event.touches[0].clientY;
@@ -135,18 +167,16 @@ export class SwipeNavigateDirective implements OnInit, OnDestroy {
       return;
     }
 
-    // Horizontal drag: block page scroll and apply rubber-band resistance.
+    // Horizontal drag: block page scroll and apply rubber-band resistance to the indicator.
     event.preventDefault();
 
     // Swiping left (dx < 0) targets "next"; swiping right (dx > 0) targets "prev".
-    const targetExists = dx < 0 ? !!this.swipeNextRoute : !!this.swipePrevRoute;
+    const isNext = dx < 0;
+    const targetExists = isNext ? !!this.swipeNextRoute : !!this.swipePrevRoute;
     const maxResistance = targetExists ? this.MAX_RESISTANCE : this.BLOCKED_MAX_RESISTANCE;
     this.currentOffset = (dx * maxResistance) / (Math.abs(dx) + maxResistance);
-    this.renderer.setStyle(
-      this.el.nativeElement,
-      'transform',
-      `translateX(${this.currentOffset}px)`,
-    );
+
+    this.updateIndicator(this.currentOffset, isNext, targetExists, maxResistance);
   }
 
   private onTouchEnd(): void {
@@ -164,8 +194,8 @@ export class SwipeNavigateDirective implements OnInit, OnDestroy {
 
     const offset = this.currentOffset;
     this.currentOffset = 0;
-    this.setTransition(true);
-    this.renderer.setStyle(this.el.nativeElement, 'transform', 'translateX(0px)');
+    this.setIndicatorTransition(true);
+    this.hideIndicator();
 
     if (offset <= -this.TRIGGER_DISTANCE && this.swipeNextRoute) {
       this.router.navigate(this.swipeNextRoute);
@@ -174,12 +204,72 @@ export class SwipeNavigateDirective implements OnInit, OnDestroy {
     }
   }
 
-  private setTransition(enabled: boolean): void {
-    const el = this.el.nativeElement;
-    if (enabled) {
-      this.renderer.setStyle(el, 'transition', 'transform 0.25s ease');
+  private updateIndicator(
+    offset: number,
+    isNext: boolean,
+    targetExists: boolean,
+    maxResistance: number,
+  ): void {
+    if (!this.indicatorEl || !this.indicatorIconEl) {
+      return;
+    }
+
+    if (!targetExists) {
+      this.hideIndicator();
+      return;
+    }
+
+    const distance = Math.abs(offset);
+    const progress = Math.min(distance / maxResistance, 1);
+    const opacityProgress = Math.min(distance / this.TRIGGER_DISTANCE, 1);
+    const activated = distance >= this.TRIGGER_DISTANCE;
+
+    this.renderer.removeClass(this.indicatorIconEl, 'fa-chevron-left');
+    this.renderer.removeClass(this.indicatorIconEl, 'fa-chevron-right');
+    this.renderer.addClass(this.indicatorIconEl, isNext ? 'fa-chevron-right' : 'fa-chevron-left');
+
+    this.renderer.setStyle(this.indicatorEl, 'opacity', `${0.35 + opacityProgress * 0.65}`);
+    this.renderer.setStyle(
+      this.indicatorEl,
+      'transform',
+      `translate(-50%, -50%) scale(${0.6 + progress * 0.5})`,
+    );
+    this.renderer.setStyle(
+      this.indicatorIconEl,
+      'transform',
+      activated ? 'scale(1.15)' : 'scale(1)',
+    );
+
+    if (activated) {
+      this.renderer.addClass(this.indicatorEl, 'ss-swipe-indicator-active');
     } else {
-      this.renderer.removeStyle(el, 'transition');
+      this.renderer.removeClass(this.indicatorEl, 'ss-swipe-indicator-active');
+    }
+  }
+
+  private hideIndicator(): void {
+    if (!this.indicatorEl) {
+      return;
+    }
+
+    this.renderer.setStyle(this.indicatorEl, 'opacity', '0');
+    this.renderer.setStyle(this.indicatorEl, 'transform', 'translate(-50%, -50%) scale(0.6)');
+    this.renderer.removeClass(this.indicatorEl, 'ss-swipe-indicator-active');
+  }
+
+  private setIndicatorTransition(enabled: boolean): void {
+    if (!this.indicatorEl) {
+      return;
+    }
+
+    if (enabled) {
+      this.renderer.setStyle(
+        this.indicatorEl,
+        'transition',
+        'transform 0.25s ease, opacity 0.25s ease, background-color 0.15s ease',
+      );
+    } else {
+      this.renderer.setStyle(this.indicatorEl, 'transition', 'background-color 0.15s ease');
     }
   }
 }
