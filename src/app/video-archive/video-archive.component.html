@@ -20,7 +20,21 @@
           <div *ngFor="let video of videos" class="col-md-6 col-lg-4 d-flex align-items-stretch">
             <div class="yt-card">
               <a class="yt-card__thumb" [href]="video.link" target="_blank" rel="noopener">
-                <img [src]="video.thumbnail" alt="Видео миниатюра" loading="lazy" />
+                <div
+                  *ngIf="!isVideoThumbLoaded(video.videoId)"
+                  class="yt-card__thumb-placeholder"
+                  aria-hidden="true"
+                >
+                  <i class="fa fa-video"></i>
+                </div>
+                <img
+                  [src]="video.thumbnail"
+                  alt="Видео преглед"
+                  loading="lazy"
+                  class="yt-card__thumb-img"
+                  [class.yt-card__thumb-img--loaded]="isVideoThumbLoaded(video.videoId)"
+                  (load)="onVideoThumbLoad(video.videoId)"
+                />
               </a>
 
               <div class="yt-card__body">
@@ -30,7 +44,12 @@
                   target="_blank"
                   rel="noopener"
                 >
-                  <img [src]="video.channelAvatar" [alt]="video.channelTitle" loading="lazy" />
+                  <img
+                    [src]="video.channelAvatar"
+                    [alt]="video.channelTitle"
+                    loading="lazy"
+                    (error)="onChannelAvatarError($event)"
+                  />
                 </a>
 
                 <div class="yt-card__meta">

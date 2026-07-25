@@ -28,6 +28,7 @@ interface VideoItem {
 export class VideoArchiveComponent implements OnInit {
   private feedUrl: string = 'https://sofia-v.sdabg.net/api/youtube_feed.php';
   protected videos: VideoItem[] = [];
+  private loadedVideoThumbs = new Set<string>();
 
   constructor(
     private appTitleService: AppTitleService,
@@ -44,5 +45,17 @@ export class VideoArchiveComponent implements OnInit {
     this.httpClient
       .get<VideoItem[]>(this.feedUrl)
       .subscribe((items: VideoItem[]) => (this.videos = items));
+  }
+
+  protected isVideoThumbLoaded(videoId: string): boolean {
+    return this.loadedVideoThumbs.has(videoId);
+  }
+
+  protected onVideoThumbLoad(videoId: string): void {
+    this.loadedVideoThumbs.add(videoId);
+  }
+
+  protected onChannelAvatarError(event: Event): void {
+    (event.target as HTMLImageElement).src = 'assets/img/logos/logo-sda-circle--green.svg';
   }
 }
