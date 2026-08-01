@@ -1,0 +1,41 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout app
+        uses: actions/checkout@v6
+
+      - name: Checkout blog content
+        uses: actions/checkout@v6
+        with:
+          repository: slatinasda/sofiav-sdabg-blogposts
+          path: blog-content
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version-file: '.nvmrc'
+          cache: npm
+
+      - run: npm ci
+      - run: npm run build
+
+      - name: Zip build output
+        run: |
+          cd dist/sofiav-sdabg/browser
+          zip -r "${GITHUB_WORKSPACE}/sofiav-sdabg-${GITHUB_REF_NAME}.zip" .
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v3
+        with:
+          files: sofiav-sdabg-${{ github.ref_name }}.zip
+          generate_release_notes: true
