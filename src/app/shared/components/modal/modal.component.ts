@@ -9,6 +9,7 @@ import {
   NgZone,
   PLATFORM_ID,
   Inject,
+  ChangeDetectorRef,
 } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 
@@ -31,6 +32,7 @@ export class ModalComponent implements OnInit, OnDestroy {
 
   constructor(
     private zone: NgZone,
+    private cdr: ChangeDetectorRef,
     @Inject(PLATFORM_ID) platformId: object,
   ) {
     this.isBrowser = isPlatformBrowser(platformId);
@@ -68,6 +70,7 @@ export class ModalComponent implements OnInit, OnDestroy {
         this._open = false;
         this.openChange.emit(false);
         this.closeEvent.emit();
+        this.cdr.markForCheck();
       });
     }
   };

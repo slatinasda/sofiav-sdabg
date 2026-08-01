@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { SabbathSchoolApiService } from '../sabbath-school-api.service';
@@ -31,6 +31,7 @@ export class SabbathSchoolLessonsComponent implements OnInit {
     private router: Router,
     private appTitleService: AppTitleService,
     private sanitizer: DomSanitizer,
+    private cdr: ChangeDetectorRef,
   ) {}
 
   ngOnInit() {
@@ -67,9 +68,11 @@ export class SabbathSchoolLessonsComponent implements OnInit {
         this.loading = false;
         this.appTitleService.setTitle(`${this.quarterlyDetail.quarterly.title} - Съботен урок`);
         this.loadPublishingInfo();
+        this.cdr.markForCheck();
       },
       error: () => {
         this.loading = false;
+        this.cdr.markForCheck();
       },
     });
   }
@@ -83,6 +86,7 @@ export class SabbathSchoolLessonsComponent implements OnInit {
         this.api.getPublishingInfo(this.lang, this.lang).subscribe({
           next: (data: PublishingInfo) => {
             this.publishingInfo = data;
+            this.cdr.markForCheck();
           },
           error: () => {},
         });

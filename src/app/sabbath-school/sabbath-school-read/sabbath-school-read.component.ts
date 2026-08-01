@@ -8,6 +8,7 @@ import {
   Inject,
   ViewEncapsulation,
   effect,
+  ChangeDetectorRef,
 } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
@@ -96,6 +97,7 @@ export class SabbathSchoolReadComponent implements OnInit, OnDestroy {
     private appTitleService: AppTitleService,
     private sanitizer: DomSanitizer,
     private themeService: ThemeService,
+    private cdr: ChangeDetectorRef,
     @Inject(PLATFORM_ID) platformId: object,
   ) {
     this.isBrowser = isPlatformBrowser(platformId);
@@ -110,6 +112,7 @@ export class SabbathSchoolReadComponent implements OnInit, OnDestroy {
 
       this.readerTheme = resolved;
       this.saveSettings();
+      this.cdr.markForCheck();
     });
   }
 
@@ -128,6 +131,7 @@ export class SabbathSchoolReadComponent implements OnInit, OnDestroy {
         day: params.get('day') || '01',
       };
       this.loadData();
+      this.cdr.markForCheck();
     });
   }
 
@@ -209,6 +213,7 @@ export class SabbathSchoolReadComponent implements OnInit, OnDestroy {
     this.api.getQuarterly(this.quarter).subscribe({
       next: (data: QuarterlyDetail) => {
         this.quarterlyDetail = data;
+        this.cdr.markForCheck();
       },
     });
   }
@@ -238,6 +243,7 @@ export class SabbathSchoolReadComponent implements OnInit, OnDestroy {
           }
         }
         this.loadDay();
+        this.cdr.markForCheck();
       },
     });
   }
@@ -261,9 +267,11 @@ export class SabbathSchoolReadComponent implements OnInit, OnDestroy {
         this.read = data;
         this.loading = false;
         this.appTitleService.setTitle(`${this.read.title} - Съботен урок`);
+        this.cdr.markForCheck();
       },
       error: () => {
         this.loading = false;
+        this.cdr.markForCheck();
       },
     });
   }
@@ -279,6 +287,7 @@ export class SabbathSchoolReadComponent implements OnInit, OnDestroy {
     this.api.getAudio(this.quarter).subscribe({
       next: (data: AudioItem[]) => {
         this.audio = data.filter((item: AudioItem) => item.targetIndex === audioIndex);
+        this.cdr.markForCheck();
       },
       error: () => {},
     });

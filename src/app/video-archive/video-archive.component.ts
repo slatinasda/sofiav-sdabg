@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 
@@ -33,6 +33,7 @@ export class VideoArchiveComponent implements OnInit {
   constructor(
     private appTitleService: AppTitleService,
     private httpClient: HttpClient,
+    private cdr: ChangeDetectorRef,
   ) {
     this.appTitleService.setTitle('Проповеди');
   }
@@ -42,9 +43,10 @@ export class VideoArchiveComponent implements OnInit {
   }
 
   latestVideos() {
-    this.httpClient
-      .get<VideoItem[]>(this.feedUrl)
-      .subscribe((items: VideoItem[]) => (this.videos = items));
+    this.httpClient.get<VideoItem[]>(this.feedUrl).subscribe((items: VideoItem[]) => {
+      this.videos = items;
+      this.cdr.markForCheck();
+    });
   }
 
   protected isVideoThumbLoaded(videoId: string): boolean {

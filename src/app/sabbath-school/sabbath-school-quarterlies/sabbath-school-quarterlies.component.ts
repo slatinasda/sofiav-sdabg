@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { SabbathSchoolApiService } from '../sabbath-school-api.service';
@@ -29,6 +29,7 @@ export class SabbathSchoolQuarterliesComponent implements OnInit {
     private api: SabbathSchoolApiService,
     private router: Router,
     private appTitleService: AppTitleService,
+    private cdr: ChangeDetectorRef,
   ) {}
 
   ngOnInit() {
@@ -43,9 +44,11 @@ export class SabbathSchoolQuarterliesComponent implements OnInit {
         this.quarterlies = data;
         this.groupQuarterlies();
         this.loading = false;
+        this.cdr.markForCheck();
       },
       error: () => {
         this.loading = false;
+        this.cdr.markForCheck();
       },
     });
   }

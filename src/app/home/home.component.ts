@@ -1,4 +1,4 @@
-import { Component, OnInit, PLATFORM_ID, Inject } from '@angular/core';
+import { Component, OnInit, PLATFORM_ID, Inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
@@ -61,6 +61,7 @@ export class HomeComponent implements OnInit {
     private workshipTimeService: WorshipTimeService,
     private quarterService: CurrentQuarterService,
     private blogApi: BlogApiService,
+    private cdr: ChangeDetectorRef,
     @Inject(PLATFORM_ID) platformId: object,
   ) {
     this.appTitleService.setTitle('Начало');
@@ -82,6 +83,7 @@ export class HomeComponent implements OnInit {
       .get<NextLiveStream>(this.liveStreamApi)
       .subscribe((response: NextLiveStream) => {
         this.liveStreamEmbedUrl = this.sanitizer.bypassSecurityTrustResourceUrl(response.embedUrl);
+        this.cdr.markForCheck();
       });
   }
 

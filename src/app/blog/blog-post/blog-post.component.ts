@@ -5,6 +5,7 @@ import {
   OnInit,
   PLATFORM_ID,
   ViewEncapsulation,
+  ChangeDetectorRef,
 } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { ActivatedRoute, RouterModule } from '@angular/router';
@@ -55,6 +56,7 @@ export class BlogPostComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private sanitizer: DomSanitizer,
     private seo: SeoService,
+    private cdr: ChangeDetectorRef,
     @Inject(PLATFORM_ID) platformId: object,
   ) {
     this.isBrowser = isPlatformBrowser(platformId);
@@ -80,6 +82,7 @@ export class BlogPostComponent implements OnInit, OnDestroy {
     if (!post) {
       this.post = null;
       this.notFound = true;
+      this.cdr.markForCheck();
       return;
     }
 
@@ -89,6 +92,7 @@ export class BlogPostComponent implements OnInit, OnDestroy {
     this.relatedPosts = this.api.getRelatedPosts(post.slug);
     this.shareLinks = this.buildShareLinks(post);
     this.updateSeo(post);
+    this.cdr.markForCheck();
 
     if (this.isBrowser) {
       window.scrollTo(0, 0);

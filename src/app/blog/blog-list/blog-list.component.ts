@@ -1,4 +1,11 @@
-import { Component, Inject, OnDestroy, OnInit, PLATFORM_ID } from '@angular/core';
+import {
+  Component,
+  Inject,
+  OnDestroy,
+  OnInit,
+  PLATFORM_ID,
+  ChangeDetectorRef,
+} from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
@@ -49,6 +56,7 @@ export class BlogListComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private seo: SeoService,
+    private cdr: ChangeDetectorRef,
     @Inject(PLATFORM_ID) platformId: object,
   ) {
     this.isBrowser = isPlatformBrowser(platformId);
@@ -164,6 +172,7 @@ export class BlogListComponent implements OnInit, OnDestroy {
   private async applyDisplay(): Promise<void> {
     if (this.fullTextSearch && this.isSearching && !this.fullTextIndex) {
       this.fullTextIndexLoading = true;
+      this.cdr.markForCheck();
       this.fullTextIndex = await this.api.getFullTextIndex();
       this.fullTextIndexLoading = false;
     }
@@ -178,6 +187,7 @@ export class BlogListComponent implements OnInit, OnDestroy {
       this.posts = searched;
       this.page = 1;
       this.totalPages = 1;
+      this.cdr.markForCheck();
       return;
     }
 
@@ -185,6 +195,7 @@ export class BlogListComponent implements OnInit, OnDestroy {
     this.posts = result.posts;
     this.page = result.page;
     this.totalPages = result.totalPages;
+    this.cdr.markForCheck();
   }
 
   private loadFullTextPreference(): void {
