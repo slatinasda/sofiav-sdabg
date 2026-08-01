@@ -3,7 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 
 import { AppTitleService } from '../app-title.service';
-import { BibleStudiesCtaComponent } from '../shared/components/bible-studies-cta/bible-studies-cta.component';
 import { RelativeTimePipe } from '../shared/pipes/relative-time.pipe';
 
 interface VideoItem {
@@ -20,7 +19,7 @@ interface VideoItem {
 
 @Component({
   standalone: true,
-  imports: [CommonModule, BibleStudiesCtaComponent, RelativeTimePipe],
+  imports: [CommonModule, RelativeTimePipe],
   selector: 'app-video-archive',
   templateUrl: './video-archive.component.html',
   styleUrls: ['./video-archive.component.scss'],

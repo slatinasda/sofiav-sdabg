@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { AppTitleService } from '../app-title.service';
-import { BibleStudiesCtaComponent } from '../shared/components/bible-studies-cta/bible-studies-cta.component';
 
 interface BeliefCategory {
   path: string;
@@ -13,7 +12,7 @@ interface BeliefCategory {
 
 @Component({
   standalone: true,
-  imports: [CommonModule, RouterModule, BibleStudiesCtaComponent],
+  imports: [CommonModule, RouterModule],
   selector: 'app-beliefs',
   templateUrl: './beliefs.component.html',
   styleUrls: ['./beliefs.component.scss'],

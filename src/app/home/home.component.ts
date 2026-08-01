@@ -8,7 +8,6 @@ import { AppTitleService } from '../app-title.service';
 import { IChurchServiceAgenda } from './interfaces/church-service-agenda.interface';
 import { WorshipTimeService } from './services/worship-time.service';
 import { CurrentQuarterService } from '../sabbath-school/current-quarter.service';
-import { BibleStudiesCtaComponent } from '../shared/components/bible-studies-cta/bible-studies-cta.component';
 import { NgbCarousel, NgbSlide } from '@ng-bootstrap/ng-bootstrap';
 import serviceTimesJson from './agenda/service-times.json';
 import serviceTimesDSTJson from './agenda/service-times-dst.json';
@@ -35,14 +34,7 @@ interface ServiceTimes {
 
 @Component({
   standalone: true,
-  imports: [
-    CommonModule,
-    RouterModule,
-    BibleStudiesCtaComponent,
-    NgbCarousel,
-    NgbSlide,
-    BlogPostCardComponent,
-  ],
+  imports: [CommonModule, RouterModule, NgbCarousel, NgbSlide, BlogPostCardComponent],
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
