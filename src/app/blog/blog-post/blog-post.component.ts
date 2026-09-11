@@ -26,6 +26,7 @@ interface ShareLinks {
 
 const MIN_READER_SIZE = 1;
 const MAX_READER_SIZE = 5;
+const DEFAULT_READER_SIZE = 3;
 const READER_SIZE_KEY = 'blog-reader-size';
 
 @Component({
@@ -46,7 +47,7 @@ export class BlogPostComponent implements OnInit, OnDestroy {
 
   readonly minReaderSize = MIN_READER_SIZE;
   readonly maxReaderSize = MAX_READER_SIZE;
-  readerSize = 3;
+  readerSize = DEFAULT_READER_SIZE;
 
   private readonly isBrowser: boolean;
   private routeSub!: Subscription;
@@ -118,11 +119,17 @@ export class BlogPostComponent implements OnInit, OnDestroy {
     if (!this.isBrowser) {
       return;
     }
-    this.readerSize = parseInt(localStorage.getItem(READER_SIZE_KEY) || '', 10) || 3;
+
+    const stored = Number.parseInt(localStorage.getItem(READER_SIZE_KEY) || '', 10);
+    this.readerSize = Number.isFinite(stored) ? stored : DEFAULT_READER_SIZE;
+  }
+
+  private postPath(post: BlogPost): string {
+    return `blog/${post.slug}`;
   }
 
   private buildShareLinks(post: BlogPost): ShareLinks {
-    const url = this.seo.absoluteUrl(`blog/${post.slug}`);
+    const url = this.seo.absoluteUrl(this.postPath(post));
     const encodedUrl = encodeURIComponent(url);
     const encodedTitle = encodeURIComponent(post.title);
 
@@ -146,11 +153,11 @@ export class BlogPostComponent implements OnInit, OnDestroy {
   }
 
   private updateSeo(post: BlogPost): void {
-    const url = this.seo.absoluteUrl(`blog/${post.slug}`);
+    const url = this.seo.absoluteUrl(this.postPath(post));
     this.seo.setPageMeta({
       title: post.title,
       description: post.description,
-      path: `blog/${post.slug}`,
+      path: this.postPath(post),
       image: post.cover ? this.seo.absoluteUrl(post.cover) : undefined,
       type: 'article',
       publishedTime: post.date,

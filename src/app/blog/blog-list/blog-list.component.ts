@@ -8,11 +8,12 @@ import {
 } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router, RouterModule } from '@angular/router';
 import { Subject, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { BlogApiService } from '../blog-api.service';
 import { SeoService } from '../../shared/services/seo.service';
+import { CHURCH_NAME } from '../../app-title.service';
 import { BlogPostSummary } from '../interfaces/blog-post.interface';
 import { BlogPostCardComponent } from '../blog-post-card/blog-post-card.component';
 import { ModalComponent } from '../../shared/components/modal/modal.component';
@@ -74,22 +75,7 @@ export class BlogListComponent implements OnInit, OnDestroy {
       .pipe(debounceTime(SEARCH_DEBOUNCE_MS), distinctUntilChanged())
       .subscribe(() => this.applyDisplay());
 
-    this.routeSub = this.route.paramMap.subscribe((params) => {
-      const category = params.get('category');
-      this.pageParam = Number(params.get('page')) || 1;
-
-      if (category) {
-        this.filter = { type: 'category', value: category };
-        this.routeFilteredPosts = this.api.getPostsByCategory(category);
-      } else {
-        this.filter = { type: 'none' };
-        this.routeFilteredPosts = this.api.getPosts();
-      }
-
-      this.searchQuery = '';
-      this.applyDisplay();
-      this.updateSeo();
-    });
+    this.routeSub = this.route.paramMap.subscribe((params) => this.handleRouteParams(params));
   }
 
   ngOnDestroy(): void {
@@ -170,12 +156,7 @@ export class BlogListComponent implements OnInit, OnDestroy {
   }
 
   private async applyDisplay(): Promise<void> {
-    if (this.fullTextSearch && this.isSearching && !this.fullTextIndex) {
-      this.fullTextIndexLoading = true;
-      this.cdr.markForCheck();
-      this.fullTextIndex = await this.api.getFullTextIndex();
-      this.fullTextIndexLoading = false;
-    }
+    await this.ensureFullTextIndex();
 
     const searched = this.api.searchPosts(
       this.searchQuery,
@@ -184,18 +165,54 @@ export class BlogListComponent implements OnInit, OnDestroy {
     );
 
     if (this.isSearching || this.filter.type !== 'none') {
-      this.posts = searched;
-      this.page = 1;
-      this.totalPages = 1;
-      this.cdr.markForCheck();
+      this.showSinglePage(searched);
       return;
     }
 
+    this.showPaged(searched);
+  }
+
+  private async ensureFullTextIndex(): Promise<void> {
+    if (!this.fullTextSearch || !this.isSearching || this.fullTextIndex) {
+      return;
+    }
+
+    this.fullTextIndexLoading = true;
+    this.cdr.markForCheck();
+    this.fullTextIndex = await this.api.getFullTextIndex();
+    this.fullTextIndexLoading = false;
+  }
+
+  private showSinglePage(searched: BlogPostSummary[]): void {
+    this.posts = searched;
+    this.page = 1;
+    this.totalPages = 1;
+    this.cdr.markForCheck();
+  }
+
+  private showPaged(searched: BlogPostSummary[]): void {
     const result = this.api.getPage(this.pageParam, searched);
     this.posts = result.posts;
     this.page = result.page;
     this.totalPages = result.totalPages;
     this.cdr.markForCheck();
+  }
+
+  private handleRouteParams(params: ParamMap): void {
+    const category = params.get('category');
+    this.pageParam = Number(params.get('page')) || 1;
+
+    if (category) {
+      this.filter = { type: 'category', value: category };
+      this.routeFilteredPosts = this.api.getPostsByCategory(category);
+    } else {
+      this.filter = { type: 'none' };
+      this.routeFilteredPosts = this.api.getPosts();
+    }
+
+    this.searchQuery = '';
+    this.applyDisplay();
+    this.updateSeo();
   }
 
   private loadFullTextPreference(): void {
@@ -222,7 +239,7 @@ export class BlogListComponent implements OnInit, OnDestroy {
       title: this.seoTitle,
       description:
         this.filter.type === 'none'
-          ? 'Последни новини и статии от Църква на Адвентистите от Седмия Ден - София "В" Слатина.'
+          ? `Последни новини и статии от ${CHURCH_NAME}.`
           : `Публикации в ${this.seoTitle.toLowerCase()}.`,
       path: this.path,
       type: 'website',
