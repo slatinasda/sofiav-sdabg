@@ -19,11 +19,11 @@ interface GroupedQuarterly {
   styleUrls: ['./sabbath-school-quarterlies.component.scss'],
 })
 export class SabbathSchoolQuarterliesComponent implements OnInit {
+  private static readonly YOUTH_GROUP_NAME = 'Уроци за юноши';
+
   loading = false;
   quarterlies: Quarterly[] = [];
-  groups: GroupedQuarterly[] = [];
   groupedQuarterlies: GroupedQuarterly[] = [];
-  selectedGroup: GroupedQuarterly | null = null;
 
   constructor(
     private api: SabbathSchoolApiService,
@@ -54,41 +54,32 @@ export class SabbathSchoolQuarterliesComponent implements OnInit {
   }
 
   private groupQuarterlies(): void {
-    const emptyGroup: Quarterly[] = [];
-    this.groupedQuarterlies = [];
+    const groups = new Map<string, GroupedQuarterly>();
+    const ungrouped: Quarterly[] = [];
 
     for (const quarterly of this.quarterlies) {
-      if (quarterly.quarterly_group) {
-        const quarterlyGroup: GroupedQuarterly = {
-          name: quarterly.quarterly_group.name,
-          order: quarterly.quarterly_group.order,
-          quarterlies: [quarterly],
-        };
-        const quarterlyGroupIndex = this.groupedQuarterlies.findIndex(
-          (item: GroupedQuarterly) => item.name === quarterlyGroup.name,
-        );
-        if (quarterlyGroupIndex < 0) {
-          this.groupedQuarterlies.push(quarterlyGroup);
-        } else {
-          this.groupedQuarterlies[quarterlyGroupIndex].quarterlies.push(quarterly);
-        }
+      if (!quarterly.quarterly_group) {
+        ungrouped.push(quarterly);
+        continue;
+      }
+
+      const { name, order } = quarterly.quarterly_group;
+      const existing = groups.get(name);
+      if (existing) {
+        existing.quarterlies.push(quarterly);
       } else {
-        emptyGroup.push(quarterly);
+        groups.set(name, { name, order, quarterlies: [quarterly] });
       }
     }
 
-    if (this.groupedQuarterlies.length) {
-      this.groupedQuarterlies[0].quarterlies = [
-        ...this.groupedQuarterlies[0].quarterlies,
-        ...emptyGroup,
-      ];
-      this.groupedQuarterlies = this.groupedQuarterlies.sort(
-        (a: GroupedQuarterly, b: GroupedQuarterly) => a.order - b.order,
-      );
-    }
-
     // Filter out "Уроци за юноши" as they require a PDF reader
-    this.groupedQuarterlies = this.groupedQuarterlies.filter((q) => q.name !== 'Уроци за юноши');
+    this.groupedQuarterlies = [...groups.values()]
+      .filter((group) => group.name !== SabbathSchoolQuarterliesComponent.YOUTH_GROUP_NAME)
+      .sort((a, b) => a.order - b.order);
+
+    if (this.groupedQuarterlies.length && ungrouped.length) {
+      this.groupedQuarterlies[0].quarterlies.push(...ungrouped);
+    }
   }
 
   navigateToQuarterly(quarterlyId: string): void {

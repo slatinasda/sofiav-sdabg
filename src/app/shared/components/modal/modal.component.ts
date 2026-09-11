@@ -98,12 +98,19 @@ export class ModalComponent implements OnInit, OnDestroy {
   }
 
   private addFragment(): void {
-    if (this.urlFragment && this.isBrowser) {
-      const path = window.location.pathname + window.location.search;
-      const fragment = '#' + this.urlFragment;
-      if (!path.endsWith(fragment)) {
-        window.history.pushState(null, '', path + fragment);
-      }
+    if (!this.urlFragment || !this.isBrowser) {
+      return;
     }
+
+    const fragment = `#${this.urlFragment}`;
+    if (window.location.hash === fragment) {
+      return;
+    }
+
+    window.history.pushState(
+      null,
+      '',
+      window.location.pathname + window.location.search + fragment,
+    );
   }
 }
