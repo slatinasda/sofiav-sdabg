@@ -20,31 +20,27 @@ export class SabbathSchoolApiService {
   constructor(private http: HttpClient) {}
 
   getQuarterlies(): Observable<Quarterly[]> {
-    return this.http.get<Quarterly[]>(`${this.API_HOST}/${this.lang}/quarterlies/index.json`);
+    return this.http.get<Quarterly[]>(this.quarterliesUrl('index.json'));
   }
 
   getQuarterly(quarter: string): Observable<QuarterlyDetail> {
-    return this.http.get<QuarterlyDetail>(
-      `${this.API_HOST}/${this.lang}/quarterlies/${quarter}/index.json`,
-    );
+    return this.http.get<QuarterlyDetail>(this.quarterliesUrl(quarter, 'index.json'));
   }
 
   getLesson(quarter: string, lesson: string): Observable<LessonDetail> {
     return this.http.get<LessonDetail>(
-      `${this.API_HOST}/${this.lang}/quarterlies/${quarter}/lessons/${lesson}/index.json`,
+      this.quarterliesUrl(quarter, 'lessons', lesson, 'index.json'),
     );
   }
 
   getDayRead(quarter: string, lesson: string, day: string): Observable<DayRead> {
     return this.http.get<DayRead>(
-      `${this.API_HOST}/${this.lang}/quarterlies/${quarter}/lessons/${lesson}/days/${day}/read/index.json`,
+      this.quarterliesUrl(quarter, 'lessons', lesson, 'days', day, 'read', 'index.json'),
     );
   }
 
   getAudio(quarter: string): Observable<AudioItem[]> {
-    return this.http.get<AudioItem[]>(
-      `${this.API_HOST}/${this.lang}/quarterlies/${quarter}/audio.json`,
-    );
+    return this.http.get<AudioItem[]>(this.quarterliesUrl(quarter, 'audio.json'));
   }
 
   getPublishingInfo(country: string, language: string): Observable<PublishingInfo> {
@@ -52,5 +48,9 @@ export class SabbathSchoolApiService {
       country,
       language,
     });
+  }
+
+  private quarterliesUrl(...segments: string[]): string {
+    return `${this.API_HOST}/${this.lang}/quarterlies/${segments.join('/')}`;
   }
 }

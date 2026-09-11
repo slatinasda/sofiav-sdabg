@@ -88,7 +88,7 @@
             class="d-flex align-items-start mb-3"
           >
             <span *ngIf="isNumericId(lesson.id)" class="h3 fw-bold text-muted me-3 mt-0">
-              {{ parseInt(lesson.id) }}
+              {{ parseLessonNumber(lesson.id) }}
             </span>
             <span *ngIf="!isNumericId(lesson.id)" class="h3 fw-bold text-muted me-3 mt-n2">
               ·

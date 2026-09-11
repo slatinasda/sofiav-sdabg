@@ -17,6 +17,7 @@ import { QuarterlyDetail, Lesson, PublishingInfo } from '../interfaces/quarterly
   styleUrls: ['./sabbath-school-lessons.component.scss'],
 })
 export class SabbathSchoolLessonsComponent implements OnInit {
+  private static readonly DEFAULT_DAY = '01';
   private readonly lang = 'bg';
 
   loading = false;
@@ -39,13 +40,10 @@ export class SabbathSchoolLessonsComponent implements OnInit {
   }
 
   get lessonTarget(): string | null {
-    if (
-      !this.quarterlyDetail ||
-      !this.quarterlyDetail.lessons ||
-      !this.quarterlyDetail.lessons.length
-    ) {
+    if (!this.quarterlyDetail?.lessons?.length) {
       return null;
     }
+
     const now = moment().startOf('day');
     const lesson =
       this.quarterlyDetail.lessons.find((x: Lesson) => {
@@ -53,7 +51,7 @@ export class SabbathSchoolLessonsComponent implements OnInit {
         const endDate = moment(x.end_date, 'DD/MM/YYYY').endOf('day');
         return moment(now).isBetween(startDate, endDate, null, '[]');
       }) || this.quarterlyDetail.lessons[0];
-    return `/sabbath-school/${this.quarter}/lessons/${lesson.id}/01`;
+    return this.lessonRoute(lesson.id);
   }
 
   get quarter(): string {
@@ -78,32 +76,29 @@ export class SabbathSchoolLessonsComponent implements OnInit {
   }
 
   private loadPublishingInfo(): void {
-    try {
-      const browserTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-      // We'll use a simple country detection
-      const timezone = browserTimezone;
-      if (timezone) {
-        this.api.getPublishingInfo(this.lang, this.lang).subscribe({
-          next: (data: PublishingInfo) => {
-            this.publishingInfo = data;
-            this.cdr.markForCheck();
-          },
-          error: () => {},
-        });
-      }
-    } catch (e) {}
+    this.api.getPublishingInfo(this.lang, this.lang).subscribe({
+      next: (data: PublishingInfo) => {
+        this.publishingInfo = data;
+        this.cdr.markForCheck();
+      },
+      error: () => {},
+    });
   }
 
   navigateToLesson(lessonId: string): void {
-    this.router.navigate(['/sabbath-school', this.quarter, 'lessons', lessonId, '01']);
+    this.router.navigateByUrl(this.lessonRoute(lessonId));
   }
 
-  parseInt(value: string): number {
-    return parseInt(value, 10);
+  parseLessonNumber(value: string): number {
+    return Number.parseInt(value, 10);
   }
 
   isNumericId(id: string): boolean {
     return /^\d*$/.test(id);
+  }
+
+  private lessonRoute(lessonId: string): string {
+    return `/sabbath-school/${this.quarter}/lessons/${lessonId}/${SabbathSchoolLessonsComponent.DEFAULT_DAY}`;
   }
 
   parseMarkdown(markdown: string): SafeHtml {
