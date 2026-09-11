@@ -60,25 +60,10 @@ export class SeoService {
     this.meta.updateTag({ name: 'twitter:title', content: pageMeta.title });
     this.meta.updateTag({ name: 'twitter:description', content: pageMeta.description });
 
-    if (pageMeta.image) {
-      this.meta.updateTag({ property: 'og:image', content: pageMeta.image });
-      this.meta.updateTag({ name: 'twitter:image', content: pageMeta.image });
-    } else {
-      this.meta.removeTag(`property="og:image"`);
-      this.meta.removeTag(`name="twitter:image"`);
-    }
-
-    if (pageMeta.publishedTime) {
-      this.meta.updateTag({ property: 'article:published_time', content: pageMeta.publishedTime });
-    } else {
-      this.meta.removeTag(`property="article:published_time"`);
-    }
-
-    if (pageMeta.modifiedTime) {
-      this.meta.updateTag({ property: 'article:modified_time', content: pageMeta.modifiedTime });
-    } else {
-      this.meta.removeTag(`property="article:modified_time"`);
-    }
+    this.setMeta({ property: 'og:image' }, pageMeta.image);
+    this.setMeta({ name: 'twitter:image' }, pageMeta.image);
+    this.setMeta({ property: 'article:published_time' }, pageMeta.publishedTime);
+    this.setMeta({ property: 'article:modified_time' }, pageMeta.modifiedTime);
 
     this.setArticleTags(pageMeta.tags ?? []);
     this.setCanonicalUrl(url);
@@ -101,8 +86,8 @@ export class SeoService {
       description: schema.description,
       url: schema.url,
       datePublished: schema.datePublished,
-      dateModified: schema.dateModified ?? schema.datePublished,
-      image: schema.image,
+      ...(schema.dateModified && { dateModified: schema.dateModified }),
+      ...(schema.image && { image: schema.image }),
       author: {
         '@type': 'Organization',
         name: schema.authorName,
@@ -121,6 +106,16 @@ export class SeoService {
     }
 
     link.setAttribute('href', url);
+  }
+
+  private setMeta(tag: { name?: string; property?: string }, content?: string): void {
+    if (content) {
+      this.meta.updateTag({ ...tag, content });
+    } else if (tag.property) {
+      this.meta.removeTag(`property="${tag.property}"`);
+    } else if (tag.name) {
+      this.meta.removeTag(`name="${tag.name}"`);
+    }
   }
 
   private setArticleTags(tags: string[]): void {
