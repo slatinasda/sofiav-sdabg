@@ -104,8 +104,18 @@
     </div>
   </div>
 
-  <div *ngIf="notFound" class="container text-center py-5">
-    <h2 class="fw-bold">Публикацията не е намерена</h2>
-    <a routerLink="/blog" class="text-primary fw-bold text-decoration-none">Обратно към блога</a>
+  <div *ngIf="notFound" class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="mt-5">
+          <h2 class="text-center display-1">404</h2>
+          <h3 class="text-center fw-light mt-2 mb-0 text-muted">Публикацията не е намерена</h3>
+          <hr class="mb-5 w-50 mx-auto" />
+          <div class="text-center text-white mb-5">
+            <a routerLink="/blog" class="btn btn-xlg btn-rounded btn-primary">Обратно към блога</a>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
