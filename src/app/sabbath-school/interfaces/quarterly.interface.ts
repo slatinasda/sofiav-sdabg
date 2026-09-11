@@ -69,7 +69,7 @@ export interface QuarterlyDetail {
   lessons: Lesson[];
 }
 
-interface BibleTranslation {
+export interface BibleTranslation {
   name: string;
   verses: { [key: string]: string };
 }

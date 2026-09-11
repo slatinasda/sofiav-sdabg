@@ -155,7 +155,7 @@
             <div
               #readerContent
               class="p-3 p-md-4 p-lg-5"
-              [innerHTML]="read.content"
+              [innerHTML]="readerHtml"
               (click)="onReaderClick($event)"
             ></div>
           </div>
@@ -177,5 +177,16 @@
 
 <!-- Bible Verses Modal -->
 <app-modal [(open)]="bibleModalOpen" title="Библейски стихове" size="lg" urlFragment="bible">
+  <div *ngIf="bibleTranslations.length > 1" class="bible-translations">
+    <button
+      *ngFor="let translation of bibleTranslations"
+      type="button"
+      class="bible-translation-btn"
+      [class.active]="translation === selectedTranslation"
+      (click)="selectTranslation(translation)"
+    >
+      {{ translation }}
+    </button>
+  </div>
   <div class="bible-modal-content" [innerHTML]="selectedBibleHtml"></div>
 </app-modal>

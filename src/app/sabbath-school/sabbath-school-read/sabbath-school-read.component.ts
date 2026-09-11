@@ -27,6 +27,7 @@ import {
   LessonDetail,
   DayRead,
   AudioItem,
+  BibleTranslation,
 } from '../interfaces/quarterly.interface';
 
 export type ReaderTheme = 'light' | 'sepia' | 'dark';
@@ -42,6 +43,8 @@ const SEPIA_READER_THEME: ReaderTheme = 'sepia';
 
 const MIN_READER_SIZE = 1;
 const MAX_READER_SIZE = 5;
+
+const PREFERRED_BIBLE_TRANSLATION = 'RIBBD';
 
 @Component({
   standalone: true,
@@ -65,15 +68,18 @@ export class SabbathSchoolReadComponent implements OnInit, OnDestroy {
   quarterlyDetail: QuarterlyDetail | null = null;
   lessonDetail: LessonDetail | null = null;
   read: DayRead | null = null;
+  readerHtml: SafeHtml = '';
   moment = moment;
 
   audio: AudioItem[] = [];
   audioOpen = false;
   audioMinimized = false;
 
-  bibleData: any[] = [];
+  bibleData: BibleTranslation[] = [];
   bibleModalOpen = false;
   selectedBibleHtml: SafeHtml = '';
+  selectedTranslation = '';
+  private selectedVerseKey = '';
 
   readonly readerThemes = READER_THEMES;
   readonly minReaderSize = MIN_READER_SIZE;
@@ -83,6 +89,7 @@ export class SabbathSchoolReadComponent implements OnInit, OnDestroy {
 
   private readonly READER_THEME_KEY = 'ss-reader-theme';
   private readonly READER_SIZE_KEY = 'ss-reader-size';
+  private readonly BIBLE_TRANSLATION_KEY = 'ss-bible-translation';
 
   private routeSub!: Subscription;
   private routeParams: any = {};
@@ -155,6 +162,7 @@ export class SabbathSchoolReadComponent implements OnInit, OnDestroy {
     const storedTheme = localStorage.getItem(this.READER_THEME_KEY) as ReaderTheme | null;
     this.readerTheme = storedTheme ?? DEFAULT_READER_THEME;
     this.readerSize = parseInt(localStorage.getItem(this.READER_SIZE_KEY) || '') || 3;
+    this.selectedTranslation = localStorage.getItem(this.BIBLE_TRANSLATION_KEY) || '';
   }
 
   private saveSettings(): void {
@@ -163,6 +171,13 @@ export class SabbathSchoolReadComponent implements OnInit, OnDestroy {
     }
     localStorage.setItem(this.READER_THEME_KEY, this.readerTheme);
     localStorage.setItem(this.READER_SIZE_KEY, this.readerSize.toString());
+  }
+
+  private saveBibleTranslation(): void {
+    if (!this.isBrowser) {
+      return;
+    }
+    localStorage.setItem(this.BIBLE_TRANSLATION_KEY, this.selectedTranslation);
   }
 
   setTheme(theme: ReaderTheme): void {
@@ -206,6 +221,10 @@ export class SabbathSchoolReadComponent implements OnInit, OnDestroy {
 
   get readIndex(): string {
     return `bg-${this.quarter}-${this.lessonId}-${this.dayParam}`;
+  }
+
+  get bibleTranslations(): string[] {
+    return this.bibleData.map((t) => t.name);
   }
 
   loadQuarterly(): void {
@@ -265,6 +284,7 @@ export class SabbathSchoolReadComponent implements OnInit, OnDestroy {
       next: (data: DayRead) => {
         this.bibleData = data.bible || [];
         this.read = data;
+        this.readerHtml = this.sanitizer.bypassSecurityTrustHtml(data.content || '');
         this.loading = false;
         this.appTitleService.setTitle(`${this.read.title} - Съботен урок`);
         this.cdr.markForCheck();
@@ -299,58 +319,64 @@ export class SabbathSchoolReadComponent implements OnInit, OnDestroy {
 
   onReaderClick(event: MouseEvent): void {
     const verseLink = (event.target as HTMLElement).closest('a.verse');
-    if (verseLink) {
-      event.preventDefault();
-      this.openBibleVerse();
-    }
-  }
-
-  openBibleVerse(): void {
-    // Find RIBBD first, fall back to any available translation
-    const preferred = 'RIBBD';
-
-    let translation: any = this.bibleData.find((t) => t.name === preferred);
-    if (!translation && this.bibleData.length) {
-      translation = this.bibleData[0];
-    }
-
-    if (!translation) {
-      this.selectedBibleHtml = '';
-      this.bibleModalOpen = true;
+    if (!verseLink) {
       return;
     }
 
-    const verses = translation.verses || {};
-    const entries: string[] = [];
-    for (const md of Object.values(verses)) {
-      if (typeof md === 'string') {
-        entries.push(md);
-      }
+    event.preventDefault();
+    this.openBibleVerse(verseLink.getAttribute('verse') || '');
+  }
+
+  openBibleVerse(verseKey = ''): void {
+    this.selectedVerseKey = verseKey;
+    this.selectedTranslation = this.resolveTranslation();
+    this.renderBibleVerse();
+    this.bibleModalOpen = true;
+  }
+
+  selectTranslation(name: string): void {
+    if (name === this.selectedTranslation) {
+      return;
     }
 
-    const markdown = entries.join('\n\n').replace(/\\n/g, '\n');
+    this.selectedTranslation = name;
+    this.saveBibleTranslation();
+    this.renderBibleVerse();
+  }
+
+  private resolveTranslation(): string {
+    const translations = this.bibleTranslations;
+
+    if (translations.includes(this.selectedTranslation)) {
+      return this.selectedTranslation;
+    }
+
+    if (translations.includes(PREFERRED_BIBLE_TRANSLATION)) {
+      return PREFERRED_BIBLE_TRANSLATION;
+    }
+
+    return translations[0] || '';
+  }
+
+  private renderBibleVerse(): void {
+    const translation = this.bibleData.find((t) => t.name === this.selectedTranslation);
+    const markdown = this.buildBibleMarkdown(translation?.verses ?? {});
 
     if (!markdown.trim()) {
       this.selectedBibleHtml = '';
-      this.bibleModalOpen = true;
       return;
     }
 
     const html = marked.parse(markdown) as string;
-    const htmlStyles = `
-      <style>
-        h2:first-of-type {
-          margin-top: 0;
-        }
-        h2 {
-          font-size: 1.75rem;
-          margin-top: 1.5rem;
-        }
-      </style>
-    `;
-    const content = htmlStyles + html;
-    this.selectedBibleHtml = this.sanitizer.bypassSecurityTrustHtml(content);
-    this.bibleModalOpen = true;
+    this.selectedBibleHtml = this.sanitizer.bypassSecurityTrustHtml(html);
+  }
+
+  private buildBibleMarkdown(verses: { [key: string]: string }): string {
+    const markdown = this.selectedVerseKey
+      ? (verses[this.selectedVerseKey] ?? '')
+      : Object.values(verses).join('\n\n');
+
+    return markdown.replace(/\\n/g, '\n');
   }
 
   private get currentDayIndex(): number {
