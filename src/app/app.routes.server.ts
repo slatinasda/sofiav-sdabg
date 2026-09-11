@@ -1,8 +1,9 @@
 import { RenderMode, ServerRoute } from '@angular/ssr';
 import { BLOG_PAGE_SIZE } from './blog/blog-api.service';
+import { BlogPostSummary } from './blog/interfaces/blog-post.interface';
 import generatedIndex from '../assets/blog/generated/posts-index.json';
 
-const BLOG_POSTS = generatedIndex as { slug: string; category: string }[];
+const BLOG_POSTS = generatedIndex as BlogPostSummary[];
 
 async function blogSlugParams() {
   return BLOG_POSTS.map((post) => ({ slug: post.slug }));
@@ -11,7 +12,7 @@ async function blogSlugParams() {
 async function blogPageParams() {
   const totalPages = Math.max(1, Math.ceil(BLOG_POSTS.length / BLOG_PAGE_SIZE));
   // Page 1 redirects to /blog (see blog.routes.ts), so only 2..totalPages need prerendering.
-  return Array.from({ length: Math.max(0, totalPages - 1) }, (_, i) => ({ page: String(i + 2) }));
+  return Array.from({ length: totalPages - 1 }, (_, i) => ({ page: String(i + 2) }));
 }
 
 async function blogCategoryParams() {

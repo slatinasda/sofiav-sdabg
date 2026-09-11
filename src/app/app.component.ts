@@ -15,8 +15,8 @@ import { ThemeSwitcherComponent } from './shared/components/theme-switcher/theme
 export class AppComponent {
   mobileMenuOpen = false;
 
-  today = Date.now();
-  sabbathSchoolLink: string;
+  readonly today = Date.now();
+  readonly sabbathSchoolLink: string;
 
   constructor(private quarterService: CurrentQuarterService) {
     this.sabbathSchoolLink = `/sabbath-school/${this.quarterService.yearAndQuarter()}`;

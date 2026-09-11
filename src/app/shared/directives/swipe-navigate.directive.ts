@@ -42,6 +42,15 @@ export class SwipeNavigateDirective implements OnInit, OnDestroy {
   private readonly MAX_RESISTANCE = 110;
   private readonly BLOCKED_MAX_RESISTANCE = 36;
 
+  private static readonly INDICATOR_CLASS = 'ss-swipe-indicator';
+  private static readonly INDICATOR_ACTIVE_CLASS = 'ss-swipe-indicator-active';
+  private static readonly ICON_CLASS = 'fa';
+  private static readonly ICON_PREV_CLASS = 'fa-chevron-left';
+  private static readonly ICON_NEXT_CLASS = 'fa-chevron-right';
+  private static readonly TRANSITION_FULL =
+    'transform 0.25s ease, opacity 0.25s ease, background-color 0.15s ease';
+  private static readonly TRANSITION_BG = 'background-color 0.15s ease';
+
   private touchStartX = 0;
   private touchStartY = 0;
   private currentOffset = 0;
@@ -115,11 +124,11 @@ export class SwipeNavigateDirective implements OnInit, OnDestroy {
 
   private createIndicator(): void {
     const indicator = this.renderer.createElement('div') as HTMLElement;
-    this.renderer.addClass(indicator, 'ss-swipe-indicator');
+    this.renderer.addClass(indicator, SwipeNavigateDirective.INDICATOR_CLASS);
 
     const icon = this.renderer.createElement('i') as HTMLElement;
-    this.renderer.addClass(icon, 'fa');
-    this.renderer.addClass(icon, 'fa-chevron-left');
+    this.renderer.addClass(icon, SwipeNavigateDirective.ICON_CLASS);
+    this.renderer.addClass(icon, SwipeNavigateDirective.ICON_PREV_CLASS);
     this.renderer.appendChild(indicator, icon);
 
     // Appended to <body> so it centers on the viewport, not the host.
@@ -176,7 +185,7 @@ export class SwipeNavigateDirective implements OnInit, OnDestroy {
     const maxResistance = targetExists ? this.MAX_RESISTANCE : this.BLOCKED_MAX_RESISTANCE;
     this.currentOffset = (dx * maxResistance) / (Math.abs(dx) + maxResistance);
 
-    this.updateIndicator(this.currentOffset, isNext, targetExists, maxResistance);
+    this.updateIndicator(this.currentOffset, isNext, targetExists);
   }
 
   private onTouchEnd(): void {
@@ -186,11 +195,12 @@ export class SwipeNavigateDirective implements OnInit, OnDestroy {
 
     this.active = false;
 
-    if (this.directionLocked !== 'horizontal') {
-      this.directionLocked = null;
+    const shouldNavigate = this.directionLocked === 'horizontal';
+    this.directionLocked = null;
+
+    if (!shouldNavigate) {
       return;
     }
-    this.directionLocked = null;
 
     const offset = this.currentOffset;
     this.currentOffset = 0;
@@ -204,12 +214,7 @@ export class SwipeNavigateDirective implements OnInit, OnDestroy {
     }
   }
 
-  private updateIndicator(
-    offset: number,
-    isNext: boolean,
-    targetExists: boolean,
-    maxResistance: number,
-  ): void {
+  private updateIndicator(offset: number, isNext: boolean, targetExists: boolean): void {
     if (!this.indicatorEl || !this.indicatorIconEl) {
       return;
     }
@@ -220,13 +225,16 @@ export class SwipeNavigateDirective implements OnInit, OnDestroy {
     }
 
     const distance = Math.abs(offset);
-    const progress = Math.min(distance / maxResistance, 1);
+    const progress = Math.min(distance / this.MAX_RESISTANCE, 1);
     const opacityProgress = Math.min(distance / this.TRIGGER_DISTANCE, 1);
     const activated = distance >= this.TRIGGER_DISTANCE;
 
-    this.renderer.removeClass(this.indicatorIconEl, 'fa-chevron-left');
-    this.renderer.removeClass(this.indicatorIconEl, 'fa-chevron-right');
-    this.renderer.addClass(this.indicatorIconEl, isNext ? 'fa-chevron-right' : 'fa-chevron-left');
+    this.renderer.removeClass(this.indicatorIconEl, SwipeNavigateDirective.ICON_PREV_CLASS);
+    this.renderer.removeClass(this.indicatorIconEl, SwipeNavigateDirective.ICON_NEXT_CLASS);
+    this.renderer.addClass(
+      this.indicatorIconEl,
+      isNext ? SwipeNavigateDirective.ICON_NEXT_CLASS : SwipeNavigateDirective.ICON_PREV_CLASS,
+    );
 
     this.renderer.setStyle(this.indicatorEl, 'opacity', `${0.35 + opacityProgress * 0.65}`);
     this.renderer.setStyle(
@@ -241,9 +249,9 @@ export class SwipeNavigateDirective implements OnInit, OnDestroy {
     );
 
     if (activated) {
-      this.renderer.addClass(this.indicatorEl, 'ss-swipe-indicator-active');
+      this.renderer.addClass(this.indicatorEl, SwipeNavigateDirective.INDICATOR_ACTIVE_CLASS);
     } else {
-      this.renderer.removeClass(this.indicatorEl, 'ss-swipe-indicator-active');
+      this.renderer.removeClass(this.indicatorEl, SwipeNavigateDirective.INDICATOR_ACTIVE_CLASS);
     }
   }
 
@@ -254,7 +262,7 @@ export class SwipeNavigateDirective implements OnInit, OnDestroy {
 
     this.renderer.setStyle(this.indicatorEl, 'opacity', '0');
     this.renderer.setStyle(this.indicatorEl, 'transform', 'translate(-50%, -50%) scale(0.6)');
-    this.renderer.removeClass(this.indicatorEl, 'ss-swipe-indicator-active');
+    this.renderer.removeClass(this.indicatorEl, SwipeNavigateDirective.INDICATOR_ACTIVE_CLASS);
   }
 
   private setIndicatorTransition(enabled: boolean): void {
@@ -262,14 +270,9 @@ export class SwipeNavigateDirective implements OnInit, OnDestroy {
       return;
     }
 
-    if (enabled) {
-      this.renderer.setStyle(
-        this.indicatorEl,
-        'transition',
-        'transform 0.25s ease, opacity 0.25s ease, background-color 0.15s ease',
-      );
-    } else {
-      this.renderer.setStyle(this.indicatorEl, 'transition', 'background-color 0.15s ease');
-    }
+    const transition = enabled
+      ? SwipeNavigateDirective.TRANSITION_FULL
+      : SwipeNavigateDirective.TRANSITION_BG;
+    this.renderer.setStyle(this.indicatorEl, 'transition', transition);
   }
 }
