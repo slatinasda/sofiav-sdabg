@@ -5,6 +5,7 @@
 export const environment = {
   production: false,
   siteUrl: 'http://localhost:4200',
+  apiUrl: 'https://sofia-v.sdabg.net/api',
 };
 
 /*

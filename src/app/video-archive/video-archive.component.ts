@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 
 import { AppTitleService } from '../app-title.service';
 import { RelativeTimePipe } from '../shared/pipes/relative-time.pipe';
+import { environment } from '../../environments/environment';
 
 interface VideoItem {
   title: string;
@@ -17,6 +18,8 @@ interface VideoItem {
   channelAvatar: string;
 }
 
+const FALLBACK_AVATAR_SRC = 'assets/img/logos/logo-sda-circle--green.svg';
+
 @Component({
   standalone: true,
   imports: [CommonModule, RelativeTimePipe],
@@ -25,7 +28,7 @@ interface VideoItem {
   styleUrls: ['./video-archive.component.scss'],
 })
 export class VideoArchiveComponent implements OnInit {
-  private feedUrl: string = 'https://sofia-v.sdabg.net/api/youtube_feed.php';
+  private readonly feedUrl = `${environment.apiUrl}/youtube_feed.php`;
   protected videos: VideoItem[] = [];
   private loadedVideoThumbs = new Set<string>();
 
@@ -57,6 +60,6 @@ export class VideoArchiveComponent implements OnInit {
   }
 
   protected onChannelAvatarError(event: Event): void {
-    (event.target as HTMLImageElement).src = 'assets/img/logos/logo-sda-circle--green.svg';
+    (event.target as HTMLImageElement).src = FALLBACK_AVATAR_SRC;
   }
 }

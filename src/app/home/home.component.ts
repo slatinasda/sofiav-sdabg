@@ -1,7 +1,7 @@
 import { Component, OnInit, PLATFORM_ID, Inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { DomSanitizer, SafeHtml, SafeResourceUrl } from '@angular/platform-browser';
 import { HttpClient } from '@angular/common/http';
 
 import { AppTitleService } from '../app-title.service';
@@ -14,6 +14,7 @@ import serviceTimesDSTJson from './agenda/service-times-dst.json';
 import { BlogApiService } from '../blog/blog-api.service';
 import { BlogPostSummary } from '../blog/interfaces/blog-post.interface';
 import { BlogPostCardComponent } from '../blog/blog-post-card/blog-post-card.component';
+import { environment } from '../../environments/environment';
 
 const LATEST_POSTS_COUNT = 3;
 
@@ -28,9 +29,17 @@ interface NextLiveStream {
   published: string;
 }
 
-interface ServiceTimes {
-  [key: string]: number[];
-}
+type ServiceTimeKey =
+  | 'fridayEveningSermonStart'
+  | 'fridayEveningSermonEnd'
+  | 'saturdayMorningSchoolStart'
+  | 'saturdayMorningSchoolEnd'
+  | 'saturdayMorningSermonStart'
+  | 'saturdayMorningSermonEnd'
+  | 'saturdayEveningSermonStart'
+  | 'saturdayEveningSermonEnd';
+
+type ServiceTimes = Record<ServiceTimeKey, number[]>;
 
 @Component({
   standalone: true,
@@ -41,26 +50,28 @@ interface ServiceTimes {
 })
 export class HomeComponent implements OnInit {
   private readonly isBrowser: boolean;
-  liveStreamApi: string = 'https://sofia-v.sdabg.net/api/next_live_stream.php';
+  private readonly liveStreamApi = `${environment.apiUrl}/next_live_stream.php`;
   liveStreamEmbedUrl: SafeResourceUrl;
   latestPosts: BlogPostSummary[] = [];
   isDaylightSaving: boolean;
+  private readonly agenda: Record<ServiceTimeKey, moment.Moment>;
 
   constructor(
     private appTitleService: AppTitleService,
     private sanitizer: DomSanitizer,
     private httpClient: HttpClient,
-    private workshipTimeService: WorshipTimeService,
+    private worshipTimeService: WorshipTimeService,
     private quarterService: CurrentQuarterService,
     private blogApi: BlogApiService,
     private cdr: ChangeDetectorRef,
     @Inject(PLATFORM_ID) platformId: object,
   ) {
+    this.isBrowser = isPlatformBrowser(platformId);
     this.appTitleService.setTitle('Начало');
     this.liveStreamEmbedUrl = this.sanitizer.bypassSecurityTrustResourceUrl('');
-    this.isDaylightSaving = this.workshipTimeService.isDaylightSaving();
+    this.isDaylightSaving = this.worshipTimeService.isDaylightSaving();
+    this.agenda = this.buildAgenda();
     this.latestPosts = this.blogApi.getPosts().slice(0, LATEST_POSTS_COUNT);
-    this.isBrowser = isPlatformBrowser(platformId);
   }
 
   ngOnInit() {
@@ -79,66 +90,67 @@ export class HomeComponent implements OnInit {
       });
   }
 
-  serviceTimesMoment(): { [key: string]: moment.Moment } {
-    const times = this.isDaylightSaving ? serviceTimesDST : serviceTimes;
-    const agenda: { [key: string]: moment.Moment } = {};
-
-    Object.keys(times).forEach((serviceTimeKey: string) => {
-      const hour = times[serviceTimeKey][0];
-      const minute = times[serviceTimeKey][1];
-      agenda[serviceTimeKey] = this.workshipTimeService.getTime(hour, minute);
-    });
-
-    return agenda;
+  get saturdayMorningStreamStartTime(): string {
+    return this.agenda.saturdayMorningSermonStart.clone().add(10, 'minutes').format('HH:mm');
   }
 
-  saturdayMorningStreamStartTime(): string {
-    const agenda = this.serviceTimesMoment();
-    return agenda['saturdayMorningSermonStart'].add(10, 'minutes').format('HH:mm');
-  }
-
-  churchServiceAgenda(): IChurchServiceAgenda[] {
-    const agenda = this.serviceTimesMoment();
-
+  get churchServiceAgenda(): IChurchServiceAgenda[] {
     return [
-      {
-        day: 'Петък вечер',
-        label: 'Богослужение и молитвен час',
-        time: {
-          startHour: agenda['fridayEveningSermonStart'].format('HH:mm'),
-          endHour: agenda['fridayEveningSermonEnd'].format('HH:mm'),
-        },
-        icon: 'fas fa-book',
-      },
-      {
-        day: 'Събота сутрин',
-        label: this.sanitizer.bypassSecurityTrustHtml(
+      this.agendaItem(
+        'Петък вечер',
+        'Богослужение и молитвен час',
+        this.agenda.fridayEveningSermonStart,
+        this.agenda.fridayEveningSermonEnd,
+        'fas fa-book',
+      ),
+      this.agendaItem(
+        'Събота сутрин',
+        this.sanitizer.bypassSecurityTrustHtml(
           `Групова дискусия върху <a href="/sabbath-school/${this.quarterService.yearAndQuarter()}">съботно училищния урок</a>`,
         ),
-        time: {
-          startHour: agenda['saturdayMorningSchoolStart'].format('HH:mm'),
-          endHour: agenda['saturdayMorningSchoolEnd'].format('HH:mm'),
-        },
-        icon: 'fas fa-comments',
-      },
-      {
-        day: 'Събота сутрин',
-        label: 'Централно богослужение',
-        time: {
-          startHour: agenda['saturdayMorningSermonStart'].format('HH:mm'),
-          endHour: agenda['saturdayMorningSermonEnd'].format('HH:mm'),
-        },
-        icon: 'fas fa-book-open',
-      },
-      {
-        day: 'Събота вечер',
-        label: 'Богослужение и молитвен час',
-        time: {
-          startHour: agenda['saturdayEveningSermonStart'].format('HH:mm'),
-          endHour: agenda['saturdayEveningSermonEnd'].format('HH:mm'),
-        },
-        icon: 'fas fa-user-friends',
-      },
+        this.agenda.saturdayMorningSchoolStart,
+        this.agenda.saturdayMorningSchoolEnd,
+        'fas fa-comments',
+      ),
+      this.agendaItem(
+        'Събота сутрин',
+        'Централно богослужение',
+        this.agenda.saturdayMorningSermonStart,
+        this.agenda.saturdayMorningSermonEnd,
+        'fas fa-book-open',
+      ),
+      this.agendaItem(
+        'Събота вечер',
+        'Богослужение и молитвен час',
+        this.agenda.saturdayEveningSermonStart,
+        this.agenda.saturdayEveningSermonEnd,
+        'fas fa-user-friends',
+      ),
     ];
+  }
+
+  private buildAgenda(): Record<ServiceTimeKey, moment.Moment> {
+    const times = this.isDaylightSaving ? serviceTimesDST : serviceTimes;
+    return Object.fromEntries(
+      (Object.keys(times) as ServiceTimeKey[]).map((key) => [
+        key,
+        this.worshipTimeService.getTime(times[key][0], times[key][1]),
+      ]),
+    ) as Record<ServiceTimeKey, moment.Moment>;
+  }
+
+  private agendaItem(
+    day: string,
+    label: string | SafeHtml,
+    start: moment.Moment,
+    end: moment.Moment,
+    icon: string,
+  ): IChurchServiceAgenda {
+    return {
+      day,
+      label,
+      time: { startHour: start.format('HH:mm'), endHour: end.format('HH:mm') },
+      icon,
+    };
   }
 }

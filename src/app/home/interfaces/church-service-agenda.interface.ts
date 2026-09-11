@@ -3,6 +3,6 @@ import { SafeHtml } from '@angular/platform-browser';
 export interface IChurchServiceAgenda {
   day: string;
   label: string | SafeHtml;
-  time: { [key: string]: string };
+  time: { startHour: string; endHour: string };
   icon: string;
 }
