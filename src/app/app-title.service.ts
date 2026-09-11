@@ -1,25 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 
+export const CHURCH_NAME = 'Църква на Адвентистите от Седмия Ден - София "В" Слатина';
+
 @Injectable()
 export class AppTitleService {
-  private baseAppTitle = 'Църква на Адвентистите от Седмия Ден - София "В" Слатина';
-
   constructor(private titleService: Title) {}
 
-  getBaseAppTitle(): string {
-    return this.baseAppTitle;
-  }
-
-  getTitle(): string {
-    return this.titleService.getTitle();
-  }
-
   setTitle(pageTitle: string): void {
-    if (pageTitle === '') {
-      return this.titleService.setTitle(this.baseAppTitle);
-    }
-
-    this.titleService.setTitle(`${pageTitle} | ${this.baseAppTitle}`);
+    const title = pageTitle ? `${pageTitle} | ${CHURCH_NAME}` : CHURCH_NAME;
+    this.titleService.setTitle(title);
   }
 }

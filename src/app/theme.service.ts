@@ -1,4 +1,4 @@
-import { Injectable, PLATFORM_ID, Inject, signal } from '@angular/core';
+import { Injectable, PLATFORM_ID, Inject, signal, computed, effect } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 
 export type ThemeMode = 'system' | 'light' | 'dark';
@@ -6,35 +6,51 @@ export type ResolvedTheme = 'light' | 'dark';
 
 const STORAGE_KEY = 'theme-preference';
 
+function isThemeMode(value: string | null): value is ThemeMode {
+  return value === 'light' || value === 'dark' || value === 'system';
+}
+
 @Injectable({ providedIn: 'root' })
 export class ThemeService {
   private readonly isBrowser: boolean;
   private mediaQuery?: MediaQueryList;
 
   readonly mode = signal<ThemeMode>('system');
-  readonly resolvedTheme = signal<ResolvedTheme>('light');
+
+  private readonly systemPrefersDark = signal(false);
+
+  readonly resolvedTheme = computed<ResolvedTheme>(() => {
+    const mode = this.mode();
+    if (mode === 'system') {
+      return this.systemPrefersDark() ? 'dark' : 'light';
+    }
+    return mode;
+  });
 
   constructor(@Inject(PLATFORM_ID) platformId: object) {
     this.isBrowser = isPlatformBrowser(platformId);
+
+    effect(() => {
+      if (this.isBrowser) {
+        document.documentElement.setAttribute('data-bs-theme', this.resolvedTheme());
+      }
+    });
 
     if (!this.isBrowser) {
       return;
     }
 
     const stored = localStorage.getItem(STORAGE_KEY);
-    this.mode.set(stored === 'light' || stored === 'dark' ? stored : 'system');
+    this.mode.set(isThemeMode(stored) ? stored : 'system');
 
     this.mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    this.mediaQuery.addEventListener('change', () => {
-      if (this.mode() === 'system') {
-        this.applyTheme();
-      }
+    this.systemPrefersDark.set(this.mediaQuery.matches);
+    this.mediaQuery.addEventListener('change', (event) => {
+      this.systemPrefersDark.set(event.matches);
     });
-
-    this.applyTheme();
   }
 
-  setMode(mode: ThemeMode) {
+  setMode(mode: ThemeMode): void {
     this.mode.set(mode);
     if (!this.isBrowser) {
       return;
@@ -45,21 +61,5 @@ export class ThemeService {
     } else {
       localStorage.setItem(STORAGE_KEY, mode);
     }
-
-    this.applyTheme();
-  }
-
-  private computeResolvedTheme(): ResolvedTheme {
-    if (this.mode() === 'system') {
-      return this.mediaQuery?.matches ? 'dark' : 'light';
-    }
-
-    return this.mode() as ResolvedTheme;
-  }
-
-  private applyTheme() {
-    const resolved = this.computeResolvedTheme();
-    this.resolvedTheme.set(resolved);
-    document.documentElement.setAttribute('data-bs-theme', resolved);
   }
 }
