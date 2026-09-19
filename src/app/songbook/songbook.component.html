@@ -1,4 +1,4 @@
-<div class="container p-md-4 py-lg-5">
+<div class="container p-md-4 py-lg-5" [class.has-player]="selectedSong !== null">
   <div class="jumbotron">
     <h1 class="mb-4">Църковни песни</h1>
     <p class="lead">
@@ -8,8 +8,71 @@
     </p>
   </div>
 
-  <div class="mb-5">
-    <h3 class="mb-3">Изтегляне</h3>
+  <div class="mb-3">
+    <h3 class="mb-3">MP3 записи и текстове</h3>
+    <p class="mb-0">Изберете номер на песен, за да чуете изпълнението и да видите текста.</p>
+  </div>
+
+  <div class="songbook" [class.mobile-lyrics-open]="mobileLyricsOpen">
+    <aside class="songbook-sidebar">
+      <div class="songbook-search">
+        <i class="fa fa-search songbook-search-icon"></i>
+        <input
+          type="search"
+          class="songbook-search-input"
+          placeholder="Търси песен..."
+          aria-label="Търси песен"
+          [(ngModel)]="searchQuery"
+          (ngModelChange)="onSearchChange()"
+        />
+        <button
+          *ngIf="searchQuery"
+          type="button"
+          class="songbook-search-clear"
+          (click)="clearSearch()"
+          aria-label="Изчисти търсенето"
+        >
+          <i class="fa fa-times"></i>
+        </button>
+      </div>
+
+      <div class="songbook-count">{{ filteredSongs.length }} песни</div>
+
+      <ul class="songbook-list">
+        <li *ngFor="let song of filteredSongs">
+          <button
+            type="button"
+            class="songbook-item"
+            [class.active]="selectedSong === song"
+            (click)="selectSong(song)"
+            [title]="'Пусни песен ' + song"
+          >
+            <span class="songbook-item-thumb"><i class="fa fa-music"></i></span>
+            <span class="songbook-item-title">{{ songTitle(song) }}</span>
+          </button>
+        </li>
+      </ul>
+
+      <div class="songbook-no-results" *ngIf="filteredSongs.length === 0">Няма намерени песни.</div>
+    </aside>
+
+    <section class="songbook-lyrics">
+      <button type="button" class="songbook-back d-lg-none" (click)="backToList()">
+        <i class="fa fa-arrow-left me-2"></i>Назад към списъка
+      </button>
+
+      <app-lyrics-pane
+        [lyrics]="lyrics"
+        [currentTime]="currentTime"
+        [loading]="lyricsLoading"
+        [error]="lyricsError"
+        [title]="lyricsTitle"
+        (seek)="onSeek($event)"
+      ></app-lyrics-pane>
+    </section>
+  </div>
+
+  <div>
     <div class="row g-3">
       <div class="col-sm-6 col-lg-4">
         <a
@@ -46,61 +109,14 @@
       </div>
     </div>
   </div>
-
-  <div class="mb-5" [class.pb-6]="selectedSong !== null">
-    <h3 class="mb-3">MP3 записи</h3>
-
-    <p class="mb-3">Изберете номер на песен, за да я пуснете.</p>
-
-    <div class="song-jump mb-4">
-      <label for="song-jump-input" class="form-label">Отиди на песен №</label>
-      <div class="input-group song-jump-group">
-        <input
-          id="song-jump-input"
-          type="number"
-          class="form-control"
-          [class.is-invalid]="songJumpError"
-          [min]="firstSongNumber"
-          [max]="totalSongs"
-          [placeholder]="'От ' + firstSongNumber + ' до ' + totalSongs"
-          [(ngModel)]="songNumberInput"
-          (keyup.enter)="goToSongNumber()"
-        />
-        <button type="button" class="btn btn-primary" (click)="goToSongNumber()">Пусни</button>
-      </div>
-      <div class="invalid-feedback d-block" *ngIf="songJumpError">{{ songJumpError }}</div>
-    </div>
-
-    <app-audio-player
-      *ngIf="selectedSong !== null"
-      [src]="selectedSongSrc"
-      [title]="selectedSongTitle"
-      [downloadHref]="selectedSongSrc"
-      [downloadOpenInNewTab]="false"
-      (closed)="selectedSong = null"
-    ></app-audio-player>
-
-    <div class="song-grid">
-      <button
-        *ngFor="let songNum of organSongNumbers()"
-        type="button"
-        class="song-grid-item"
-        [class.active]="selectedSong === songNum"
-        (click)="playSong(songNum)"
-        title="Пусни песен {{ songNum }}"
-      >
-        <i class="fa fa-volume-up me-1" *ngIf="selectedSong === songNum"></i>{{ songNum }}
-      </button>
-    </div>
-
-    <ul class="pagination justify-content-center mt-4 flex-wrap">
-      <li class="page-item" [class.disabled]="!organPagination.hasPreviousPage()">
-        <button class="page-link" (click)="organPagination.setPreviousPage()">Назад</button>
-      </li>
-      <li class="page-item" [class.disabled]="!organPagination.hasNextPage()">
-        <button class="page-link" (click)="organPagination.setNextPage()">Напред</button>
-      </li>
-    </ul>
-  </div>
-  <!-- MP3 section end -->
 </div>
+
+<app-audio-player
+  *ngIf="selectedSong !== null"
+  [src]="selectedSongSrc"
+  [title]="selectedSongTitle"
+  [downloadHref]="selectedSongSrc"
+  [downloadOpenInNewTab]="false"
+  (timeUpdate)="onTimeUpdate($event)"
+  (closed)="closePlayer()"
+></app-audio-player>

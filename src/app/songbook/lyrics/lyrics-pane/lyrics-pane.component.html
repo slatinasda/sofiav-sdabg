@@ -1,0 +1,54 @@
+<div class="lyrics-pane">
+  <div class="lyrics-header" *ngIf="title">
+    <span class="lyrics-header-title">{{ title }}</span>
+    <button
+      *ngIf="lyrics && lyrics.lines.length > 0"
+      type="button"
+      class="lyrics-copy"
+      [class.copied]="copied"
+      (click)="copyLyrics()"
+      [attr.aria-label]="copied ? 'Копирано' : 'Копирай текста'"
+      [title]="copied ? 'Копирано' : 'Копирай текста'"
+    >
+      <i class="fa" [class.fa-copy]="!copied" [class.fa-check]="copied"></i>
+    </button>
+  </div>
+
+  <div class="lyrics-status" *ngIf="loading">
+    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+    <span>Зареждане на текста...</span>
+  </div>
+
+  <div class="lyrics-status" *ngIf="!loading && error">
+    <div class="lyrics-status-card">
+      <span class="lyrics-status-icon"><i class="fa fa-microphone-slash"></i></span>
+      <p class="lyrics-status-title">{{ error }}</p>
+    </div>
+  </div>
+
+  <div class="lyrics-status" *ngIf="!loading && !error && !lyrics">
+    <div class="lyrics-status-card">
+      <span class="lyrics-status-icon"><i class="fa fa-compact-disc"></i></span>
+      <p class="lyrics-status-title">Изберете песен, за да видите текста.</p>
+    </div>
+  </div>
+
+  <div
+    #scrollContainer
+    class="lyrics-scroll"
+    [class.timed]="lyrics.timed"
+    *ngIf="!loading && !error && lyrics && lyrics.lines.length > 0"
+    (wheel)="onUserScroll()"
+    (touchstart)="onUserScroll()"
+  >
+    <p
+      *ngFor="let line of lyrics.lines; let i = index"
+      class="lyrics-line"
+      [class.active]="lyrics.timed && i === activeIndex"
+      [attr.data-line-index]="i"
+      (click)="onLineClick(line)"
+    >
+      {{ line.text }}
+    </p>
+  </div>
+</div>

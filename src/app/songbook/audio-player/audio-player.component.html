@@ -5,9 +5,9 @@
     [playbackRate]="playbackRate"
     (timeupdate)="onTimeUpdate(audioEl)"
     (loadedmetadata)="onLoadedMetadata(audioEl)"
-    (play)="isPlaying = true"
-    (pause)="isPlaying = false"
-    (ended)="isPlaying = false"
+    (play)="onPlay()"
+    (pause)="onPause()"
+    (ended)="onEnded()"
   ></audio>
 
   <div class="audio-player-title text-truncate">{{ title }}</div>
