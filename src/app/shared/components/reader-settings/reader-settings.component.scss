@@ -1,0 +1,134 @@
+@use '../../../../styles/tokens/colors' as c;
+
+:host {
+  display: inline-flex;
+}
+
+.reader-settings {
+  display: inline-flex;
+}
+
+.reader-settings-panel {
+  min-width: 280px;
+  padding: 1.1rem;
+  border: 0;
+  border-radius: 0.5rem;
+  box-shadow: 0 10px 30px 0 rgba(c.$ui-shadow-color, 0.18);
+}
+
+.reader-settings-group + .reader-settings-group {
+  margin-top: 1rem;
+  padding-top: 1rem;
+}
+
+.reader-theme-options {
+  display: flex;
+}
+
+.reader-theme-btn {
+  flex: 1;
+  padding: 0.4rem 0.25rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: c.$ui-text-muted;
+  background: transparent;
+  border: 0;
+  border-bottom: 2px solid c.$ui-border-light;
+  transition:
+    color 0.15s ease,
+    border-color 0.15s ease;
+
+  &:hover {
+    color: c.$ui-brand-primary-invert;
+  }
+
+  &.active {
+    color: c.$ui-brand-primary-invert;
+    border-bottom-color: c.$ui-brand-primary;
+  }
+}
+
+.reader-size-options {
+  display: flex;
+  width: 100%;
+  overflow: hidden;
+  border: 1px solid c.$ui-border-light;
+  border-radius: 999px;
+}
+
+.reader-size-btn {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  padding: 0.5rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  line-height: 1em;
+  color: c.$ui-text-muted;
+  background: transparent;
+  border: 0;
+  transition:
+    color 0.15s ease,
+    background-color 0.15s ease;
+
+  &:hover:not(:disabled) {
+    color: c.$ui-brand-primary-invert;
+    background: c.$ui-surface-light;
+  }
+
+  &:disabled {
+    opacity: 0.4;
+    cursor: default;
+  }
+
+  & + & {
+    border-left: 1px solid c.$ui-border-light;
+  }
+}
+
+.reader-size-label {
+  line-height: 1em;
+
+  &.reader-size-label-sm {
+    font-size: 0.75rem;
+  }
+
+  &.reader-size-label-lg {
+    font-size: 1.15rem;
+  }
+}
+
+:host-context([data-bs-theme='dark']) {
+  .reader-theme-btn {
+    color: c.$ui-dark-text-muted;
+    border-bottom-color: c.$ui-dark-border;
+
+    &:hover {
+      color: c.$ui-brand-accent-light;
+    }
+
+    &.active {
+      color: c.$ui-brand-accent-light;
+      border-bottom-color: c.$ui-brand-primary;
+    }
+  }
+
+  .reader-size-options {
+    border-color: c.$ui-dark-border;
+  }
+
+  .reader-size-btn {
+    color: c.$ui-dark-text-muted;
+
+    &:hover:not(:disabled) {
+      color: c.$ui-brand-accent-light;
+      background: c.$ui-reader-dark-surface;
+    }
+  }
+
+  .reader-size-btn + .reader-size-btn {
+    border-left-color: c.$ui-dark-border;
+  }
+}

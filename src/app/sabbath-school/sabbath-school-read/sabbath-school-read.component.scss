@@ -65,6 +65,7 @@
   border-radius: 0.5rem;
   display: inline-flex;
   align-items: stretch;
+  color: c.$ui-white;
 }
 
 .ss-toolbar-item:first-child .ss-toolbar-btn,
@@ -105,100 +106,14 @@
   }
 }
 
-.ss-settings-panel {
-  min-width: 280px;
-  padding: 1.1rem;
-  border: none;
-  border-radius: 0.5rem;
-  box-shadow: 0 10px 30px 0 rgba(c.$ui-shadow-color, 0.18);
-}
-
-.ss-settings-group + .ss-settings-group {
-  margin-top: 1rem;
-  padding-top: 1rem;
-}
-
-.ss-segmented {
-  display: flex;
-}
-
-.ss-segmented-btn {
-  flex: 1;
-  background: transparent;
-  border: none;
-  border-bottom: 2px solid c.$ui-border-light;
-  color: c.$ui-text-muted;
-  padding: 0.4rem 0.25rem;
-  font-size: 0.85rem;
-  font-weight: 600;
-  transition:
-    color 0.15s ease,
-    border-color 0.15s ease;
-
-  &:hover {
-    color: c.$ui-brand-primary-invert;
-  }
-
-  &.active {
-    color: c.$ui-brand-primary-invert;
-    border-bottom-color: c.$ui-brand-primary;
-  }
-}
-
-.ss-size-pill {
-  display: flex;
-  width: 100%;
-  border: 1px solid c.$ui-border-light;
-  border-radius: 999px;
-  overflow: hidden;
-}
-
-.ss-size-pill-btn {
-  flex: 1;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.25rem;
-  background: transparent;
-  border: none;
-  color: c.$ui-text-muted;
-  padding: 0.5rem 0.5rem;
-  font-size: 0.85rem;
-  font-weight: 700;
-  line-height: 1em;
-  transition:
-    color 0.15s ease,
-    background-color 0.15s ease;
-
-  &:hover:not(:disabled) {
-    color: c.$ui-brand-primary-invert;
-    background: c.$ui-surface-light;
-  }
-
-  &:disabled {
-    opacity: 0.4;
-    cursor: default;
-  }
-
-  & + & {
-    border-left: 1px solid c.$ui-border-light;
-  }
-}
-
-.ss-size-pill-label {
-  line-height: 1em;
-
-  &.ss-size-pill-label-sm {
-    font-size: 0.75rem;
-  }
-
-  &.ss-size-pill-label-lg {
-    font-size: 1.15rem;
-  }
-}
-
 .ss-reader {
-  transition: all 0.3s ease;
+  font-size: var(--reader-font-size, 1.2rem);
+  line-height: var(--reader-line-height, 1.5);
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease,
+    font-size 0.3s ease,
+    line-height 0.3s ease;
 }
 
 .ss-theme-light {
@@ -212,27 +127,6 @@
 .ss-theme-dark {
   background: c.$ui-reader-dark-bg;
   color: c.$ui-reader-dark-text;
-}
-
-.ss-size-xs {
-  font-size: 0.8em;
-  line-height: 1.2em;
-}
-.ss-size-sm {
-  font-size: 1em;
-  line-height: 1.4em;
-}
-.ss-size-md {
-  font-size: 1.2em;
-  line-height: 1.5em;
-}
-.ss-size-lg {
-  font-size: 1.4em;
-  line-height: 1.6em;
-}
-.ss-size-xl {
-  font-size: 1.6em;
-  line-height: 1.7em;
 }
 
 .ss-reader {
@@ -522,41 +416,6 @@
 
 /* Panel bg adapts via Bootstrap; text/border colors here don't, so override them. */
 [data-bs-theme='dark'] {
-  .ss-settings-group + .ss-settings-group {
-    border-top-color: c.$ui-dark-border;
-  }
-
-  .ss-segmented-btn {
-    border-bottom-color: c.$ui-dark-border;
-    color: c.$ui-dark-text-muted;
-
-    &:hover {
-      color: c.$ui-brand-accent-light;
-    }
-
-    &.active {
-      color: c.$ui-brand-accent-light;
-      border-bottom-color: c.$ui-brand-primary;
-    }
-  }
-
-  .ss-size-pill {
-    border-color: c.$ui-dark-border;
-  }
-
-  .ss-size-pill-btn {
-    color: c.$ui-dark-text-muted;
-
-    &:hover:not(:disabled) {
-      color: c.$ui-brand-accent-light;
-      background: c.$ui-reader-dark-surface;
-    }
-  }
-
-  .ss-size-pill-btn + .ss-size-pill-btn {
-    border-left-color: c.$ui-dark-border;
-  }
-
   .bible-translation-btn {
     border-color: c.$ui-dark-border;
 

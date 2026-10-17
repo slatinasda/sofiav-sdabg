@@ -70,56 +70,16 @@
               <div class="d-flex justify-content-end p-2">
                 <div class="ss-toolbar">
                   <!-- Reader Options -->
-                  <div class="dropdown ss-toolbar-item">
+                  <app-reader-settings class="ss-toolbar-item" data-swipe-ignore>
                     <button
-                      class="ss-toolbar-btn dropdown-toggle"
+                      readerSettingsTrigger
                       type="button"
-                      data-bs-toggle="dropdown"
-                      data-bs-auto-close="outside"
+                      class="ss-toolbar-btn"
+                      aria-label="Настройки на четене"
                     >
                       Aa
                     </button>
-                    <div
-                      class="dropdown-menu dropdown-menu-end ss-settings-panel"
-                      data-swipe-ignore
-                    >
-                      <div class="ss-settings-group">
-                        <div class="ss-segmented">
-                          <button
-                            *ngFor="let theme of readerThemes"
-                            type="button"
-                            class="ss-segmented-btn"
-                            [class.active]="readerTheme === theme.value"
-                            (click)="setTheme(theme.value)"
-                          >
-                            {{ theme.label }}
-                          </button>
-                        </div>
-                      </div>
-                      <div class="ss-settings-group">
-                        <div class="ss-size-pill">
-                          <button
-                            type="button"
-                            class="ss-size-pill-btn"
-                            [disabled]="readerSize === minReaderSize"
-                            (click)="decreaseSize()"
-                            aria-label="Намали шрифта"
-                          >
-                            -<span class="ss-size-pill-label ss-size-pill-label-sm">A</span>
-                          </button>
-                          <button
-                            type="button"
-                            class="ss-size-pill-btn"
-                            [disabled]="readerSize === maxReaderSize"
-                            (click)="increaseSize()"
-                            aria-label="Увеличи шрифта"
-                          >
-                            +<span class="ss-size-pill-label ss-size-pill-label-lg">A</span>
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                  </app-reader-settings>
 
                   <button
                     *ngIf="audio.length"
@@ -143,14 +103,11 @@
           <div
             *ngIf="read"
             class="ss-reader"
-            [class.ss-theme-light]="readerTheme === 'light'"
-            [class.ss-theme-sepia]="readerTheme === 'sepia'"
-            [class.ss-theme-dark]="readerTheme === 'dark'"
-            [class.ss-size-xs]="readerSize === 1"
-            [class.ss-size-sm]="readerSize === 2"
-            [class.ss-size-md]="readerSize === 3"
-            [class.ss-size-lg]="readerSize === 4"
-            [class.ss-size-xl]="readerSize === 5"
+            [class.ss-theme-light]="readerSettings.theme() === 'light'"
+            [class.ss-theme-sepia]="readerSettings.theme() === 'sepia'"
+            [class.ss-theme-dark]="readerSettings.theme() === 'dark'"
+            [style.--reader-font-size]="readerSettings.typography().fontSize"
+            [style.--reader-line-height]="readerSettings.typography().lineHeight"
           >
             <div
               #readerContent

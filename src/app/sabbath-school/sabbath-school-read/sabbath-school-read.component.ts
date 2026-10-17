@@ -7,19 +7,24 @@ import {
   PLATFORM_ID,
   Inject,
   ViewEncapsulation,
-  effect,
   ChangeDetectorRef,
+  inject,
 } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { SabbathSchoolApiService } from '../sabbath-school-api.service';
 import { AppTitleService } from '../../app-title.service';
-import { ThemeService } from '../../theme.service';
 import { Subscription } from 'rxjs';
 import moment from 'moment';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { marked } from 'marked';
 import { ModalComponent } from '../../shared/components/modal/modal.component';
+import { ReaderSettingsComponent } from '../../shared/components/reader-settings/reader-settings.component';
+import { ReaderSettingsTriggerDirective } from '../../shared/components/reader-settings/reader-settings-trigger.directive';
+import {
+  ReaderSettingsService,
+  provideReaderSettings,
+} from '../../shared/components/reader-settings/reader-settings.service';
 import { AudioPlayerComponent } from '../../songbook/audio-player/audio-player.component';
 import { SwipeNavigateDirective } from '../../shared/directives/swipe-navigate.directive';
 import {
@@ -30,20 +35,6 @@ import {
   BibleTranslation,
 } from '../interfaces/quarterly.interface';
 
-export type ReaderTheme = 'light' | 'sepia' | 'dark';
-
-export const READER_THEMES: { value: ReaderTheme; label: string }[] = [
-  { value: 'light', label: 'Светла' },
-  { value: 'sepia', label: 'Сепия' },
-  { value: 'dark', label: 'Тъмна' },
-];
-
-const DEFAULT_READER_THEME: ReaderTheme = 'light';
-const SEPIA_READER_THEME: ReaderTheme = 'sepia';
-
-const MIN_READER_SIZE = 1;
-const MAX_READER_SIZE = 5;
-
 const PREFERRED_BIBLE_TRANSLATION = 'RIBBD';
 
 @Component({
@@ -52,6 +43,8 @@ const PREFERRED_BIBLE_TRANSLATION = 'RIBBD';
     CommonModule,
     RouterModule,
     ModalComponent,
+    ReaderSettingsComponent,
+    ReaderSettingsTriggerDirective,
     AudioPlayerComponent,
     SwipeNavigateDirective,
   ],
@@ -60,9 +53,12 @@ const PREFERRED_BIBLE_TRANSLATION = 'RIBBD';
   styleUrls: ['./sabbath-school-read.component.scss'],
   // [innerHTML] content bypasses Angular's style encapsulation, so scoped styles won't reach it.
   encapsulation: ViewEncapsulation.None,
+  providers: [provideReaderSettings('ss')],
 })
 export class SabbathSchoolReadComponent implements OnInit, OnDestroy {
   @ViewChild('readerContent') readerContent!: ElementRef;
+
+  readonly readerSettings = inject(ReaderSettingsService);
 
   loading = false;
   quarterlyDetail: QuarterlyDetail | null = null;
@@ -81,21 +77,12 @@ export class SabbathSchoolReadComponent implements OnInit, OnDestroy {
   selectedTranslation = '';
   private selectedVerseKey = '';
 
-  readonly readerThemes = READER_THEMES;
-  readonly minReaderSize = MIN_READER_SIZE;
-  readonly maxReaderSize = MAX_READER_SIZE;
-  readerTheme: ReaderTheme = DEFAULT_READER_THEME;
-  readerSize = 3;
-
-  private readonly READER_THEME_KEY = 'ss-reader-theme';
-  private readonly READER_SIZE_KEY = 'ss-reader-size';
   private readonly BIBLE_TRANSLATION_KEY = 'ss-bible-translation';
 
   private routeSub!: Subscription;
   private routeParams: any = {};
 
   private readonly isBrowser: boolean;
-  private settingsLoaded = false;
 
   constructor(
     private api: SabbathSchoolApiService,
@@ -103,32 +90,14 @@ export class SabbathSchoolReadComponent implements OnInit, OnDestroy {
     private router: Router,
     private appTitleService: AppTitleService,
     private sanitizer: DomSanitizer,
-    private themeService: ThemeService,
     private cdr: ChangeDetectorRef,
     @Inject(PLATFORM_ID) platformId: object,
   ) {
     this.isBrowser = isPlatformBrowser(platformId);
-
-    // Sepia is a reader-exclusive manual choice
-    // Light/dark instead follow system-wide active theme
-    effect(() => {
-      const resolved = this.themeService.resolvedTheme();
-      if (!this.settingsLoaded || this.readerTheme === SEPIA_READER_THEME) {
-        return;
-      }
-
-      this.readerTheme = resolved;
-      this.saveSettings();
-      this.cdr.markForCheck();
-    });
   }
 
   ngOnInit() {
     this.loadSettings();
-    this.settingsLoaded = true;
-    if (this.readerTheme !== SEPIA_READER_THEME) {
-      this.readerTheme = this.themeService.resolvedTheme();
-    }
 
     // Subscribe to route param changes so component reloads when day changes
     this.routeSub = this.route.paramMap.subscribe((params) => {
@@ -159,18 +128,7 @@ export class SabbathSchoolReadComponent implements OnInit, OnDestroy {
       return;
     }
 
-    const storedTheme = localStorage.getItem(this.READER_THEME_KEY) as ReaderTheme | null;
-    this.readerTheme = storedTheme ?? DEFAULT_READER_THEME;
-    this.readerSize = parseInt(localStorage.getItem(this.READER_SIZE_KEY) || '') || 3;
     this.selectedTranslation = localStorage.getItem(this.BIBLE_TRANSLATION_KEY) || '';
-  }
-
-  private saveSettings(): void {
-    if (!this.isBrowser) {
-      return;
-    }
-    localStorage.setItem(this.READER_THEME_KEY, this.readerTheme);
-    localStorage.setItem(this.READER_SIZE_KEY, this.readerSize.toString());
   }
 
   private saveBibleTranslation(): void {
@@ -178,35 +136,6 @@ export class SabbathSchoolReadComponent implements OnInit, OnDestroy {
       return;
     }
     localStorage.setItem(this.BIBLE_TRANSLATION_KEY, this.selectedTranslation);
-  }
-
-  setTheme(theme: ReaderTheme): void {
-    this.readerTheme = theme;
-    this.saveSettings();
-  }
-
-  setSize(size: number): void {
-    this.readerSize = size;
-    this.saveSettings();
-  }
-
-  decreaseSize(): void {
-    this.setSize(Math.max(MIN_READER_SIZE, this.readerSize - 1));
-  }
-
-  increaseSize(): void {
-    this.setSize(Math.min(MAX_READER_SIZE, this.readerSize + 1));
-  }
-
-  get fontSizeClass(): string {
-    const sizeMap: { [key: number]: string } = {
-      1: 'ss-size-xs',
-      2: 'ss-size-sm',
-      3: 'ss-size-md',
-      4: 'ss-size-lg',
-      5: 'ss-size-xl',
-    };
-    return sizeMap[this.readerSize] || 'ss-size-md';
   }
 
   get quarter(): string {

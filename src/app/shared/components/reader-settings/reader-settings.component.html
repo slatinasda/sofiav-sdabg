@@ -1,0 +1,43 @@
+<div class="dropdown reader-settings">
+  <ng-content select="[readerSettingsTrigger]"></ng-content>
+
+  <div class="dropdown-menu dropdown-menu-end reader-settings-panel">
+    <div class="reader-settings-group">
+      <div class="reader-theme-options" role="group" aria-label="Тема на четене">
+        <button
+          *ngFor="let theme of themes"
+          type="button"
+          class="reader-theme-btn"
+          [class.active]="theme.value === settings.theme()"
+          [attr.aria-pressed]="theme.value === settings.theme()"
+          (click)="selectTheme(theme.value)"
+        >
+          {{ theme.label }}
+        </button>
+      </div>
+    </div>
+
+    <div class="reader-settings-group">
+      <div class="reader-size-options">
+        <button
+          type="button"
+          class="reader-size-btn"
+          [disabled]="settings.size() <= minSize"
+          (click)="decreaseSize()"
+          aria-label="Намали шрифта"
+        >
+          -<span class="reader-size-label reader-size-label-sm">A</span>
+        </button>
+        <button
+          type="button"
+          class="reader-size-btn"
+          [disabled]="settings.size() >= maxSize"
+          (click)="increaseSize()"
+          aria-label="Увеличи шрифта"
+        >
+          +<span class="reader-size-label reader-size-label-lg">A</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
