@@ -10,9 +10,16 @@ import {
   Output,
   SimpleChanges,
   ViewChild,
+  inject,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+import { ReaderSettingsComponent } from '../../../shared/components/reader-settings/reader-settings.component';
+import { ReaderSettingsTriggerDirective } from '../../../shared/components/reader-settings/reader-settings-trigger.directive';
+import {
+  ReaderSettingsService,
+  provideReaderSettings,
+} from '../../../shared/components/reader-settings/reader-settings.service';
 import { LyricLine, ParsedLyrics } from '../lyrics.types';
 
 const USER_SCROLL_COOLDOWN_MS = 3000;
@@ -21,11 +28,12 @@ const COPY_FEEDBACK_MS = 2000;
 
 @Component({
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ReaderSettingsComponent, ReaderSettingsTriggerDirective],
   selector: 'app-lyrics-pane',
   templateUrl: './lyrics-pane.component.html',
   styleUrls: ['./lyrics-pane.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [provideReaderSettings('songbook')],
 })
 export class LyricsPaneComponent implements OnChanges, OnDestroy {
   @Input() lyrics: ParsedLyrics | null = null;
@@ -34,6 +42,9 @@ export class LyricsPaneComponent implements OnChanges, OnDestroy {
   @Input() error: string | null = null;
   @Input() title = '';
   @Output() seek = new EventEmitter<number>();
+  @Output() back = new EventEmitter<void>();
+
+  readonly readerSettings = inject(ReaderSettingsService);
 
   activeIndex = -1;
   copied = false;

@@ -1,121 +1,166 @@
-<div class="container p-md-4 py-lg-5" [class.has-player]="selectedSong !== null">
-  <div class="jumbotron">
-    <h1 class="mb-4">Църковни песни</h1>
-    <p class="lead">
-      Музиката и песните заемат важна част в поклонението на вярващите. На тази страница ще намерите
-      музикален съпровод на орган за всички 300 песни, които се пеят в църквата на Адвентистите от
-      седмия ден.
-    </p>
+<div class="container py-3 p-md-4 py-lg-5" [class.has-player]="selectedSong() !== null">
+  <div class="jumbotron songbook-hero">
+    <h1 class="mb-0">Църковни песни</h1>
+    <p class="lead">Хвалете Бог чрез популярните адвентни химни, които се пеят в нашата църква.</p>
   </div>
 
-  <div class="mb-3">
-    <h3 class="mb-3">MP3 записи и текстове</h3>
-    <p class="mb-0">Изберете номер на песен, за да чуете изпълнението и да видите текста.</p>
-  </div>
-
-  <div class="songbook" [class.mobile-lyrics-open]="mobileLyricsOpen">
-    <aside class="songbook-sidebar">
-      <div class="songbook-search">
-        <i class="fa fa-search songbook-search-icon"></i>
-        <input
-          type="search"
-          class="songbook-search-input"
-          placeholder="Търси песен..."
-          aria-label="Търси песен"
-          [(ngModel)]="searchQuery"
-          (ngModelChange)="onSearchChange()"
-        />
-        <button
-          *ngIf="searchQuery"
-          type="button"
-          class="songbook-search-clear"
-          (click)="clearSearch()"
-          aria-label="Изчисти търсенето"
-        >
-          <i class="fa fa-times"></i>
-        </button>
-      </div>
-
-      <div class="songbook-count">{{ filteredSongs.length }} песни</div>
-
-      <ul class="songbook-list">
-        <li *ngFor="let song of filteredSongs">
-          <button
-            type="button"
-            class="songbook-item"
-            [class.active]="selectedSong === song"
-            (click)="selectSong(song)"
-            [title]="'Пусни песен ' + song"
-          >
-            <span class="songbook-item-thumb"><i class="fa fa-music"></i></span>
-            <span class="songbook-item-title">{{ songTitle(song) }}</span>
-          </button>
-        </li>
-      </ul>
-
-      <div class="songbook-no-results" *ngIf="filteredSongs.length === 0">Няма намерени песни.</div>
-    </aside>
-
-    <section class="songbook-lyrics">
-      <button type="button" class="songbook-back d-lg-none" (click)="backToList()">
-        <i class="fa fa-arrow-left me-2"></i>Назад към списъка
+  <section class="songbook-index">
+    <div class="songbook-search">
+      <i class="fa fa-search songbook-search-icon"></i>
+      <input
+        type="search"
+        class="songbook-search-input"
+        placeholder="Номер на песен (напр. 124)"
+        aria-label="Търсене на песен"
+        [ngModel]="searchQuery()"
+        (ngModelChange)="searchQuery.set($event)"
+        (keyup.enter)="onSearchSubmit()"
+      />
+      <button
+        *ngIf="searchQuery()"
+        type="button"
+        class="songbook-search-clear"
+        (click)="clearSearch()"
+        aria-label="Изчисти търсенето"
+        title="Изчисти търсенето"
+      >
+        <i class="fa fa-times"></i>
       </button>
+    </div>
 
-      <app-lyrics-pane
-        [lyrics]="lyrics"
-        [currentTime]="currentTime"
-        [loading]="lyricsLoading"
-        [error]="lyricsError"
-        [title]="lyricsTitle"
-        (seek)="onSeek($event)"
-      ></app-lyrics-pane>
-    </section>
-  </div>
+    <div
+      class="songbook-pill-row"
+      *ngIf="!searchActive()"
+      role="group"
+      aria-label="Диапазони с песни"
+    >
+      <button
+        *ngFor="let pill of chapterPills"
+        type="button"
+        class="songbook-pill"
+        [class.active]="chapterStart() === pill.start"
+        [attr.aria-pressed]="chapterStart() === pill.start"
+        (click)="selectPill(pill.start)"
+      >
+        {{ pill.label }}
+      </button>
+    </div>
 
-  <div>
-    <div class="row g-3">
-      <div class="col-sm-6 col-lg-4">
-        <a
-          class="download-card"
-          href="https://github.com/slatinasda/sdabg-church-songbook-sheets/releases/latest/download/songbook.pdf"
-          target="_blank"
-        >
-          <i class="fa fa-file-pdf download-card-icon"></i>
-          <span class="download-card-title">PDF</span>
-          <span class="download-card-desc">Ноти за всички 300 песни</span>
-        </a>
+    <div class="songbook-status" role="status" [class.visually-hidden]="!searchActive()">
+      <span
+        >Резултати за „{{ searchQuery().trim() }}“ · {{ visibleSongs().length }} намерени
+        песни</span
+      >
+    </div>
+
+    <div class="songbook-tile-grid" *ngIf="visibleSongs().length > 0">
+      <button
+        *ngFor="let song of visibleSongs()"
+        type="button"
+        class="songbook-tile"
+        [class.playing]="selectedSong() === song"
+        [attr.aria-current]="selectedSong() === song ? 'true' : null"
+        [attr.aria-label]="'Пусни песен ' + song"
+        (click)="selectSong(song)"
+        [title]="'Пусни песен ' + song"
+      >
+        {{ song }}
+      </button>
+    </div>
+
+    <div class="songbook-empty" *ngIf="visibleSongs().length === 0">
+      <div class="songbook-empty-icon">
+        <i class="fa fa-search"></i>
       </div>
-      <div class="col-sm-6 col-lg-4">
-        <a
-          class="download-card"
-          href="https://github.com/slatinasda/sdabg-church-songbook-sheets/releases/latest/download/songbook-midi.zip"
-          target="_blank"
-        >
-          <i class="fa fa-file-audio download-card-icon"></i>
-          <span class="download-card-title">MIDI</span>
-          <span class="download-card-desc">MIDI файлове за DAW</span>
-        </a>
+      <h3 class="fw-bold mb-2">Няма намерени резултати</h3>
+      <p class="text-muted" *ngIf="songs.length">Песните са номерирани от {{ songRangeLabel }}.</p>
+      <button type="button" class="btn btn-primary rounded-pill" (click)="clearSearch()">
+        Изчисти търсенето
+      </button>
+    </div>
+  </section>
+
+  <section class="songbook-downloads">
+    <div class="songbook-downloads-panel">
+      <h2 class="songbook-downloads-title">Материали за музиканти</h2>
+      <p class="songbook-downloads-lead">
+        Свалете PDF книгата с ноти, MIDI файловете за аудио обработка в DAW или текстът към песните.
+      </p>
+
+      <div class="row g-3">
+        <div class="col-sm-6 col-lg-4">
+          <a
+            class="download-card"
+            href="https://github.com/slatinasda/sdabg-church-songbook-sheets/releases/latest/download/songbook.pdf"
+            target="_blank"
+          >
+            <i class="fa fa-file-pdf download-card-icon"></i>
+            <span class="download-card-title">PDF книга с ноти</span>
+            <span class="download-card-desc"
+              >PDF книга, която може да качите на вашия таблет или да принтирате отделно.</span
+            >
+          </a>
+        </div>
+        <div class="col-sm-6 col-lg-4">
+          <a
+            class="download-card"
+            href="https://github.com/slatinasda/sdabg-church-songbook-sheets/releases/latest/download/songbook-midi.zip"
+            target="_blank"
+          >
+            <i class="fa fa-file-audio download-card-icon"></i>
+            <span class="download-card-title">MIDI файлове</span>
+            <span class="download-card-desc"
+              >Използвайте MIDI файловете в DAW като Cubase, FL Studio и други.</span
+            >
+          </a>
+        </div>
+        <div class="col-sm-6 col-lg-4">
+          <a
+            class="download-card"
+            href="/files/church-songbook/text/Church songbook - Text.zip"
+            target="_blank"
+          >
+            <i class="fa fa-align-left download-card-icon"></i>
+            <span class="download-card-title">Текст за прожектиране</span>
+            <span class="download-card-desc"
+              >Изтеглете текстът към песните във формат PPTX и ODP.</span
+            >
+          </a>
+        </div>
       </div>
-      <div class="col-sm-6 col-lg-4">
-        <a
-          class="download-card"
-          href="/files/church-songbook/text/Church songbook - Text.zip"
-          target="_blank"
+
+      <div class="songbook-downloads-footnote">
+        <i class="fa-brands fa-github"></i>
+        <span
+          >Всички материали са публично достъпни с отворен код на нашата
+          <a href="https://github.com/slatinasda/sdabg-church-songbook-sheets" target="_blank"
+            >GitHub</a
+          >
+          страница.</span
         >
-          <i class="fa fa-align-left download-card-icon"></i>
-          <span class="download-card-title">Текст</span>
-          <span class="download-card-desc">PDF, PPTX, ODP формати</span>
-        </a>
       </div>
     </div>
-  </div>
+  </section>
 </div>
 
+<section class="songbook-reader" [class.open]="readerOpen()">
+  <app-lyrics-pane
+    [lyrics]="lyrics()"
+    [currentTime]="currentTime()"
+    [loading]="lyricsLoading()"
+    [error]="lyricsError()"
+    [title]="lyricsTitle()"
+    (seek)="onSeek($event)"
+    (back)="backToList()"
+  ></app-lyrics-pane>
+</section>
+
 <app-audio-player
-  *ngIf="selectedSong !== null"
-  [src]="selectedSongSrc"
-  [title]="selectedSongTitle"
-  [downloadHref]="selectedSongSrc"
+  *ngIf="selectedSong() !== null"
+  class="songbook-audio-player"
+  [src]="selectedSongSrc()"
+  [title]="selectedSongTitle()"
+  [downloadHref]="selectedSongSrc()"
   [downloadOpenInNewTab]="false"
   (timeUpdate)="onTimeUpdate($event)"
   (closed)="closePlayer()"

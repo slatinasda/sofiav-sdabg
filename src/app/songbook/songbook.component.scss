@@ -1,233 +1,357 @@
 @use '../../styles/tokens/colors' as c;
 
-.download-card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  height: 100%;
-  padding: 2rem 1rem;
-  text-align: center;
-  text-decoration: none;
-  color: c.$ui-text-muted;
-  background-color: c.$ui-white;
-  border: 1px solid c.$ui-border-muted;
-  border-radius: 0.375rem;
-  box-shadow: 0 4px 6px 0 rgba(c.$ui-shadow-color, 0.1);
-  transition:
-    transform 0.25s ease,
-    border-color 0.15s ease;
-
-  &:hover {
-    transform: translateY(-5px);
-    border-color: c.$ui-brand-primary-invert;
-    text-decoration: none;
-    color: c.$ui-text-muted;
-  }
+:host {
+  display: block;
+  background-color: c.$ui-surface-light;
 }
 
-.download-card-icon {
-  font-size: 2.75rem;
-  color: c.$ui-brand-primary-invert;
+.container {
+  max-width: 75rem;
 }
 
-.download-card-title {
-  font-weight: 700;
-  font-size: 1.1rem;
-  text-transform: uppercase;
-}
-
-.download-card-desc {
-  font-size: 0.85rem;
-  color: c.$ui-text-secondary;
-}
-
-// Leave room for the fixed audio player so it never covers the panes.
+// Leave room for the fixed audio player.
 .has-player {
   padding-bottom: 7rem;
 }
 
-.songbook {
-  display: grid;
-  grid-template-columns: 1fr;
-  height: 36vh;
-  min-height: 15rem;
-  margin-bottom: 2rem;
-  overflow: hidden;
-  background-color: c.$ui-white;
-  border: 1px solid c.$ui-border-muted;
-  border-radius: 0.5rem;
+// Sit above the full-screen reader (default is 1030).
+app-audio-player.songbook-audio-player {
+  --audio-player-z-index: 2100;
+}
 
-  @media (min-width: 992px) {
-    grid-template-columns: 20rem 1fr;
+.songbook-eyebrow {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: c.$ui-brand-primary-invert;
+}
+
+.songbook-hero {
+  margin-bottom: 0;
+  padding: 0 0 1rem;
+  text-align: left;
+
+  .songbook-eyebrow {
+    margin-bottom: 0.6rem;
+    color: c.$ui-brand-primary-invert;
+  }
+
+  h1 {
+    margin-bottom: 0 !important;
+    font-size: clamp(1.9rem, 4.4vw, 2.6rem);
+    font-weight: 700;
+    line-height: 1.5;
+    color: c.$ui-header-text;
+  }
+
+  .lead {
+    max-width: 46rem;
+    margin-top: 0.65rem;
+    margin-bottom: 0;
+    font-size: 1rem;
+    font-weight: 400;
+    color: c.$ui-text-secondary;
   }
 }
 
-.songbook-sidebar {
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
-  background-color: c.$ui-surface-light;
-  border-bottom: 1px solid c.$ui-border-muted;
-
-  @media (min-width: 992px) {
-    border-bottom: 0;
-    border-right: 1px solid c.$ui-border-muted;
-  }
+// ---- search + index ----
+.songbook-index {
+  padding: 1rem 0;
+  margin-bottom: 0;
 }
 
 .songbook-search {
   position: relative;
-  flex: 0 0 auto;
-  padding: 0.75rem;
-  border-bottom: 1px solid c.$ui-border-muted;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 1.25rem;
+  padding: 0.3rem 0.4rem 0.3rem 1.1rem;
+  background-color: c.$ui-white;
+  border: 1px solid c.$ui-border-muted;
+  border-radius: 999px;
+  box-shadow: 0 10px 30px -12px rgba(c.$ui-shadow-color, 0.18);
 }
 
 .songbook-search-icon {
-  position: absolute;
-  top: 50%;
-  left: 1.5rem;
-  transform: translateY(-50%);
+  flex: 0 0 auto;
   color: c.$ui-text-secondary;
-  pointer-events: none;
 }
 
 .songbook-search-input {
-  width: 100%;
-  padding: 0.5rem 2rem 0.5rem 2.25rem;
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 0.55rem 0;
   font: inherit;
   color: c.$ui-text-muted;
-  background-color: c.$ui-white;
-  border: 1px solid c.$ui-border-muted;
-  border-radius: 0.375rem;
+  background: none;
+  border: 0;
 
   &:focus {
     outline: none;
-    border-color: c.$ui-brand-primary;
-    box-shadow: 0 0 0 0.15rem rgba(c.$ui-brand-primary, 0.25);
   }
 
-  // Hide the native clear affordance; we render our own.
   &::-webkit-search-cancel-button {
     display: none;
   }
 }
 
 .songbook-search-clear {
-  position: absolute;
-  top: 50%;
-  right: 1.25rem;
-  transform: translateY(-50%);
-  display: flex;
+  flex: 0 0 auto;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 2.1rem;
+  height: 2.1rem;
   padding: 0;
-  color: c.$ui-text-secondary;
-  background: none;
-  border: 0;
-  cursor: pointer;
-}
-
-.songbook-count {
-  flex: 0 0 auto;
-  padding: 0.5rem 0.85rem;
-  font-size: 0.75rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
-  color: c.$ui-text-secondary;
-}
-
-.songbook-list {
-  flex: 1 1 auto;
-  min-height: 0;
-  margin: 0;
-  padding: 0 0.5rem 0.5rem;
-  overflow-y: auto;
-  list-style: none;
-}
-
-.songbook-item {
-  display: flex;
-  align-items: center;
-  gap: 0.65rem;
-  width: 100%;
-  padding: 0.55rem 0.65rem;
-  font: inherit;
   color: c.$ui-text-muted;
-  text-align: left;
-  background: none;
+  background: transparent;
   border: 0;
-  border-radius: 0.375rem;
+  border-radius: 50%;
   cursor: pointer;
   transition:
     background-color 0.15s ease,
     color 0.15s ease;
 
+  &:hover,
+  &:focus {
+    color: c.$ui-header-text;
+    background-color: c.$ui-surface-light;
+  }
+}
+
+.songbook-pill-row {
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  padding-bottom: 0.75rem;
+  margin-bottom: 0.25rem;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  @media (max-width: 575.98px) {
+    flex-wrap: wrap;
+    overflow-x: visible;
+  }
+}
+
+.songbook-pill {
+  flex: 0 0 auto;
+  padding: 0.4rem 0.95rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: c.$ui-text-secondary;
+  white-space: nowrap;
+  background-color: c.$ui-white;
+  border: 1px solid c.$ui-border-muted;
+  border-radius: 999px;
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease,
+    border-color 0.15s ease;
+
   &:hover {
-    background-color: c.$ui-surface-hover;
+    color: c.$ui-text-muted;
+    border-color: c.$ui-brand-primary;
   }
 
   &.active {
     color: c.$ui-white;
-    background-color: c.$ui-brand-primary-invert;
+    background-color: c.$ui-brand-primary;
+    border-color: c.$ui-brand-primary;
   }
 }
 
-.songbook-item-thumb {
-  flex: 0 0 auto;
+.songbook-status {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  font-size: 0.85rem;
+  color: c.$ui-text-secondary;
+}
+
+.songbook-tile-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(4.6rem, 1fr));
+  gap: 0.55rem;
+
+  @media (max-width: 420px) {
+    grid-template-columns: repeat(auto-fill, minmax(3.9rem, 1fr));
+  }
+}
+
+.songbook-tile {
+  aspect-ratio: 1 / 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 2rem;
-  height: 2rem;
-  border-radius: 0.375rem;
-  font-size: 0.85rem;
-  color: c.$ui-brand-primary-invert;
-  background-color: c.$ui-surface-disabled;
+  font-weight: 700;
+  font-size: 1.15rem;
+  font-variant-numeric: tabular-nums;
+  color: c.$ui-header-text;
+  background-color: c.$ui-white;
+  border: 1px solid c.$ui-border-muted;
+  border-radius: 0.7rem;
+  cursor: pointer;
+  transition:
+    transform 0.15s ease,
+    border-color 0.15s ease,
+    background-color 0.15s ease,
+    color 0.15s ease;
+
+  &:hover {
+    transform: translateY(-3px);
+    border-color: c.$ui-brand-primary;
+  }
+
+  &.playing {
+    color: c.$ui-white;
+    background-color: c.$ui-brand-primary;
+    border-color: c.$ui-brand-primary;
+  }
 }
 
-.songbook-item.active .songbook-item-thumb {
-  color: c.$ui-white;
-  background-color: rgba(c.$ui-white, 0.22);
-}
-
-.songbook-item-title {
-  flex: 1 1 auto;
-  overflow: hidden;
-  font-weight: 600;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.songbook-no-results {
-  padding: 1.5rem 1rem;
-  color: c.$ui-text-secondary;
+.songbook-empty {
+  padding: 3rem 1.5rem;
+  margin-bottom: 2rem;
   text-align: center;
+  background-color: c.$ui-surface-light;
+  border: 1px solid c.$ui-border-light;
+  border-radius: 0.75rem;
 }
 
-.songbook-lyrics {
+.songbook-empty-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 4rem;
+  height: 4rem;
+  margin-bottom: 1.25rem;
+  font-size: 1.5rem;
+  color: c.$ui-brand-primary-invert;
+  background-color: c.$ui-brand-accent-lighter;
+  border-radius: 50%;
+}
+
+// ---- downloads ----
+.songbook-downloads {
+  padding: 3rem 0 1rem;
+}
+
+.songbook-downloads-panel {
+  padding: 1.5rem;
+  background-color: c.$ui-surface-sunk;
+  border: 1px solid c.$ui-border-muted;
+  border-radius: 1rem;
+}
+
+.songbook-downloads-title {
+  margin-bottom: 0.4rem;
+  font-size: 1.3rem;
+}
+
+.songbook-downloads-lead {
+  max-width: 40rem;
+  margin-bottom: 1.25rem;
+  font-size: 0.92rem;
+  color: c.$ui-text-secondary;
+}
+
+.download-card {
   display: flex;
   flex-direction: column;
-  min-height: 0;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 0;
+  height: 100%;
+  padding: 1.25rem 1.1rem;
+  text-align: left;
+  text-decoration: none;
+  color: c.$ui-header-text;
+  background-color: c.$ui-white;
+  border: 1px solid c.$ui-border-muted;
+  border-radius: 0.75rem;
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease;
+
+  &:hover {
+    transform: translateY(-3px);
+    border-color: c.$ui-brand-primary;
+    text-decoration: none;
+    color: c.$ui-header-text;
+  }
 }
 
-.songbook-back {
-  flex: 0 0 auto;
+.download-card-icon {
+  margin-bottom: 0.6rem;
+  font-size: 1.625rem;
+  color: c.$ui-brand-primary-invert;
+}
+
+.download-card-title {
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.download-card-desc {
+  margin-top: 0.35rem;
+  font-size: 0.82rem;
+  line-height: 1.45;
+  color: c.$ui-text-secondary;
+}
+
+.songbook-downloads-footnote {
   display: flex;
   align-items: center;
-  padding: 0.75rem 1rem;
-  font: inherit;
-  font-weight: 600;
-  color: c.$ui-brand-primary-invert;
-  text-align: left;
-  background: none;
-  border: 0;
-  border-bottom: 1px solid c.$ui-border-muted;
-  cursor: pointer;
+  gap: 0.6rem;
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid c.$ui-border-muted;
+  font-size: 0.82rem;
+  color: c.$ui-text-secondary;
+
+  i {
+    flex: 0 0 auto;
+  }
+
+  a {
+    color: c.$ui-brand-primary-invert;
+    font-weight: 600;
+  }
+}
+
+// ---- full-bleed reader ----
+.songbook-reader {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: flex;
+  flex-direction: column;
+  padding-top: 0;
+  background-color: c.$ui-white;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(12px);
+  visibility: hidden;
+  transition:
+    opacity 0.22s ease,
+    transform 0.22s ease,
+    visibility 0s linear 0.22s;
+
+  &.open {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+    visibility: visible;
+    transition-delay: 0s;
+  }
 }
 
 app-lyrics-pane {
@@ -235,26 +359,106 @@ app-lyrics-pane {
   min-height: 0;
 }
 
-// Mobile: show one pane at a time.
-@media (max-width: 991.98px) {
-  .songbook-lyrics {
-    display: none;
-  }
-
-  .songbook.mobile-lyrics-open {
-    .songbook-sidebar {
-      display: none;
-    }
-
-    .songbook-lyrics {
-      display: flex;
-    }
-  }
-}
-
 :host-context([data-bs-theme='dark']) {
-  .download-card {
+  background-color: c.$ui-dark-bg;
+
+  .songbook-eyebrow {
+    color: c.$ui-brand-accent-light;
+  }
+
+  .songbook-hero h1 {
+    color: c.$ui-dark-text;
+  }
+
+  .songbook-hero .lead {
+    color: c.$ui-dark-text-muted;
+  }
+
+  .songbook-search {
     background-color: c.$ui-dark-surface;
+    border-color: c.$ui-dark-border;
+  }
+
+  .songbook-search-input {
+    color: c.$ui-dark-text;
+  }
+
+  .songbook-search-icon {
+    color: c.$ui-dark-text-muted;
+  }
+
+  .songbook-search-clear {
+    color: c.$ui-dark-text-muted;
+
+    &:hover,
+    &:focus {
+      color: c.$ui-dark-text;
+      background-color: c.$ui-dark-surface-hover;
+    }
+  }
+
+  .songbook-pill {
+    color: c.$ui-dark-text-muted;
+    background-color: c.$ui-dark-surface;
+    border-color: c.$ui-dark-border;
+
+    &:hover {
+      color: c.$ui-dark-text;
+    }
+
+    &.active {
+      background-color: c.$ui-brand-accent-light;
+      border-color: c.$ui-brand-accent-light;
+      color: c.$ui-dark-bg;
+    }
+  }
+
+  .songbook-status {
+    color: c.$ui-dark-text-muted;
+  }
+
+  .songbook-empty {
+    background-color: c.$ui-dark-bg;
+    border-color: c.$ui-dark-border;
+  }
+
+  .songbook-empty-icon {
+    color: c.$ui-dark-link;
+    background-color: c.$ui-dark-surface;
+  }
+
+  .songbook-tile {
+    color: c.$ui-dark-text;
+    background-color: c.$ui-dark-surface;
+    border-color: c.$ui-dark-border;
+
+    &.playing {
+      color: c.$ui-dark-bg;
+      background-color: c.$ui-brand-accent-light;
+      border-color: c.$ui-brand-accent-light;
+    }
+  }
+
+  .songbook-downloads-panel {
+    background-color: c.$ui-dark-surface;
+    border-color: c.$ui-dark-border;
+  }
+
+  .songbook-downloads-lead,
+  .songbook-downloads-footnote {
+    color: c.$ui-dark-text-muted;
+  }
+
+  .songbook-downloads-footnote {
+    border-color: c.$ui-dark-border;
+
+    a {
+      color: c.$ui-brand-accent-light;
+    }
+  }
+
+  .download-card {
+    background-color: c.$ui-dark-bg;
     border-color: c.$ui-dark-border;
     color: c.$ui-dark-text;
 
@@ -267,46 +471,7 @@ app-lyrics-pane {
     color: c.$ui-dark-text-muted;
   }
 
-  .songbook {
+  .songbook-reader {
     background-color: c.$ui-dark-bg;
-    border-color: c.$ui-dark-border;
-  }
-
-  .songbook-sidebar {
-    background-color: c.$ui-dark-surface;
-    border-color: c.$ui-dark-border;
-  }
-
-  .songbook-search,
-  .songbook-back {
-    border-color: c.$ui-dark-border;
-  }
-
-  .songbook-search-input {
-    color: c.$ui-dark-text;
-    background-color: c.$ui-dark-bg;
-    border-color: c.$ui-dark-border;
-  }
-
-  .songbook-search-clear {
-    color: c.$ui-dark-text-muted;
-  }
-
-  .songbook-item {
-    color: c.$ui-dark-text;
-
-    &:hover {
-      background-color: c.$ui-dark-surface-hover;
-    }
-  }
-
-  .songbook-item-thumb {
-    color: c.$ui-brand-accent-light;
-    background-color: c.$ui-dark-bg;
-  }
-
-  .songbook-count,
-  .songbook-no-results {
-    color: c.$ui-dark-text-muted;
   }
 }

@@ -5,7 +5,7 @@
   bottom: 0;
   left: 0;
   right: 0;
-  z-index: 1030;
+  z-index: var(--audio-player-z-index, 1030);
   background: c.$ui-white;
   border-top: 1px solid c.$ui-border-light;
   box-shadow: 0 -2px 8px rgba(c.$ui-shadow-color, 0.08);

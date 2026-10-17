@@ -1,17 +1,51 @@
-<div class="lyrics-pane">
+<div
+  class="lyrics-pane"
+  [class.reader-theme-light]="readerSettings.theme() === 'light'"
+  [class.reader-theme-sepia]="readerSettings.theme() === 'sepia'"
+  [class.reader-theme-dark]="readerSettings.theme() === 'dark'"
+  [style.--reader-font-size]="readerSettings.typography().fontSize"
+  [style.--reader-line-height]="readerSettings.typography().lineHeight"
+>
   <div class="lyrics-header" *ngIf="title">
-    <span class="lyrics-header-title">{{ title }}</span>
-    <button
-      *ngIf="lyrics && lyrics.lines.length > 0"
-      type="button"
-      class="lyrics-copy"
-      [class.copied]="copied"
-      (click)="copyLyrics()"
-      [attr.aria-label]="copied ? 'Копирано' : 'Копирай текста'"
-      [title]="copied ? 'Копирано' : 'Копирай текста'"
-    >
-      <i class="fa" [class.fa-copy]="!copied" [class.fa-check]="copied"></i>
-    </button>
+    <div class="lyrics-header-inner">
+      <button
+        type="button"
+        class="lyrics-back"
+        (click)="back.emit()"
+        aria-label="Назад към списъка"
+        title="Назад към списъка"
+      >
+        <i class="fa fa-chevron-left"></i>
+      </button>
+      <div class="lyrics-header-main">
+        <span class="lyrics-header-label">Песен</span>
+        <span class="lyrics-header-title">{{ title }}</span>
+      </div>
+      <div class="lyrics-header-actions">
+        <button
+          *ngIf="lyrics && lyrics.lines.length > 0"
+          type="button"
+          class="lyrics-copy"
+          [class.copied]="copied"
+          (click)="copyLyrics()"
+          [attr.aria-label]="copied ? 'Копирано' : 'Копирай текста'"
+          [title]="copied ? 'Копирано' : 'Копирай текста'"
+        >
+          <i class="fa" [class.fa-copy]="!copied" [class.fa-check]="copied"></i>
+        </button>
+
+        <app-reader-settings>
+          <button
+            readerSettingsTrigger
+            type="button"
+            class="lyrics-settings-trigger"
+            aria-label="Настройки на четене"
+          >
+            Aa
+          </button>
+        </app-reader-settings>
+      </div>
+    </div>
   </div>
 
   <div class="lyrics-status" *ngIf="loading">
