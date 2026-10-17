@@ -39,59 +39,59 @@
   margin-bottom: 2rem;
 }
 
-.blog-size-pill {
-  display: inline-flex;
-  border: 1px solid c.$ui-border-light;
-  border-radius: 999px;
-  overflow: hidden;
-}
-
-.blog-size-pill-btn {
+.blog-reader-trigger {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.25rem;
-  background: transparent;
-  border: none;
-  color: c.$ui-text-muted;
-  padding: 0.4rem 0.9rem;
-  font-size: 0.85rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
   font-weight: 700;
-  line-height: 1em;
+  line-height: 1;
+  color: c.$ui-text-muted;
+  background: c.$ui-white;
+  border: 1px solid c.$ui-border-light;
+  border-radius: 999px;
+  cursor: pointer;
   transition:
     color 0.15s ease,
-    background-color 0.15s ease;
+    background-color 0.15s ease,
+    border-color 0.15s ease;
 
-  &:hover:not(:disabled) {
+  &:hover,
+  &:focus,
+  &[aria-expanded='true'] {
     color: c.$ui-brand-primary-invert;
     background: c.$ui-surface-light;
-  }
-
-  &:disabled {
-    opacity: 0.4;
-    cursor: default;
-  }
-
-  & + & {
-    border-left: 1px solid c.$ui-border-light;
-  }
-}
-
-.blog-size-pill-label {
-  line-height: 1em;
-
-  &.blog-size-pill-label-sm {
-    font-size: 0.75rem;
-  }
-
-  &.blog-size-pill-label-lg {
-    font-size: 1.15rem;
+    border-color: c.$ui-brand-primary;
   }
 }
 
 .blog-post-content {
+  padding: 0.75rem;
+  margin-inline: -0.75rem;
+  border-radius: 0.5rem;
+  font-size: var(--reader-font-size, 1.2rem);
+  line-height: var(--reader-line-height, 1.5);
   letter-spacing: 0.015em;
-  transition: all 0.3s ease;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease,
+    font-size 0.3s ease,
+    line-height 0.3s ease;
+
+  @media (min-width: 768px) {
+    padding: 1.5rem;
+    margin-inline: -1.5rem;
+    border-radius: 0.75rem;
+  }
+
+  > :first-child {
+    margin-top: 0;
+  }
+
+  > :last-child {
+    margin-bottom: 0;
+  }
 
   img {
     max-width: 100%;
@@ -112,29 +112,33 @@
     color: c.$ui-text-secondary;
   }
 
-  &.blog-size-xs {
-    font-size: 0.8em;
-    line-height: 1.3em;
+  &.reader-theme-light {
+    background: c.$ui-reader-light-bg;
+    color: c.$ui-reader-light-text;
   }
 
-  &.blog-size-sm {
-    font-size: 1em;
-    line-height: 1.5em;
+  &.reader-theme-sepia {
+    background: c.$ui-reader-sepia-bg;
+    color: c.$ui-reader-sepia-text;
+
+    blockquote {
+      border-left-color: c.$ui-reader-sepia-border;
+      color: c.$ui-reader-sepia-text;
+    }
   }
 
-  &.blog-size-md {
-    font-size: 1.2em;
-    line-height: 1.6em;
-  }
+  &.reader-theme-dark {
+    background: c.$ui-dark-bg;
+    color: c.$ui-reader-dark-text;
 
-  &.blog-size-lg {
-    font-size: 1.4em;
-    line-height: 1.7em;
-  }
+    a {
+      color: c.$ui-brand-accent-lighter;
+    }
 
-  &.blog-size-xl {
-    font-size: 1.6em;
-    line-height: 1.8em;
+    blockquote {
+      border-left-color: c.$ui-brand-accent-light;
+      color: c.$ui-reader-dark-text;
+    }
   }
 }
 
@@ -184,11 +188,6 @@
     }
   }
 
-  .blog-post-content blockquote {
-    border-left-color: c.$ui-dark-link;
-    color: c.$ui-dark-text-muted;
-  }
-
   .blog-post-footer {
     border-top-color: c.$ui-dark-border;
   }
@@ -212,20 +211,17 @@
     }
   }
 
-  .blog-size-pill {
-    border-color: c.$ui-dark-border;
-  }
-
-  .blog-size-pill-btn {
+  .blog-reader-trigger {
     color: c.$ui-dark-text-muted;
+    background: c.$ui-dark-bg;
+    border-color: c.$ui-dark-border;
 
-    &:hover:not(:disabled) {
+    &:hover,
+    &:focus,
+    &[aria-expanded='true'] {
       color: c.$ui-brand-accent-light;
-      background: c.$ui-reader-dark-surface;
+      background: c.$ui-dark-surface-hover;
+      border-color: c.$ui-brand-accent-light;
     }
-  }
-
-  .blog-size-pill-btn + .blog-size-pill-btn {
-    border-left-color: c.$ui-dark-border;
   }
 }

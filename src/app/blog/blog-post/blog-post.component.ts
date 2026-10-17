@@ -6,6 +6,7 @@ import {
   PLATFORM_ID,
   ViewEncapsulation,
   ChangeDetectorRef,
+  inject,
 } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { ActivatedRoute, RouterModule } from '@angular/router';
@@ -15,6 +16,12 @@ import { BlogApiService } from '../blog-api.service';
 import { SeoService } from '../../shared/services/seo.service';
 import { BlogPost, BlogPostSummary } from '../interfaces/blog-post.interface';
 import { BlogPostCardComponent } from '../blog-post-card/blog-post-card.component';
+import { ReaderSettingsComponent } from '../../shared/components/reader-settings/reader-settings.component';
+import { ReaderSettingsTriggerDirective } from '../../shared/components/reader-settings/reader-settings-trigger.directive';
+import {
+  ReaderSettingsService,
+  provideReaderSettings,
+} from '../../shared/components/reader-settings/reader-settings.service';
 
 interface ShareLinks {
   facebook: SafeUrl;
@@ -24,30 +31,30 @@ interface ShareLinks {
   email: SafeUrl;
 }
 
-const MIN_READER_SIZE = 1;
-const MAX_READER_SIZE = 5;
-const DEFAULT_READER_SIZE = 3;
-const READER_SIZE_KEY = 'blog-reader-size';
-
 @Component({
   standalone: true,
-  imports: [CommonModule, RouterModule, BlogPostCardComponent],
+  imports: [
+    CommonModule,
+    RouterModule,
+    BlogPostCardComponent,
+    ReaderSettingsComponent,
+    ReaderSettingsTriggerDirective,
+  ],
   selector: 'app-blog-post',
   templateUrl: './blog-post.component.html',
   styleUrls: ['./blog-post.component.scss'],
   // [innerHTML] bypasses style encapsulation (same tradeoff as sabbath-school-read.component.ts).
   encapsulation: ViewEncapsulation.None,
+  providers: [provideReaderSettings('blog')],
 })
 export class BlogPostComponent implements OnInit, OnDestroy {
+  readonly readerSettings = inject(ReaderSettingsService);
+
   post: BlogPost | null = null;
   notFound = false;
   relatedPosts: BlogPostSummary[] = [];
   contentHtml: SafeHtml = '';
   shareLinks: ShareLinks | null = null;
-
-  readonly minReaderSize = MIN_READER_SIZE;
-  readonly maxReaderSize = MAX_READER_SIZE;
-  readerSize = DEFAULT_READER_SIZE;
 
   private readonly isBrowser: boolean;
   private routeSub!: Subscription;
@@ -64,8 +71,6 @@ export class BlogPostComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.loadReaderSize();
-
     // Post data comes from blogPostResolver (see blog.routes.ts), which the Router
     // re-runs and race-guards on every navigation - no manual guarding needed here.
     this.routeSub = this.route.data.subscribe((data) => {
@@ -98,30 +103,6 @@ export class BlogPostComponent implements OnInit, OnDestroy {
     if (this.isBrowser) {
       window.scrollTo(0, 0);
     }
-  }
-
-  setSize(size: number): void {
-    this.readerSize = size;
-    if (this.isBrowser) {
-      localStorage.setItem(READER_SIZE_KEY, this.readerSize.toString());
-    }
-  }
-
-  decreaseSize(): void {
-    this.setSize(Math.max(MIN_READER_SIZE, this.readerSize - 1));
-  }
-
-  increaseSize(): void {
-    this.setSize(Math.min(MAX_READER_SIZE, this.readerSize + 1));
-  }
-
-  private loadReaderSize(): void {
-    if (!this.isBrowser) {
-      return;
-    }
-
-    const stored = Number.parseInt(localStorage.getItem(READER_SIZE_KEY) || '', 10);
-    this.readerSize = Number.isFinite(stored) ? stored : DEFAULT_READER_SIZE;
   }
 
   private postPath(post: BlogPost): string {
