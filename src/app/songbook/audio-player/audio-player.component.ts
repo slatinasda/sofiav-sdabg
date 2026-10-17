@@ -4,11 +4,15 @@ import {
   Output,
   EventEmitter,
   OnChanges,
+  AfterViewInit,
+  OnDestroy,
   SimpleChanges,
   ViewChild,
   ElementRef,
+  PLATFORM_ID,
+  inject,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DOCUMENT, isPlatformBrowser } from '@angular/common';
 
 const SPEED_STEP = 0.05;
 const MIN_SPEED = 0.5;
@@ -21,7 +25,7 @@ const MAX_SPEED = 2;
   templateUrl: './audio-player.component.html',
   styleUrls: ['./audio-player.component.scss'],
 })
-export class AudioPlayerComponent implements OnChanges {
+export class AudioPlayerComponent implements OnChanges, AfterViewInit, OnDestroy {
   @Input({ required: true }) src!: string;
   @Input({ required: true }) title!: string;
   @Input() downloadHref?: string;
@@ -33,6 +37,11 @@ export class AudioPlayerComponent implements OnChanges {
   @Output() playingChange = new EventEmitter<boolean>();
 
   @ViewChild('audioEl') audioElRef?: ElementRef<HTMLAudioElement>;
+
+  private readonly hostRef = inject<ElementRef<HTMLElement>>(ElementRef);
+  private readonly document = inject(DOCUMENT);
+  private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
+  private resizeObserver?: ResizeObserver;
 
   readonly minSpeed = MIN_SPEED;
   readonly maxSpeed = MAX_SPEED;
@@ -50,6 +59,36 @@ export class AudioPlayerComponent implements OnChanges {
       this.timeUpdate.emit(0);
       this.durationChange.emit(0);
     }
+  }
+
+  ngAfterViewInit(): void {
+    if (!this.isBrowser) {
+      return;
+    }
+
+    this.publishHeight();
+
+    if (typeof ResizeObserver === 'undefined') {
+      return;
+    }
+
+    this.resizeObserver = new ResizeObserver(() => this.publishHeight());
+    this.resizeObserver.observe(this.hostRef.nativeElement);
+  }
+
+  ngOnDestroy(): void {
+    this.resizeObserver?.disconnect();
+    this.resizeObserver = undefined;
+
+    if (this.isBrowser) {
+      this.document.documentElement.style.removeProperty('--audio-player-height');
+    }
+  }
+
+  // Lets full-screen readers reserve space for the fixed player.
+  private publishHeight(): void {
+    const { height } = this.hostRef.nativeElement.getBoundingClientRect();
+    this.document.documentElement.style.setProperty('--audio-player-height', `${height}px`);
   }
 
   togglePlay(audioEl: HTMLAudioElement): void {
@@ -137,6 +176,14 @@ export class AudioPlayerComponent implements OnChanges {
 
   get playbackRateLabel(): string {
     return `${Math.round(this.playbackRate * 100)}%`;
+  }
+
+  get seekProgress(): number {
+    if (!isFinite(this.duration) || this.duration <= 0 || !isFinite(this.currentTime)) {
+      return 0;
+    }
+
+    return Math.min(Math.max((this.currentTime / this.duration) * 100, 0), 100);
   }
 
   formatTime(seconds: number): string {

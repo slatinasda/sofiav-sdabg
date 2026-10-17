@@ -1,6 +1,7 @@
 <div class="audio-player">
   <audio
     #audioEl
+    preload="metadata"
     [src]="src"
     [playbackRate]="playbackRate"
     (timeupdate)="onTimeUpdate(audioEl)"
@@ -10,84 +11,110 @@
     (ended)="onEnded()"
   ></audio>
 
-  <div class="audio-player-title text-truncate">{{ title }}</div>
+  <div class="audio-player-title text-truncate" [title]="title">{{ title }}</div>
 
-  <div class="audio-player-controls">
-    <button
-      type="button"
-      class="btn btn-link btn-icon"
-      (click)="skip(audioEl, -10)"
-      title="-10 секунди"
-    >
-      <i class="fa fa-backward"></i>
-    </button>
-    <button
-      type="button"
-      class="btn btn-primary btn-icon btn-rounded"
-      (click)="togglePlay(audioEl)"
-      [title]="isPlaying ? 'Пауза' : 'Пусни'"
-    >
-      <i class="fa" [class.fa-pause]="isPlaying" [class.fa-play]="!isPlaying"></i>
-    </button>
-    <button
-      type="button"
-      class="btn btn-link btn-icon"
-      (click)="skip(audioEl, 10)"
-      title="+10 секунди"
-    >
-      <i class="fa fa-forward"></i>
-    </button>
+  <div class="audio-player-main">
+    <div class="audio-player-transport" role="group" aria-label="Управление на възпроизвеждането">
+      <button
+        type="button"
+        class="btn btn-link player-btn skip-btn"
+        (click)="skip(audioEl, -10)"
+        title="Назад с 10 секунди"
+        aria-label="Назад с 10 секунди"
+      >
+        <i class="fa-solid fa-rotate-left" aria-hidden="true"></i>
+        <span class="skip-seconds" aria-hidden="true">10</span>
+      </button>
+      <button
+        type="button"
+        class="btn btn-primary player-btn player-btn-play"
+        (click)="togglePlay(audioEl)"
+        [title]="isPlaying ? 'Пауза' : 'Пусни'"
+        [attr.aria-label]="isPlaying ? 'Пауза' : 'Пусни'"
+      >
+        <i
+          class="fa-solid"
+          [class.fa-pause]="isPlaying"
+          [class.fa-play]="!isPlaying"
+          aria-hidden="true"
+        ></i>
+      </button>
+      <button
+        type="button"
+        class="btn btn-link player-btn skip-btn"
+        (click)="skip(audioEl, 10)"
+        title="Напред с 10 секунди"
+        aria-label="Напред с 10 секунди"
+      >
+        <i class="fa-solid fa-rotate-right" aria-hidden="true"></i>
+        <span class="skip-seconds" aria-hidden="true">10</span>
+      </button>
+    </div>
+
+    <div class="audio-player-seek">
+      <span class="audio-player-time">{{ formatTime(currentTime) }}</span>
+      <input
+        type="range"
+        class="audio-player-range"
+        min="0"
+        [max]="duration || 0"
+        step="0.1"
+        [value]="currentTime"
+        [style.--seek-progress]="seekProgress + '%'"
+        [attr.aria-valuetext]="formatTime(currentTime) + ' от ' + formatTime(duration)"
+        (input)="seek(audioEl, $event)"
+        aria-label="Позиция на песента"
+      />
+      <span class="audio-player-time">{{ formatTime(duration) }}</span>
+    </div>
   </div>
 
-  <div class="audio-player-progress">
-    <span class="audio-player-time">{{ formatTime(currentTime) }}</span>
-    <input
-      type="range"
-      class="audio-player-seek"
-      min="0"
-      [max]="duration || 0"
-      step="0.1"
-      [value]="currentTime"
-      (input)="seek(audioEl, $event)"
-      aria-label="Позиция на песента"
-    />
-    <span class="audio-player-time">{{ formatTime(duration) }}</span>
-  </div>
+  <div class="audio-player-extra">
+    <div class="audio-player-speed" role="group" aria-label="Скорост на възпроизвеждане">
+      <button
+        type="button"
+        class="btn btn-link player-btn player-btn-sm"
+        [disabled]="playbackRate <= minSpeed"
+        (click)="changeSpeed(-speedStep)"
+        title="Намали скоростта с 5%"
+        aria-label="Намали скоростта"
+      >
+        <i class="fa-solid fa-minus" aria-hidden="true"></i>
+      </button>
+      <span class="audio-player-speed-value" aria-live="polite">{{ playbackRateLabel }}</span>
+      <button
+        type="button"
+        class="btn btn-link player-btn player-btn-sm"
+        [disabled]="playbackRate >= maxSpeed"
+        (click)="changeSpeed(speedStep)"
+        title="Увеличи скоростта с 5%"
+        aria-label="Увеличи скоростта"
+      >
+        <i class="fa-solid fa-plus" aria-hidden="true"></i>
+      </button>
+    </div>
 
-  <div class="audio-player-speed">
+    <a
+      *ngIf="downloadHref"
+      class="btn btn-link player-btn player-btn-sm"
+      [href]="downloadHref"
+      [attr.target]="downloadOpenInNewTab ? '_blank' : null"
+      [attr.rel]="downloadOpenInNewTab ? 'noopener' : null"
+      download
+      title="Изтегли текущата песен"
+      aria-label="Изтегли текущата песен"
+    >
+      <i class="fa-solid fa-download" aria-hidden="true"></i>
+    </a>
+
     <button
       type="button"
-      class="btn btn-link btn-icon btn-sm"
-      [disabled]="playbackRate <= minSpeed"
-      (click)="changeSpeed(-speedStep)"
-      title="Намали скоростта с 5%"
+      class="btn btn-link player-btn player-btn-sm"
+      (click)="close(audioEl)"
+      title="Затвори"
+      aria-label="Затвори"
     >
-      <i class="fa fa-minus"></i>
-    </button>
-    <span class="audio-player-speed-value">{{ playbackRateLabel }}</span>
-    <button
-      type="button"
-      class="btn btn-link btn-icon btn-sm"
-      [disabled]="playbackRate >= maxSpeed"
-      (click)="changeSpeed(speedStep)"
-      title="Увеличи скоростта с 5%"
-    >
-      <i class="fa fa-plus"></i>
+      <i class="fa-solid fa-xmark" aria-hidden="true"></i>
     </button>
   </div>
-
-  <a
-    *ngIf="downloadHref"
-    class="btn btn-link btn-icon"
-    [href]="downloadHref"
-    [attr.target]="downloadOpenInNewTab ? '_blank' : null"
-    download
-    title="Изтегли текущата песен"
-  >
-    <i class="fa fa-download"></i>
-  </a>
-
-  <button type="button" class="btn btn-link btn-icon" (click)="close(audioEl)" title="Затвори">
-    <i class="fa fa-times"></i>
-  </button>
 </div>

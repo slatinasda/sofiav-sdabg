@@ -331,6 +331,8 @@ app-audio-player.songbook-audio-player {
 .songbook-reader {
   position: fixed;
   inset: 0;
+  // Reserve the fixed player's height so no lyrics hide behind it.
+  bottom: var(--audio-player-height, 0px);
   z-index: 2000;
   display: flex;
   flex-direction: column;
