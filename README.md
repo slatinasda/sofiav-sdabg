@@ -1,5 +1,7 @@
 # SofiavSdabg
 
+[![Tests](https://github.com/slatinasda/sofiav-sdabg/actions/workflows/tests.yml/badge.svg)](https://github.com/slatinasda/sofiav-sdabg/actions/workflows/tests.yml)
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 21.2.8.
 
 

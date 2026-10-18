@@ -6,6 +6,8 @@
     "start": "npm run prebuild:blog && ng serve --host 0.0.0.0",
     "build": "npm run trim-moment-locales && npm run prebuild:blog && ng build --configuration production",
     "watch": "npm run prebuild:blog && ng build --watch --configuration development",
+    "test": "ng test",
+    "test:ci": "ng test --watch=false",
     "trim-moment-locales": "find node_modules/moment/locale -type f -not \\( -name \"bg.js\" -o -name \"en-gb.js\" \\) -exec rm {} \\;",
     "prebuild:blog": "node scripts/build-blog-content.mjs",
     "prettify": "prettier --write 'src/**/*.{ts,js,json,html,css,scss}' --ignore-path .prettierignore",
