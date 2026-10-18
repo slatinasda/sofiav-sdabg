@@ -5,6 +5,8 @@
   "saturdayMorningSchoolEnd": [11, 0],
   "saturdayMorningSermonStart": [11, 20],
   "saturdayMorningSermonEnd": [12, 10],
+  "saturdayMorningStreamStart": [11, 30],
+  "saturdayMorningStreamEnd": [12, 30],
   "saturdayEveningSermonStart": [18, 0],
   "saturdayEveningSermonEnd": [19, 0]
 }

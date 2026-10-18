@@ -23,6 +23,7 @@ const LATEST_SERMONS_COUNT = 3;
   imports: [CommonModule, RouterModule, VideoCardComponent],
   selector: 'app-latest-sermons',
   templateUrl: './latest-sermons.component.html',
+  styleUrls: ['./latest-sermons.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'd-block' },
 })

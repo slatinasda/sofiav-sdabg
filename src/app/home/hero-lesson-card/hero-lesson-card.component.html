@@ -1,0 +1,48 @@
+<article *ngIf="isLessonLoading()" class="lesson-card lesson-card--loading" aria-hidden="true">
+  <div class="lesson-card__cover lesson-card__skeleton"></div>
+  <div class="lesson-card__body">
+    <div class="lesson-card__line lesson-card__line--short"></div>
+    <div class="lesson-card__line lesson-card__line--title"></div>
+    <div class="lesson-card__line"></div>
+    <div class="lesson-card__line lesson-card__line--button"></div>
+  </div>
+</article>
+
+<article *ngIf="!isLessonLoading() && currentLesson() as lesson" class="lesson-card">
+  <div class="lesson-card__cover">
+    <img
+      *ngIf="coverVisible()"
+      [src]="lesson.cover"
+      [alt]="lesson.lessonTitle"
+      (error)="onCoverError()"
+    />
+    <div *ngIf="!coverVisible()" class="lesson-card__cover-placeholder" aria-hidden="true">
+      <i class="fas fa-book"></i>
+    </div>
+    <span class="lesson-card__badge">Съботно училище</span>
+  </div>
+  <div class="lesson-card__body">
+    <p class="lesson-card__kicker">Урок {{ lesson.lessonNumber }}</p>
+    <h3 class="lesson-card__title">{{ lesson.lessonTitle }}</h3>
+    <p class="lesson-card__today">
+      <span>{{ lesson.dayLabel }}</span> · {{ lesson.dayTitle }}
+    </p>
+    <a [routerLink]="lesson.route" class="btn btn-primary btn-rounded px-4">
+      {{ lesson.ctaLabel }}
+    </a>
+    <p class="lesson-card__meta">{{ lesson.quarterTitle }} · {{ lesson.quarterDate }}</p>
+  </div>
+</article>
+
+<article *ngIf="!isLessonLoading() && !currentLesson()" class="lesson-card lesson-card--fallback">
+  <div class="lesson-card__body">
+    <p class="lesson-card__kicker">Съботно училище</p>
+    <h3 class="lesson-card__title">Разгледайте текущия урок</h3>
+    <p class="lesson-card__today">
+      Прочетете урока за тази седмица и елате в събота, за да го обсъдим на живо в малка група.
+    </p>
+    <a [routerLink]="currentQuarterLink()" class="btn btn-primary btn-rounded px-4">
+      Съботен урок
+    </a>
+  </div>
+</article>

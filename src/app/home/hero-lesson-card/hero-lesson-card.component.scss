@@ -1,0 +1,178 @@
+@use '../../../styles/tokens/colors' as c;
+
+:host {
+  display: block;
+}
+
+.lesson-card {
+  overflow: hidden;
+  border-radius: 16px;
+  background: c.$ui-white;
+  box-shadow: 0 24px 60px rgba(c.$ui-shadow-color, 0.28);
+  color: c.$ui-header-text;
+}
+
+.lesson-card__cover {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  background: c.$ui-surface-disabled;
+
+  img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.lesson-card__cover-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, c.$ui-brand-primary, c.$ui-brand-accent-light);
+  color: rgba(c.$ui-white, 0.85);
+  font-size: 2.5rem;
+}
+
+.lesson-card__badge {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+  padding: 0.3rem 0.65rem;
+  border-radius: 999px;
+  background: rgba(18, 49, 46, 0.82);
+  color: c.$ui-white;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.lesson-card__body {
+  padding: 1.1rem 1.25rem 1.25rem;
+}
+
+.lesson-card--fallback {
+  .lesson-card__body {
+    padding-top: 1.5rem;
+  }
+
+  .lesson-card__title {
+    margin-bottom: 1rem;
+  }
+}
+
+.lesson-card__kicker {
+  margin-bottom: 0.35rem;
+  color: c.$ui-brand-primary-invert;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.lesson-card__title {
+  margin-bottom: 0.5rem;
+  font-size: 1.3rem;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.lesson-card__today {
+  margin-bottom: 1rem;
+  color: c.$ui-text-muted;
+  font-size: 0.92rem;
+  line-height: 1.45;
+
+  span {
+    color: c.$ui-brand-primary-invert;
+    font-weight: 700;
+  }
+}
+
+.lesson-card__meta {
+  margin: 0.9rem 0 0;
+  padding-top: 0.75rem;
+  border-top: 1px solid c.$ui-border-light;
+  color: c.$ui-text-secondary;
+  font-size: 0.78rem;
+  line-height: 1.4;
+}
+
+.lesson-card__skeleton,
+.lesson-card__line {
+  background: c.$ui-surface-disabled;
+  animation: lesson-skeleton-pulse 1.5s ease-in-out infinite;
+}
+
+.lesson-card__line {
+  height: 12px;
+  margin-bottom: 0.65rem;
+  border-radius: 6px;
+
+  &--short {
+    width: 30%;
+  }
+
+  &--title {
+    width: 80%;
+    height: 22px;
+  }
+
+  &--button {
+    width: 45%;
+    height: 36px;
+    margin-top: 1.25rem;
+    border-radius: 999px;
+  }
+}
+
+@keyframes lesson-skeleton-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lesson-card__skeleton,
+  .lesson-card__line {
+    animation: none;
+  }
+}
+
+:host-context([data-bs-theme='dark']) {
+  .lesson-card {
+    background: c.$ui-dark-surface;
+    color: c.$ui-dark-text;
+  }
+
+  .lesson-card__title {
+    color: c.$ui-dark-text;
+  }
+
+  .lesson-card__kicker,
+  .lesson-card__today span {
+    color: c.$ui-brand-accent-lighter;
+  }
+
+  .lesson-card__today,
+  .lesson-card__meta {
+    color: c.$ui-dark-text-muted;
+  }
+
+  .lesson-card__meta {
+    border-top-color: c.$ui-dark-border;
+  }
+
+  .lesson-card__skeleton,
+  .lesson-card__line {
+    background: c.$ui-dark-surface-hover;
+  }
+}

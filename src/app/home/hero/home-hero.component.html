@@ -1,0 +1,58 @@
+<div id="highlighted">
+  <div class="hero fallback-background">
+    <div class="container">
+      <div class="row align-items-center g-4 g-lg-5">
+        <div class="col-12 col-lg-7">
+          <p class="hero-kicker">Църква на Адвентистите от Седмия Ден</p>
+          <h2 class="hero-title">София "В" - Слатина</h2>
+          <p class="hero-lead">Добре дошли! Опознайте Исус заедно с нас.</p>
+
+          <div class="hero-actions">
+            <ng-container *ngIf="isLiveNow(); else offlineActions">
+              <a href="#live-stream" class="btn btn-primary btn-rounded btn-lg py-lg-3 px-lg-4">
+                <span class="live-dot" aria-hidden="true"></span>
+                На живо сега
+              </a>
+              <a
+                href="#church-schedule"
+                class="btn btn-outline-light btn-rounded btn-lg py-lg-3 px-lg-4"
+              >
+                Посетете ни
+              </a>
+            </ng-container>
+            <ng-template #offlineActions>
+              <a href="#church-schedule" class="btn btn-primary btn-rounded btn-lg py-lg-3 px-lg-4">
+                Посетете ни
+              </a>
+              <a
+                routerLink="/video-archive"
+                class="btn btn-outline-light btn-rounded btn-lg py-lg-3 px-lg-4"
+              >
+                Последни проповеди
+              </a>
+            </ng-template>
+          </div>
+
+          <div class="hero-meta">
+            <span class="hero-meta__item">
+              <i class="fas fa-calendar-day" aria-hidden="true"></i>
+              Събота · {{ agenda.sabbathSchoolStartTime }} библейска дискусия
+            </span>
+            <span class="hero-meta__item">
+              <i class="fas fa-church" aria-hidden="true"></i>
+              {{ agenda.centralServiceStartTime }} богослужение
+            </span>
+            <a href="#contact" class="hero-meta__item hero-meta__item--link">
+              <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
+              кв. Слатина
+            </a>
+          </div>
+        </div>
+
+        <div class="col-lg-5">
+          <app-hero-lesson-card></app-hero-lesson-card>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
