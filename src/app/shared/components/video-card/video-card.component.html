@@ -1,0 +1,55 @@
+<ng-container *ngIf="video() as video; else cardSkeleton">
+  <div class="yt-card">
+    <a class="yt-card__thumb" [href]="video.link" target="_blank" rel="noopener">
+      <div *ngIf="!isThumbLoaded()" class="yt-card__thumb-placeholder" aria-hidden="true">
+        <i class="fa fa-video"></i>
+      </div>
+      <img
+        [src]="video.thumbnail"
+        [alt]="video.title"
+        loading="lazy"
+        class="yt-card__thumb-img"
+        [class.yt-card__thumb-img--loaded]="isThumbLoaded()"
+        (load)="onThumbLoad()"
+      />
+    </a>
+
+    <div class="yt-card__body">
+      <a class="yt-card__avatar" [href]="video.channelLink" target="_blank" rel="noopener">
+        <img
+          [src]="video.channelAvatar"
+          [alt]="video.channelTitle"
+          loading="lazy"
+          (error)="onChannelAvatarError($event)"
+        />
+      </a>
+
+      <div class="yt-card__meta">
+        <h3 class="yt-card__title">
+          <a [href]="video.link" target="_blank" rel="noopener">{{ video.title }}</a>
+        </h3>
+        <a class="yt-card__channel" [href]="video.channelLink" target="_blank" rel="noopener">
+          {{ video.channelTitle }}
+        </a>
+        <div class="yt-card__date" [title]="video.published | date: 'longDate'">
+          {{ video.published | relativeTime }}
+        </div>
+        <p class="yt-card__description">{{ video.description }}</p>
+      </div>
+    </div>
+  </div>
+</ng-container>
+
+<ng-template #cardSkeleton>
+  <div class="video-card-skeleton" aria-hidden="true">
+    <div class="video-card-skeleton__thumb"></div>
+    <div class="video-card-skeleton__body">
+      <div class="video-card-skeleton__avatar"></div>
+      <div class="video-card-skeleton__meta">
+        <div class="video-card-skeleton__line"></div>
+        <div class="video-card-skeleton__line video-card-skeleton__line--short"></div>
+        <div class="video-card-skeleton__line video-card-skeleton__line--tiny"></div>
+      </div>
+    </div>
+  </div>
+</ng-template>

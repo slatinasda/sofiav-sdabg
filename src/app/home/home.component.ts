@@ -14,6 +14,7 @@ import serviceTimesDSTJson from './agenda/service-times-dst.json';
 import { BlogApiService } from '../blog/blog-api.service';
 import { BlogPostSummary } from '../blog/interfaces/blog-post.interface';
 import { BlogPostCardComponent } from '../blog/blog-post-card/blog-post-card.component';
+import { LatestSermonsComponent } from './latest-sermons/latest-sermons.component';
 import { environment } from '../../environments/environment';
 
 const LATEST_POSTS_COUNT = 3;
@@ -43,17 +44,25 @@ type ServiceTimes = Record<ServiceTimeKey, number[]>;
 
 @Component({
   standalone: true,
-  imports: [CommonModule, RouterModule, NgbCarousel, NgbSlide, BlogPostCardComponent],
+  imports: [
+    CommonModule,
+    RouterModule,
+    NgbCarousel,
+    NgbSlide,
+    BlogPostCardComponent,
+    LatestSermonsComponent,
+  ],
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-  private readonly isBrowser: boolean;
-  private readonly liveStreamApi = `${environment.apiUrl}/next_live_stream.php`;
   liveStreamEmbedUrl: SafeResourceUrl;
   latestPosts: BlogPostSummary[] = [];
   isDaylightSaving: boolean;
+
+  private readonly isBrowser: boolean;
+  private readonly liveStreamApi = `${environment.apiUrl}/next_live_stream.php`;
   private readonly agenda: Record<ServiceTimeKey, moment.Moment>;
 
   constructor(

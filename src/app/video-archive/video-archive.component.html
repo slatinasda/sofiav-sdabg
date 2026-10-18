@@ -9,77 +9,46 @@
 
   <div class="mb-5">
     <div class="container">
-      <div *ngIf="videos.length === 0; else videoItems" class="d-flex justify-content-center">
-        <div class="spinner-border text-primary" role="status">
-          <span class="visually-hidden">Loading...</span>
+      <div *ngIf="!isLoading() && hasError()" class="video-empty-state text-center" role="alert">
+        <div class="video-empty-state-icon" aria-hidden="true">
+          <i class="fa fa-triangle-exclamation"></i>
+        </div>
+        <h3 class="fw-bold mb-2">Възникна грешка</h3>
+        <p class="text-muted">Не успяхме да заредим видеата. Опитайте отново след малко.</p>
+        <button type="button" class="btn btn-primary rounded-pill px-4" (click)="reload()">
+          Опитайте отново
+        </button>
+      </div>
+
+      <div
+        *ngIf="!isLoading() && !hasError() && videos().length === 0"
+        class="video-empty-state text-center"
+      >
+        <div class="video-empty-state-icon" aria-hidden="true">
+          <i class="fa fa-video-slash"></i>
+        </div>
+        <h3 class="fw-bold mb-2">Няма налични видеа</h3>
+        <p class="text-muted mb-0">Очаквайте нови записи от богослужения скоро.</p>
+      </div>
+
+      <div *ngIf="!hasError() && (isLoading() || videos().length > 0)" class="row g-4">
+        <div
+          *ngFor="let video of videos(); trackBy: trackByIndex"
+          class="col-md-6 col-lg-4 d-flex align-items-stretch"
+        >
+          <app-video-card [video]="video"></app-video-card>
         </div>
       </div>
 
-      <ng-template #videoItems>
-        <div class="row g-4">
-          <div *ngFor="let video of videos" class="col-md-6 col-lg-4 d-flex align-items-stretch">
-            <div class="yt-card">
-              <a class="yt-card__thumb" [href]="video.link" target="_blank" rel="noopener">
-                <div
-                  *ngIf="!isVideoThumbLoaded(video.videoId)"
-                  class="yt-card__thumb-placeholder"
-                  aria-hidden="true"
-                >
-                  <i class="fa fa-video"></i>
-                </div>
-                <img
-                  [src]="video.thumbnail"
-                  alt="Видео преглед"
-                  loading="lazy"
-                  class="yt-card__thumb-img"
-                  [class.yt-card__thumb-img--loaded]="isVideoThumbLoaded(video.videoId)"
-                  (load)="onVideoThumbLoad(video.videoId)"
-                />
-              </a>
-
-              <div class="yt-card__body">
-                <a
-                  class="yt-card__avatar"
-                  [href]="video.channelLink"
-                  target="_blank"
-                  rel="noopener"
-                >
-                  <img
-                    [src]="video.channelAvatar"
-                    [alt]="video.channelTitle"
-                    loading="lazy"
-                    (error)="onChannelAvatarError($event)"
-                  />
-                </a>
-
-                <div class="yt-card__meta">
-                  <h3 class="yt-card__title">
-                    <a [href]="video.link" target="_blank" rel="noopener">{{ video.title }}</a>
-                  </h3>
-                  <a
-                    class="yt-card__channel"
-                    [href]="video.channelLink"
-                    target="_blank"
-                    rel="noopener"
-                  >
-                    {{ video.channelTitle }}
-                  </a>
-                  <div class="yt-card__date" [title]="video.published | date: 'longDate'">
-                    {{ video.published | relativeTime }}
-                  </div>
-                  <p class="yt-card__description">{{ video.description }}</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </ng-template>
-
-      <div *ngIf="videos.length > 0" class="row d-flex justify-content-center mt-5">
+      <div
+        *ngIf="!isLoading() && !hasError() && videos().length > 0"
+        class="row d-flex justify-content-center mt-5"
+      >
         <a
           class="col-auto btn btn-lg btn-primary btn-rounded py-3 px-4"
           href="https://youtube.com/@slatinasda/videos"
           target="_blank"
+          rel="noopener noreferrer"
         >
           Вижте всички записи<i class="fa fa-arrow-right ms-2"></i>
         </a>
