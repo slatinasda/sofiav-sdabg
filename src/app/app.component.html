@@ -14,12 +14,12 @@
                 <img
                   src="assets/img/logos/sda-logo-bg.svg"
                   class="header-logo"
-                  alt="Църква на адвентистите от седмия ден"
+                  [alt]="churchFamilyName"
                 />
               </h1>
             </a>
             <div class="header-divider d-none d-lg-block"></div>
-            <div class="header-slogan d-none d-lg-block">София "В" - Слатина</div>
+            <div class="header-slogan d-none d-lg-block">{{ churchPlaceName }}</div>
           </div>
           <!-- other header content -->
           <div class="header-block header-block-actions">
@@ -88,7 +88,7 @@
         <div class="row">
           <div class="col-md-6">
             <p class="mb-0 text-sm">
-              Copyright {{ today | date: 'yyyy' }} &copy; ЦАСД София "В" - Слатина
+              Copyright {{ today | date: 'yyyy' }} &copy; {{ churchAbbreviation }}
             </p>
             <ul class="list-inline footer-links mb-0 text-sm">
               <li class="list-inline-item">
@@ -141,10 +141,7 @@
   <aside class="l-wrap__sabbath l-sabbath">
     <div class="l-sabbath__logo">
       <div class="l-sabbath__logo--inner">
-        <img
-          src="assets/img/logos/logo-sda-square.svg"
-          alt="Лого Църква на Адвентистите от Седмия Ден"
-        />
+        <img src="assets/img/logos/logo-sda-square.svg" alt="Лого {{ churchName }}" />
       </div>
     </div>
   </aside>

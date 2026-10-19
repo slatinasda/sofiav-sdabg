@@ -27,6 +27,10 @@ jobs:
           cache: npm
 
       - run: npm ci
+
+      - name: Install Playwright browser
+        run: npx playwright install --with-deps chromium
+
       - run: npm run build
 
       - name: Zip build output

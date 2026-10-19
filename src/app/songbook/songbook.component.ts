@@ -14,7 +14,7 @@ import { FormsModule } from '@angular/forms';
 import { Subscription, SubscriptionLike } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 
-import { AppTitleService } from '../app-title.service';
+import { OG_IMAGE_ALT, OG_IMAGES, SeoService } from '../shared/services/seo.service';
 import { AudioPlayerComponent } from './audio-player/audio-player.component';
 import { LyricsPaneComponent } from './lyrics/lyrics-pane/lyrics-pane.component';
 import { LyricsService } from './lyrics/lyrics.service';
@@ -64,7 +64,7 @@ function buildSongRangeLabel(songs: number[]): string {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SongbookComponent implements OnInit, OnDestroy {
-  private readonly appTitleService = inject(AppTitleService);
+  private readonly seo = inject(SeoService);
   private readonly lyricsService = inject(LyricsService);
   private readonly location = inject(Location);
 
@@ -133,11 +133,18 @@ export class SongbookComponent implements OnInit, OnDestroy {
   // pops that entry instead of leaving the page.
   private readerHistoryPushed = false;
 
-  constructor() {
-    this.appTitleService.setTitle('Песни');
-  }
-
   ngOnInit(): void {
+    this.seo.setPageMeta({
+      title: 'Църковни песни',
+      socialTitle: 'Църковни песни и химни',
+      description:
+        'Адвентна църковна песнарка с текстове, ноти, MIDI файлове и аудио. Търсете по номер и пейте заедно с нас.',
+      path: 'songbook',
+      image: OG_IMAGES.songbook,
+      imageAlt: OG_IMAGE_ALT,
+      keywords: ['църковни песни', 'адвентна песнарка', 'химни', 'ноти', 'текстове на песни'],
+    });
+
     this.locationSub = this.location.subscribe(() => {
       if (!this.readerOpen()) {
         return;

@@ -2,8 +2,9 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { SabbathSchoolApiService } from '../sabbath-school-api.service';
-import { AppTitleService } from '../../app-title.service';
+import { SeoService } from '../../shared/services/seo.service';
 import { Quarterly } from '../interfaces/quarterly.interface';
+import { SABBATH_SCHOOL_PAGE_META } from '../sabbath-school-seo';
 
 interface GroupedQuarterly {
   name: string;
@@ -28,12 +29,12 @@ export class SabbathSchoolQuarterliesComponent implements OnInit {
   constructor(
     private api: SabbathSchoolApiService,
     private router: Router,
-    private appTitleService: AppTitleService,
+    private seo: SeoService,
     private cdr: ChangeDetectorRef,
   ) {}
 
-  ngOnInit() {
-    this.appTitleService.setTitle('Съботен урок');
+  ngOnInit(): void {
+    this.seo.setPageMeta(SABBATH_SCHOOL_PAGE_META);
     this.getQuarterlies();
   }
 

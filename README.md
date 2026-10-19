@@ -2,28 +2,68 @@
 
 [![Tests](https://github.com/slatinasda/sofiav-sdabg/actions/workflows/tests.yml/badge.svg)](https://github.com/slatinasda/sofiav-sdabg/actions/workflows/tests.yml)
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 21.2.8.
+Website of the Seventh-day Adventist Church in Sofia - Slatina.
 
+## Requirements
 
-## API Endpoints
+- Node.js (see `.nvmrc`)
+- Chromium for Playwright, required by the production build
 
-The API endpoints used in this project are hosted in this repo:
+## Installation
+
+```
+npm ci
+npx playwright install chromium
+```
+
+Blog posts live in a separate, public repository:
+
+https://github.com/slatinasda/sofiav-sdabg-blogposts
+
+To include posts locally, clone that repository into a `blog-content` folder in the project root:
+
+```
+git clone https://github.com/slatinasda/sofiav-sdabg-blogposts blog-content
+```
+
+The build reads posts from `blog-content/posts`. Without a `blog-content` checkout, the blog simply
+builds empty.
+
+## Development server
+
+```
+npm start
+```
+
+Open `http://localhost:4200/`. App auto-reloads when source files change.
+
+## Production build
+
+```
+npm run build
+```
+
+Serve the contents of `dist/sofiav-sdabg/browser` from any static file server.
+
+Prerendered routes are real directories with their own `index.html`; routes rendered on the client and unknown URLs must fall back to `index.csr.html`. See `example.htaccess` for an Apache configuration.
+
+The API endpoints used by the application are hosted here:
 
 https://github.com/slatinasda/sofiav-sdabg-api
 
-
-## Running from docker
+## Running from Docker
 
 Build the image:
+
 ```
 docker build -t sdabg.net/sofiav-app .
 ```
 
 Run the development server from the image:
+
 ```
 docker run -it --rm -p 4200:4200 sdabg.net/sofiav-app
 ```
-
 
 ## Create a production build from docker
 
@@ -57,24 +97,4 @@ docker run -it --rm -p 4200:4200 sdabg.net/sofiav-app
     docker rm $(docker ps -alq)
     ```
 
-6. The production build should now be located in the root folder of this project on the host
-
-
-## Blog
-
-Blog posts are markdown files that live in a separate, public repo:
-
-https://github.com/slatinasda/sofiav-sdabg-blogposts
-
-To have posts show up locally, clone that repo into a `blog-content` folder in the root of this project:
-
-```
-git clone https://github.com/slatinasda/sofiav-sdabg-blogposts blog-content
-```
-
-The build (`npm run build`/`npm start`) reads posts from `blog-content/posts` and generates
-the blog's static assets, sitemap, RSS feed. Without a `blog-content` checkout, the blog simply builds empty.
-
-## Development server
-
-Run `npm start` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+The production build is now located in the `dist` folder on the host.

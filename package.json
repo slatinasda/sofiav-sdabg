@@ -3,13 +3,15 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "npm run prebuild:blog && ng serve --host 0.0.0.0",
-    "build": "npm run trim-moment-locales && npm run prebuild:blog && ng build --configuration production",
+    "start": "npm run prebuild:blog && npm run og:images:missing && ng serve --host 0.0.0.0",
+    "build": "npm run trim-moment-locales && npm run prebuild:blog && npm run og:images && ng build --configuration production",
     "watch": "npm run prebuild:blog && ng build --watch --configuration development",
     "test": "ng test",
     "test:ci": "ng test --watch=false",
-    "trim-moment-locales": "find node_modules/moment/locale -type f -not \\( -name \"bg.js\" -o -name \"en-gb.js\" \\) -exec rm {} \\;",
+    "trim-moment-locales": "node scripts/trim-moment-locales.mjs",
     "prebuild:blog": "node scripts/build-blog-content.mjs",
+    "og:images": "node scripts/generate-og-images.mjs",
+    "og:images:missing": "node scripts/generate-og-images.mjs --if-missing",
     "prettify": "prettier --write 'src/**/*.{ts,js,json,html,css,scss}' --ignore-path .prettierignore",
     "prepare": "husky"
   },

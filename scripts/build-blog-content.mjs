@@ -13,10 +13,11 @@ import fs from 'node:fs';
 import path from 'node:path';
 import matter from 'gray-matter';
 import { marked, Renderer } from 'marked';
+import { CHURCH_DESCRIPTION, CHURCH_NAME, CHURCH_SHORT_NAME } from './church-info.mjs';
 
 // Keep the fallback in sync with src/environments/environment.prod.ts.
 const SITE_URL = process.env.SITE_URL || 'https://sofia-v.sdabg.net';
-const DEFAULT_AUTHOR = 'Църква София "В" Слатина';
+const DEFAULT_AUTHOR = CHURCH_SHORT_NAME;
 const SLUG_PATTERN = /^[a-z0-9]+(-[a-z0-9]+)*$/;
 const COVER_MIME_TYPES = {
   '.jpg': 'image/jpeg',
@@ -261,7 +262,7 @@ function writeRss(posts) {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:media="http://search.yahoo.com/mrss/">
   <channel>
-    <title>Блог | Църква София В Слатина</title>
+    <title>Блог | ${CHURCH_SHORT_NAME}</title>
     <link>${SITE_URL}/blog</link>
     <description>Последни новини и статии</description>
     <language>bg-bg</language>
@@ -307,9 +308,9 @@ function writeLlmsTxt(posts) {
     (p) => `- [${p.title}](${SITE_URL}/blog/${p.slug}): ${p.description}`,
   );
 
-  const content = `# Църква на Адвентистите от Седмия Ден - София "В" Слатина
+  const content = `# ${CHURCH_NAME}
 
-> Официален сайт на Църквата на Адвентистите от Седмия Ден, София "В" Слатина.
+> ${CHURCH_DESCRIPTION}
 > Съдържа информация за богослуженията, основните вярвания, съботно училище, видео архив
 > с проповеди, църковна песнарка и блог с новини от живота на общността.
 

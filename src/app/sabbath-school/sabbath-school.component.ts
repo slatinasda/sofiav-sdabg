@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { AppTitleService } from '../app-title.service';
+import { SeoService } from '../shared/services/seo.service';
+import { SABBATH_SCHOOL_PAGE_META } from './sabbath-school-seo';
 
 @Component({
   standalone: true,
@@ -9,8 +10,10 @@ import { AppTitleService } from '../app-title.service';
   templateUrl: './sabbath-school.component.html',
   styleUrls: ['./sabbath-school.component.scss'],
 })
-export class SabbathSchoolComponent {
-  constructor(private appTitleService: AppTitleService) {
-    this.appTitleService.setTitle('Съботен урок');
+export class SabbathSchoolComponent implements OnInit {
+  private readonly seo = inject(SeoService);
+
+  ngOnInit(): void {
+    this.seo.setPageMeta(SABBATH_SCHOOL_PAGE_META);
   }
 }

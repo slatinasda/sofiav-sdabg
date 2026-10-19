@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="bg">
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      @font-face {
+        font-family: 'Open Sans';
+        font-style: normal;
+        font-weight: 300 800;
+        font-display: block;
+        src: url('{{FONT_CYRILLIC}}') format('woff2');
+        unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+      }
+      @font-face {
+        font-family: 'Open Sans';
+        font-style: normal;
+        font-weight: 300 800;
+        font-display: block;
+        src: url('{{FONT_LATIN_EXT}}') format('woff2');
+        unicode-range:
+          U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329,
+          U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113,
+          U+2C60-2C7F, U+A720-A7FF;
+      }
+      @font-face {
+        font-family: 'Open Sans';
+        font-style: normal;
+        font-weight: 300 800;
+        font-display: block;
+        src: url('{{FONT_LATIN}}') format('woff2');
+        unicode-range:
+          U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308,
+          U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      html,
+      body {
+        width: 1200px;
+        height: 630px;
+        overflow: hidden;
+        background: #0c2825;
+      }
+
+      body {
+        font-family: 'Open Sans', sans-serif;
+        -webkit-font-smoothing: antialiased;
+        text-rendering: geometricPrecision;
+      }
+
+      .og {
+        position: relative;
+        width: 1200px;
+        height: 630px;
+        overflow: hidden;
+        background:
+          radial-gradient(ellipse 680px 520px at 8% 32%, rgba(85, 167, 154, 0.2), transparent 68%),
+          linear-gradient(118deg, #0b2522 0%, #103430 46%, #0b2522 100%);
+        color: #fff;
+        isolation: isolate;
+      }
+
+      /* Photo panel ------------------------------------------------------- */
+      .photo {
+        position: absolute;
+        inset: 0;
+        background-image: var(--photo);
+        background-size: cover;
+        background-position: var(--photo-position, center);
+        filter: saturate(0.72) contrast(1.04) brightness(0.62);
+        transform: scale(1.03);
+      }
+
+      .photo-tint {
+        position: absolute;
+        inset: 0;
+        background:
+          linear-gradient(
+            90deg,
+            #0c2825 0%,
+            #0c2825 38%,
+            rgba(12, 40, 37, 0.95) 46%,
+            rgba(12, 40, 37, 0.55) 64%,
+            rgba(12, 40, 37, 0.18) 82%,
+            rgba(12, 40, 37, 0.44) 100%
+          ),
+          linear-gradient(0deg, rgba(4, 19, 17, 0.62) 0%, rgba(4, 19, 17, 0) 58%),
+          linear-gradient(145deg, rgba(24, 76, 68, 0.45) 0%, rgba(85, 167, 154, 0.1) 65%);
+      }
+
+      .hairlines {
+        position: absolute;
+        inset: 0;
+        opacity: 0.26;
+        background-image: repeating-linear-gradient(
+          115deg,
+          transparent 0,
+          transparent 78px,
+          rgba(255, 255, 255, 0.06) 78px,
+          rgba(255, 255, 255, 0.06) 79px
+        );
+        mask-image: linear-gradient(90deg, rgba(0, 0, 0, 0.65), transparent 64%);
+      }
+
+      .noise {
+        position: absolute;
+        inset: 0;
+        opacity: 0.055;
+        mix-blend-mode: overlay;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='.9'/%3E%3C/svg%3E");
+      }
+
+      /* Section icon watermark ------------------------------------------- */
+      .watermark {
+        position: absolute;
+        right: 58px;
+        top: 50%;
+        width: 250px;
+        height: 250px;
+        transform: translateY(-42%);
+        color: #eaf7f4;
+        opacity: 0.11;
+        filter: drop-shadow(0 8px 28px rgba(0, 0, 0, 0.22));
+      }
+
+      .watermark svg {
+        width: 100%;
+        height: 100%;
+      }
+
+      /* Content ----------------------------------------------------------- */
+      .content {
+        position: relative;
+        z-index: 2;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: 100%;
+        padding: 58px 72px 50px;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+      }
+
+      .brand-mark {
+        width: 56px;
+        height: 56px;
+        filter: brightness(0) invert(1);
+        opacity: 0.96;
+      }
+
+      .brand-copy {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+      }
+
+      .brand-name {
+        color: #a3d3cb;
+        font-size: 15px;
+        font-weight: 700;
+        letter-spacing: 0.155em;
+        line-height: 1.2;
+        text-transform: uppercase;
+      }
+
+      .brand-place {
+        color: #fff;
+        font-size: 22px;
+        font-weight: 700;
+        letter-spacing: -0.01em;
+        line-height: 1.22;
+      }
+
+      .main {
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+        justify-content: center;
+        max-width: 700px;
+        padding-bottom: 18px;
+      }
+
+      .kicker {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        margin-bottom: 18px;
+        color: #a3d3cb;
+        font-size: 15px;
+        font-weight: 700;
+        letter-spacing: 0.2em;
+        line-height: 1.2;
+        text-transform: uppercase;
+      }
+
+      .kicker::before {
+        content: '';
+        display: block;
+        width: 42px;
+        height: 3px;
+        border-radius: 999px;
+        background: var(--accent, #55a79a);
+        box-shadow: 0 0 22px rgba(85, 167, 154, 0.5);
+      }
+
+      .title {
+        max-width: 690px;
+        color: #fff;
+        font-size: var(--title-size, 82px);
+        font-weight: 700;
+        letter-spacing: -0.028em;
+        line-height: 1.03;
+        text-wrap: balance;
+        text-shadow: 0 2px 24px rgba(0, 0, 0, 0.18);
+      }
+
+      .subtitle {
+        max-width: 590px;
+        margin-top: 22px;
+        color: rgba(255, 255, 255, 0.8);
+        font-size: var(--subtitle-size, 27px);
+        font-weight: 400;
+        letter-spacing: -0.006em;
+        line-height: 1.42;
+        text-wrap: pretty;
+      }
+
+      /* Footer ------------------------------------------------------------ */
+      .footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-top: 20px;
+        border-top: 1px solid rgba(255, 255, 255, 0.16);
+        color: rgba(255, 255, 255, 0.72);
+        font-size: 17px;
+        font-weight: 400;
+        letter-spacing: 0.01em;
+      }
+
+      .footer-domain {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: #fff;
+        font-weight: 600;
+      }
+
+      .footer-domain::before {
+        content: '';
+        display: block;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--accent, #55a79a);
+        box-shadow: 0 0 14px rgba(85, 167, 154, 0.8);
+      }
+
+      .footer-place {
+        color: rgba(255, 255, 255, 0.62);
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      class="og"
+      style="--photo: url('{{ PHOTO }}'); --photo-position: {{ PHOTO_POSITION }}; --accent: {{
+        ACCENT
+      }}; --title-size: {{ TITLE_SIZE }}; --subtitle-size: {{ SUBTITLE_SIZE }};"
+    >
+      <div class="photo"></div>
+      <div class="photo-tint"></div>
+      <div class="hairlines"></div>
+      <div class="watermark">{{ ICON }}</div>
+      <div class="noise"></div>
+
+      <div class="content">
+        <div class="brand">
+          <img class="brand-mark" src="{{ MARK }}" alt="" />
+          <div class="brand-copy">
+            <div class="brand-name">{{ BRAND_NAME }}</div>
+            <div class="brand-place">{{ BRAND_PLACE }}</div>
+          </div>
+        </div>
+
+        <div class="main">
+          <div class="kicker">{{ KICKER }}</div>
+          <h1 class="title">{{ TITLE }}</h1>
+          <p class="subtitle">{{ SUBTITLE }}</p>
+        </div>
+
+        <div class="footer">
+          <span class="footer-domain">sofia-v.sdabg.net</span>
+          <span class="footer-place">{{ FOOTER }}</span>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

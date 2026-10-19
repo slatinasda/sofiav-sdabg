@@ -10,7 +10,8 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { catchError, finalize, of } from 'rxjs';
 
-import { AppTitleService } from '../app-title.service';
+import { CHURCH_NAME } from '../shared/church-info';
+import { OG_IMAGE_ALT, OG_IMAGES, SeoService } from '../shared/services/seo.service';
 import { VideoCardComponent } from '../shared/components/video-card/video-card.component';
 import { VideoItem, VideoSlot } from '../shared/interfaces/video-item.interface';
 import { VideoFeedService } from '../shared/services/video-feed.service';
@@ -26,7 +27,7 @@ const SKELETON_COUNT = 6;
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VideoArchiveComponent implements OnInit {
-  private readonly appTitleService = inject(AppTitleService);
+  private readonly seo = inject(SeoService);
   private readonly videoFeed = inject(VideoFeedService);
   private readonly destroyRef = inject(DestroyRef);
 
@@ -34,11 +35,16 @@ export class VideoArchiveComponent implements OnInit {
   protected readonly isLoading = signal(true);
   protected readonly hasError = signal(false);
 
-  constructor() {
-    this.appTitleService.setTitle('Проповеди');
-  }
-
   ngOnInit(): void {
+    this.seo.setPageMeta({
+      title: 'Проповеди',
+      socialTitle: 'Проповеди и богослужения',
+      description: `Видеозаписи от проповеди и богослужения в ${CHURCH_NAME}.`,
+      path: 'video-archive',
+      image: OG_IMAGES.sermons,
+      imageAlt: OG_IMAGE_ALT,
+      keywords: ['проповеди', 'видео архив', 'богослужение', 'адвентна църква София'],
+    });
     this.loadVideos();
   }
 

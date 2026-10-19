@@ -11,6 +11,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RouterModule } from '@angular/router';
 import { interval } from 'rxjs';
 
+import { CHURCH_DISTRICT, CHURCH_FAMILY_NAME, CHURCH_PLACE_NAME } from '../../shared/church-info';
 import { HeroLessonCardComponent } from '../hero-lesson-card/hero-lesson-card.component';
 import { ChurchAgendaService } from '../services/church-agenda.service';
 
@@ -27,6 +28,9 @@ const LIVE_STATUS_REFRESH_MS = 60_000;
 })
 export class HomeHeroComponent {
   protected readonly agenda = inject(ChurchAgendaService);
+  protected readonly churchFamilyName = CHURCH_FAMILY_NAME;
+  protected readonly churchPlaceName = CHURCH_PLACE_NAME;
+  protected readonly churchDistrict = CHURCH_DISTRICT;
 
   private readonly destroyRef = inject(DestroyRef);
 

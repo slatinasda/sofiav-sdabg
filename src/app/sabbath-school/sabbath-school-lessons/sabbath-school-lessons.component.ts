@@ -2,7 +2,8 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { SabbathSchoolApiService } from '../sabbath-school-api.service';
-import { AppTitleService } from '../../app-title.service';
+import { OG_IMAGE_ALT, SeoService } from '../../shared/services/seo.service';
+import { SABBATH_SCHOOL_OG_IMAGE, SABBATH_SCHOOL_PAGE_META } from '../sabbath-school-seo';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import moment from 'moment';
 import { marked } from 'marked';
@@ -30,7 +31,7 @@ export class SabbathSchoolLessonsComponent implements OnInit {
     private api: SabbathSchoolApiService,
     private route: ActivatedRoute,
     private router: Router,
-    private appTitleService: AppTitleService,
+    private seo: SeoService,
     private sanitizer: DomSanitizer,
     private cdr: ChangeDetectorRef,
   ) {}
@@ -64,7 +65,7 @@ export class SabbathSchoolLessonsComponent implements OnInit {
       next: (data: QuarterlyDetail) => {
         this.quarterlyDetail = data;
         this.loading = false;
-        this.appTitleService.setTitle(`${this.quarterlyDetail.quarterly.title} - Съботен урок`);
+        this.updateSeo(data);
         this.loadPublishingInfo();
         this.cdr.markForCheck();
       },
@@ -72,6 +73,26 @@ export class SabbathSchoolLessonsComponent implements OnInit {
         this.loading = false;
         this.cdr.markForCheck();
       },
+    });
+  }
+
+  private updateSeo(quarterlyDetail: QuarterlyDetail): void {
+    const quarterlyTitle = quarterlyDetail.quarterly.title?.trim();
+
+    this.seo.setPageMeta({
+      title: quarterlyTitle ? `${quarterlyTitle} - Съботен урок` : SABBATH_SCHOOL_PAGE_META.title,
+      socialTitle: quarterlyTitle
+        ? `${quarterlyTitle}: съботен урок`
+        : SABBATH_SCHOOL_PAGE_META.socialTitle,
+      description: quarterlyTitle
+        ? `Уроци за съботно училище за ${quarterlyTitle}. Изучавайте Библията заедно с нас.`
+        : SABBATH_SCHOOL_PAGE_META.description,
+      path: `sabbath-school/${this.quarter}`,
+      image: SABBATH_SCHOOL_OG_IMAGE,
+      imageAlt: OG_IMAGE_ALT,
+      keywords: quarterlyTitle
+        ? ['съботен урок', 'съботно училище', quarterlyTitle]
+        : SABBATH_SCHOOL_PAGE_META.keywords,
     });
   }
 

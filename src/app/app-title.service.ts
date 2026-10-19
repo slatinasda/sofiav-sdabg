@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 
-export const CHURCH_NAME = 'Църква на Адвентистите от Седмия Ден - София "В" Слатина';
+import { CHURCH_NAME } from './shared/church-info';
 
 @Injectable()
 export class AppTitleService {

@@ -12,8 +12,8 @@ import { ActivatedRoute, ParamMap, Router, RouterModule } from '@angular/router'
 import { Subject, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { BlogApiService } from '../blog-api.service';
-import { SeoService } from '../../shared/services/seo.service';
-import { CHURCH_NAME } from '../../app-title.service';
+import { OG_IMAGES, SeoService } from '../../shared/services/seo.service';
+import { CHURCH_NAME } from '../../shared/church-info';
 import { BlogPostSummary } from '../interfaces/blog-post.interface';
 import { BlogPostCardComponent } from '../blog-post-card/blog-post-card.component';
 import { ModalComponent } from '../../shared/components/modal/modal.component';
@@ -237,12 +237,15 @@ export class BlogListComponent implements OnInit, OnDestroy {
   private updateSeo(): void {
     this.seo.setPageMeta({
       title: this.seoTitle,
+      socialTitle: 'Блог: новини и статии от църквата',
       description:
         this.filter.type === 'none'
           ? `Последни новини и статии от ${CHURCH_NAME}.`
           : `Публикации в ${this.seoTitle.toLowerCase()}.`,
       path: this.path,
       type: 'website',
+      image: OG_IMAGES.blog,
+      keywords: ['блог', 'църковни новини', 'статии за вярата', 'адвентна църква София'],
     });
     this.seo.setJsonLd(null);
   }

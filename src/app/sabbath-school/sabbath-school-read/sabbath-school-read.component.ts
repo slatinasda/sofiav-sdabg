@@ -13,7 +13,8 @@ import {
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { SabbathSchoolApiService } from '../sabbath-school-api.service';
-import { AppTitleService } from '../../app-title.service';
+import { OG_IMAGE_ALT, SeoService } from '../../shared/services/seo.service';
+import { SABBATH_SCHOOL_OG_IMAGE, SABBATH_SCHOOL_PAGE_META } from '../sabbath-school-seo';
 import { Subscription } from 'rxjs';
 import moment from 'moment';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
@@ -88,7 +89,7 @@ export class SabbathSchoolReadComponent implements OnInit, OnDestroy {
     private api: SabbathSchoolApiService,
     private route: ActivatedRoute,
     private router: Router,
-    private appTitleService: AppTitleService,
+    private seo: SeoService,
     private sanitizer: DomSanitizer,
     private cdr: ChangeDetectorRef,
     @Inject(PLATFORM_ID) platformId: object,
@@ -215,13 +216,31 @@ export class SabbathSchoolReadComponent implements OnInit, OnDestroy {
         this.read = data;
         this.readerHtml = this.sanitizer.bypassSecurityTrustHtml(data.content || '');
         this.loading = false;
-        this.appTitleService.setTitle(`${this.read.title} - Съботен урок`);
+        this.updateSeo(data);
         this.cdr.markForCheck();
       },
       error: () => {
         this.loading = false;
         this.cdr.markForCheck();
       },
+    });
+  }
+
+  private updateSeo(read: DayRead): void {
+    const readTitle = read.title?.trim();
+
+    this.seo.setPageMeta({
+      title: readTitle ? `${readTitle} - Съботен урок` : SABBATH_SCHOOL_PAGE_META.title,
+      socialTitle: readTitle ? `${readTitle}: съботен урок` : SABBATH_SCHOOL_PAGE_META.socialTitle,
+      description: readTitle
+        ? `Съботен урок: ${readTitle}. Изучавайте Библията заедно с нас.`
+        : SABBATH_SCHOOL_PAGE_META.description,
+      path: `sabbath-school/${this.quarter}/lessons/${this.lessonId}/${this.dayParam}`,
+      image: SABBATH_SCHOOL_OG_IMAGE,
+      imageAlt: OG_IMAGE_ALT,
+      keywords: readTitle
+        ? ['съботен урок', 'съботно училище', readTitle]
+        : SABBATH_SCHOOL_PAGE_META.keywords,
     });
   }
 

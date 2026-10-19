@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 
-import { AppTitleService } from '../app-title.service';
+import { CHURCH_NAME } from '../shared/church-info';
+import { OG_IMAGE_ALT, OG_IMAGES, SeoService } from '../shared/services/seo.service';
 import { ChurchAgendaService } from './services/church-agenda.service';
 import { ChurchScheduleComponent } from './church-schedule/church-schedule.component';
 import { HomeHeroComponent } from './hero/home-hero.component';
@@ -22,8 +23,25 @@ import { LiveStreamComponent } from './live-stream/live-stream.component';
   styleUrls: ['./home.component.scss'],
   providers: [ChurchAgendaService],
 })
-export class HomeComponent {
-  constructor(appTitleService: AppTitleService) {
-    appTitleService.setTitle('Начало');
+export class HomeComponent implements OnInit {
+  private readonly seo = inject(SeoService);
+
+  ngOnInit(): void {
+    this.seo.setPageMeta({
+      title: 'Начало',
+      socialTitle: CHURCH_NAME,
+      description: `${CHURCH_NAME}. Богослужения всяка събота, групови дискусии, проповеди и песни. Заповядайте!`,
+      path: '',
+      image: OG_IMAGES.default,
+      imageAlt: OG_IMAGE_ALT,
+      keywords: [
+        'адвентна църква София',
+        'адвентна църква Слатина',
+        'църква Слатина',
+        'съботно училище',
+        'богослужение София',
+        'адвентисти от седмия ден',
+      ],
+    });
   }
 }

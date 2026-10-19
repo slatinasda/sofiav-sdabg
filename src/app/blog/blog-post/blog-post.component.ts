@@ -13,7 +13,7 @@ import { ActivatedRoute, RouterModule } from '@angular/router';
 import { DomSanitizer, SafeHtml, SafeUrl } from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
 import { BlogApiService } from '../blog-api.service';
-import { SeoService } from '../../shared/services/seo.service';
+import { DEFAULT_OG_IMAGE, SeoService } from '../../shared/services/seo.service';
 import { BlogPost, BlogPostSummary } from '../interfaces/blog-post.interface';
 import { BlogPostCardComponent } from '../blog-post-card/blog-post-card.component';
 import { ReaderSettingsComponent } from '../../shared/components/reader-settings/reader-settings.component';
@@ -139,11 +139,13 @@ export class BlogPostComponent implements OnInit, OnDestroy {
       title: post.title,
       description: post.description,
       path: this.postPath(post),
-      image: post.cover ? this.seo.absoluteUrl(post.cover) : undefined,
+      image: post.cover ?? DEFAULT_OG_IMAGE,
+      imageAlt: post.title,
       type: 'article',
       publishedTime: post.date,
       modifiedTime: post.updated,
       tags: [post.category],
+      keywords: [post.category, 'блог', 'статия', 'адвентна църква София'],
     });
     this.seo.setJsonLd({
       headline: post.title,
@@ -151,8 +153,10 @@ export class BlogPostComponent implements OnInit, OnDestroy {
       url,
       datePublished: post.date,
       dateModified: post.updated,
-      image: post.cover ? this.seo.absoluteUrl(post.cover) : undefined,
+      image: this.seo.absoluteUrl(post.cover ?? DEFAULT_OG_IMAGE),
       authorName: post.author,
+      section: post.category,
+      keywords: [post.category],
     });
   }
 }
