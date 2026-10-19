@@ -3,8 +3,11 @@
   <div class="lesson-card__body">
     <div class="lesson-card__line lesson-card__line--short"></div>
     <div class="lesson-card__line lesson-card__line--title"></div>
-    <div class="lesson-card__line"></div>
+    <div class="lesson-card__line lesson-card__line--tiny"></div>
     <div class="lesson-card__line lesson-card__line--button"></div>
+  </div>
+  <div class="lesson-card__footer">
+    <div class="lesson-card__line lesson-card__line--footer"></div>
   </div>
 </article>
 
@@ -21,15 +24,19 @@
     </div>
     <span class="lesson-card__badge">Съботно училище</span>
   </div>
+
   <div class="lesson-card__body">
     <p class="lesson-card__kicker">Урок {{ lesson.lessonNumber }}</p>
     <h3 class="lesson-card__title">{{ lesson.lessonTitle }}</h3>
     <p class="lesson-card__today">
       <span>{{ lesson.dayLabel }}</span> · {{ lesson.dayTitle }}
     </p>
-    <a [routerLink]="lesson.route" class="btn btn-primary btn-rounded px-4">
+    <a [routerLink]="lesson.route" class="btn btn-primary btn-rounded">
       {{ lesson.ctaLabel }}
     </a>
+  </div>
+
+  <div class="lesson-card__footer">
     <p class="lesson-card__meta">{{ lesson.quarterTitle }} · {{ lesson.quarterDate }}</p>
   </div>
 </article>

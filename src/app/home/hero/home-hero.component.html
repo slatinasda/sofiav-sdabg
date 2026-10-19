@@ -1,7 +1,7 @@
 <div id="highlighted">
   <div class="hero fallback-background">
     <div class="container">
-      <div class="row align-items-center g-4 g-lg-5">
+      <div class="row align-items-center g-3 g-lg-5">
         <div class="col-12 col-lg-7">
           <p class="hero-kicker">Църква на Адвентистите от Седмия Ден</p>
           <h2 class="hero-title">София "В" - Слатина</h2>
@@ -9,25 +9,15 @@
 
           <div class="hero-actions">
             <ng-container *ngIf="isLiveNow(); else offlineActions">
-              <a href="#live-stream" class="btn btn-primary btn-rounded btn-lg py-lg-3 px-lg-4">
+              <a href="#live-stream" class="btn btn-primary btn-rounded">
                 <span class="live-dot" aria-hidden="true"></span>
                 На живо сега
               </a>
-              <a
-                href="#church-schedule"
-                class="btn btn-outline-light btn-rounded btn-lg py-lg-3 px-lg-4"
-              >
-                Посетете ни
-              </a>
+              <a href="#church-schedule" class="btn btn-outline-light btn-rounded"> Посетете ни </a>
             </ng-container>
             <ng-template #offlineActions>
-              <a href="#church-schedule" class="btn btn-primary btn-rounded btn-lg py-lg-3 px-lg-4">
-                Посетете ни
-              </a>
-              <a
-                routerLink="/video-archive"
-                class="btn btn-outline-light btn-rounded btn-lg py-lg-3 px-lg-4"
-              >
+              <a href="#church-schedule" class="btn btn-primary btn-rounded"> Посетете ни </a>
+              <a routerLink="/video-archive" class="btn btn-outline-light btn-rounded">
                 Последни проповеди
               </a>
             </ng-template>
