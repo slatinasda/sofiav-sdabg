@@ -12,7 +12,11 @@
   &::before {
     content: '';
     display: block;
-    padding-top: 30%;
+    padding-top: 75%;
+
+    @media (min-width: 768px) {
+      padding-top: 38%;
+    }
   }
 
   iframe {
