@@ -22,10 +22,7 @@
       </div>
     </div>
 
-    <div
-      *ngIf="!isLoading() && latestVideos().length"
-      class="text-center mt-2 mt-lg-3 mb-2 mb-lg-3"
-    >
+    <div *ngIf="!isLoading() && latestVideos().length" class="text-center section-action">
       <a routerLink="/video-archive" class="btn btn-primary btn-rounded btn-lg py-lg-3 px-lg-5">
         Всички проповеди
       </a>

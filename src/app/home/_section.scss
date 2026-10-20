@@ -2,3 +2,13 @@
 .section-content-gap {
   margin-bottom: 1.5rem;
 }
+
+// Consistent gap between a section's content and its action button.
+.section-action {
+  margin-top: 2rem;
+  margin-bottom: 0;
+
+  @media (min-width: 992px) {
+    margin-top: 3rem;
+  }
+}
