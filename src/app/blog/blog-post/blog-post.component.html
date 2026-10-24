@@ -85,7 +85,7 @@
     </div>
 
     <div *ngIf="relatedPosts.length" class="mt-6">
-      <h3 class="fw-bold mb-3">Други интересни статии</h3>
+      <h3 class="related-posts-title fw-bold mb-3">Други интересни статии</h3>
       <div class="row">
         <div *ngFor="let related of relatedPosts" class="col-12 col-md-6">
           <app-blog-post-card [post]="related" [showReadMore]="false"></app-blog-post-card>
