@@ -105,12 +105,8 @@ export class BlogPostComponent implements OnInit, OnDestroy {
     }
   }
 
-  private postPath(post: BlogPost): string {
-    return `blog/${post.slug}`;
-  }
-
   private buildShareLinks(post: BlogPost): ShareLinks {
-    const url = this.seo.absoluteUrl(this.postPath(post));
+    const url = this.seo.absoluteUrl(post.path);
     const encodedUrl = encodeURIComponent(url);
     const encodedTitle = encodeURIComponent(post.title);
 
@@ -134,11 +130,11 @@ export class BlogPostComponent implements OnInit, OnDestroy {
   }
 
   private updateSeo(post: BlogPost): void {
-    const url = this.seo.absoluteUrl(this.postPath(post));
+    const url = this.seo.absoluteUrl(post.path);
     this.seo.setPageMeta({
       title: post.title,
       description: post.description,
-      path: this.postPath(post),
+      path: post.path,
       image: post.cover ?? DEFAULT_OG_IMAGE,
       imageAlt: post.title,
       type: 'article',

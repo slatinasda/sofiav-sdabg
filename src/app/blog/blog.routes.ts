@@ -7,5 +7,5 @@ export const blogRoutes: Routes = [
   { path: '', component: BlogListComponent, pathMatch: 'full' },
   { path: 'page/:page', component: BlogListComponent },
   { path: 'category/:category', component: BlogListComponent },
-  { path: ':slug', component: BlogPostComponent, resolve: { post: blogPostResolver } },
+  { path: ':year/:month/:slug', component: BlogPostComponent, resolve: { post: blogPostResolver } },
 ];

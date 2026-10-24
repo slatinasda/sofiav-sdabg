@@ -5,8 +5,8 @@ import generatedIndex from '../assets/blog/generated/posts-index.json';
 
 const BLOG_POSTS = generatedIndex as BlogPostSummary[];
 
-async function blogSlugParams() {
-  return BLOG_POSTS.map((post) => ({ slug: post.slug }));
+async function blogPostParams() {
+  return BLOG_POSTS.map((post) => ({ year: post.year, month: post.month, slug: post.slug }));
 }
 
 async function blogPageParams() {
@@ -44,9 +44,9 @@ export const serverRoutes: ServerRoute[] = [
     getPrerenderParams: blogCategoryParams,
   },
   {
-    path: 'blog/:slug',
+    path: 'blog/:year/:month/:slug',
     renderMode: RenderMode.Prerender,
-    getPrerenderParams: blogSlugParams,
+    getPrerenderParams: blogPostParams,
   },
   {
     path: '**',

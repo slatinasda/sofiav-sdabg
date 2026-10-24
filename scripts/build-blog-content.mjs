@@ -36,18 +36,41 @@ const publicDir = path.resolve(rootDir, 'public');
 const publicBlogDir = path.resolve(publicDir, 'blog');
 
 const STATIC_ROUTES = ['', 'beliefs', 'songbook', 'video-archive', 'sabbath-school'];
+const YEAR_PATTERN = /^\d{4}$/;
+const MONTH_PATTERN = /^\d{2}$/;
 
 /**
- * Rewrites relative markdown image paths to their public URL under the post's slug.
+ * Resolves the year/month used in the public URL. Prefers the content folder structure
+ * (posts/<year>/<month>/<slug>/) and falls back to the frontmatter date for flat posts.
  */
-function createPostRenderer(slug) {
+function resolvePostPeriod(postDir, postDate) {
+  const [folderYear, folderMonth] = path.relative(contentDir, postDir).split(path.sep);
+
+  if (YEAR_PATTERN.test(folderYear) && MONTH_PATTERN.test(folderMonth)) {
+    return { year: folderYear, month: folderMonth };
+  }
+
+  return {
+    year: String(postDate.getUTCFullYear()),
+    month: String(postDate.getUTCMonth() + 1).padStart(2, '0'),
+  };
+}
+
+function buildPostPath(year, month, slug) {
+  return `/blog/${year}/${month}/${slug}`;
+}
+
+/**
+ * Rewrites relative markdown image paths to their public URL under the post path.
+ */
+function createPostRenderer(basePath) {
   const renderer = new Renderer();
   const defaultImage = renderer.image.bind(renderer);
   renderer.image = (token) => {
     if (/^([a-z]+:)?\/\//i.test(token.href) || token.href.startsWith('/')) {
       return defaultImage(token);
     }
-    return defaultImage({ ...token, href: `/blog/${slug}/${token.href}` });
+    return defaultImage({ ...token, href: `${basePath}/${token.href}` });
   };
   return renderer;
 }
@@ -55,6 +78,16 @@ function createPostRenderer(slug) {
 function fail(message) {
   console.error(`[build-blog-content] ${message}`);
   process.exit(1);
+}
+
+function parseFrontmatterDate(value, field, slug) {
+  const date = new Date(value);
+
+  if (Number.isNaN(date.getTime())) {
+    fail(`Post "${slug}" has an invalid "${field}" frontmatter value.`);
+  }
+
+  return date;
 }
 
 /**
@@ -133,24 +166,35 @@ function readPosts() {
       fail(`Post "${slug}" is missing required "category" frontmatter.`);
     }
 
-    copyPostImages(postDir, path.join(publicBlogDir, slug));
+    const postDate = parseFrontmatterDate(frontmatter.date, 'date', slug);
+
+    // URL follows the content folder structure: posts/<year>/<month>/<slug>/.
+    const { year, month } = resolvePostPeriod(postDir, postDate);
+    const postPath = buildPostPath(year, month, slug);
+
+    copyPostImages(postDir, path.join(publicBlogDir, year, month, slug));
 
     let cover;
     if (frontmatter.cover) {
       if (!fs.existsSync(path.join(postDir, frontmatter.cover))) {
         fail(`Post "${slug}" references cover "${frontmatter.cover}" which does not exist.`);
       }
-      cover = `/blog/${slug}/${frontmatter.cover}`;
+      cover = `${postPath}/${frontmatter.cover}`;
     }
 
-    const contentHtml = marked.parse(markdown, { renderer: createPostRenderer(slug) });
+    const contentHtml = marked.parse(markdown, { renderer: createPostRenderer(postPath) });
 
     posts.push({
       slug,
+      year,
+      month,
+      path: postPath,
       title: frontmatter.title,
       description: frontmatter.description,
-      date: new Date(frontmatter.date).toISOString(),
-      updated: frontmatter.updated ? new Date(frontmatter.updated).toISOString() : undefined,
+      date: postDate.toISOString(),
+      updated: frontmatter.updated
+        ? parseFrontmatterDate(frontmatter.updated, 'updated', slug).toISOString()
+        : undefined,
       category: frontmatter.category,
       author: frontmatter.author || DEFAULT_AUTHOR,
       cover,
@@ -211,7 +255,7 @@ function writeSitemap(posts) {
     ...STATIC_ROUTES.map((route) => ({ loc: `${SITE_URL}/${route}`, lastmod: undefined })),
     { loc: `${SITE_URL}/blog`, lastmod: posts[0]?.date },
     ...categories.map((c) => ({ loc: `${SITE_URL}/blog/category/${c}`, lastmod: posts[0]?.date })),
-    ...posts.map((p) => ({ loc: `${SITE_URL}/blog/${p.slug}`, lastmod: p.updated || p.date })),
+    ...posts.map((p) => ({ loc: `${SITE_URL}${p.path}`, lastmod: p.updated || p.date })),
   ];
 
   const body = urls
@@ -250,8 +294,8 @@ function writeRss(posts) {
     .map(
       (p) => `    <item>
       <title>${escapeXml(p.title)}</title>
-      <link>${SITE_URL}/blog/${p.slug}</link>
-      <guid>${SITE_URL}/blog/${p.slug}</guid>
+      <link>${SITE_URL}${p.path}</link>
+      <guid>${SITE_URL}${p.path}</guid>
       <pubDate>${new Date(p.date).toUTCString()}</pubDate>
       <category>${escapeXml(p.category)}</category>
       <description>${escapeXml(p.description)}</description>${coverEnclosure(p)}
@@ -304,9 +348,7 @@ function writeRobotsTxt() {
 function writeLlmsTxt(posts) {
   const categories = [...new Set(posts.map((p) => p.category))];
 
-  const postLines = posts.map(
-    (p) => `- [${p.title}](${SITE_URL}/blog/${p.slug}): ${p.description}`,
-  );
+  const postLines = posts.map((p) => `- [${p.title}](${SITE_URL}${p.path}): ${p.description}`);
 
   const content = `# ${CHURCH_NAME}
 

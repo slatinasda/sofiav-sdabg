@@ -30,6 +30,16 @@ export class BlogApiService {
     return module.default as BlogPost;
   }
 
+  async getPostByPath(year: string, month: string, slug: string): Promise<BlogPost | undefined> {
+    const post = await this.getPostBySlug(slug);
+
+    if (!post || post.year !== year || post.month !== month) {
+      return undefined;
+    }
+
+    return post;
+  }
+
   getPostsByCategory(category: string): BlogPostSummary[] {
     return POSTS.filter((post) => post.category === category);
   }

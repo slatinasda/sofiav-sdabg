@@ -1,5 +1,8 @@
 export interface BlogPostSummary {
   slug: string;
+  year: string;
+  month: string;
+  path: string;
   title: string;
   description: string;
   date: string;
