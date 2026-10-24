@@ -27,8 +27,9 @@
   text-decoration: none;
 
   &:hover {
-    background: c.$ui-brand-accent-lighter;
-    color: c.$ui-brand-primary;
+    background: c.$ui-brand-primary-invert;
+    border-color: c.$ui-brand-primary-invert;
+    color: c.$ui-white;
     text-decoration: none;
   }
 }
