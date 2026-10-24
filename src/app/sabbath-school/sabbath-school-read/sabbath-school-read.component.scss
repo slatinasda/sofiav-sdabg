@@ -362,6 +362,28 @@
   padding: var(--bs-modal-padding, 1rem);
 }
 
+@media (max-width: 767.98px) {
+  /* Center the Bible modal and let it use nearly the full screen height. */
+  .modal:has(.bible-modal-body) {
+    .modal-dialog {
+      display: flex;
+      align-items: center;
+      min-height: calc(100% - var(--bs-modal-margin) * 2);
+    }
+
+    .modal-content {
+      max-height: calc(100vh - var(--bs-modal-margin) * 2);
+      max-height: calc(100dvh - var(--bs-modal-margin) * 2);
+    }
+
+    .modal-body {
+      max-height: none;
+      min-height: 0;
+      flex: 1 1 auto;
+    }
+  }
+}
+
 .bible-translations {
   display: flex;
   margin-bottom: 1rem;
@@ -400,7 +422,7 @@
 }
 
 .bible-modal-content h2 {
-  font-size: 1.75rem;
+  font-size: 1.5rem;
   margin-top: 1.5rem;
 
   &:first-of-type {
