@@ -134,16 +134,24 @@
 
 <!-- Bible Verses Modal -->
 <app-modal [(open)]="bibleModalOpen" title="Библейски стихове" size="lg" urlFragment="bible">
-  <div *ngIf="bibleTranslations.length > 1" class="bible-translations">
-    <button
-      *ngFor="let translation of bibleTranslations"
-      type="button"
-      class="bible-translation-btn"
-      [class.active]="translation === selectedTranslation"
-      (click)="selectTranslation(translation)"
+  <div class="bible-modal-body">
+    <div
+      *ngIf="bibleTranslations.length > 1"
+      class="bible-translations"
+      role="group"
+      aria-label="Библейски превод"
     >
-      {{ translation }}
-    </button>
+      <button
+        *ngFor="let translation of bibleTranslations"
+        type="button"
+        class="bible-translation-btn"
+        [class.active]="translation === selectedTranslation"
+        [attr.aria-pressed]="translation === selectedTranslation"
+        (click)="selectTranslation(translation)"
+      >
+        {{ translation }}
+      </button>
+    </div>
+    <div class="bible-modal-content" [innerHTML]="selectedBibleHtml"></div>
   </div>
-  <div class="bible-modal-content" [innerHTML]="selectedBibleHtml"></div>
 </app-modal>

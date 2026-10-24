@@ -35,6 +35,7 @@ import {
   AudioItem,
   BibleTranslation,
 } from '../interfaces/quarterly.interface';
+import { wrapBibleSections } from './bible-sections';
 
 const PREFERRED_BIBLE_TRANSLATION = 'RIBBD';
 
@@ -316,10 +317,10 @@ export class SabbathSchoolReadComponent implements OnInit, OnDestroy {
     }
 
     const html = marked.parse(markdown) as string;
-    this.selectedBibleHtml = this.sanitizer.bypassSecurityTrustHtml(html);
+    this.selectedBibleHtml = this.sanitizer.bypassSecurityTrustHtml(wrapBibleSections(html));
   }
 
-  private buildBibleMarkdown(verses: { [key: string]: string }): string {
+  private buildBibleMarkdown(verses: Record<string, string>): string {
     const markdown = this.selectedVerseKey
       ? (verses[this.selectedVerseKey] ?? '')
       : Object.values(verses).join('\n\n');

@@ -353,7 +353,15 @@
   color: c.$ui-brand-primary !important;
 }
 
-/* Bible modal content */
+/* Flush the scroll container so sticky headings cover the top padding gap. */
+.modal-body:has(> .bible-modal-body) {
+  padding: 0;
+}
+
+.bible-modal-body {
+  padding: var(--bs-modal-padding, 1rem);
+}
+
 .bible-translations {
   display: flex;
   margin-bottom: 1rem;
@@ -397,6 +405,22 @@
 
   &:first-of-type {
     margin-top: 0;
+  }
+}
+
+.bible-modal-content > section {
+  position: relative;
+
+  & + section {
+    margin-top: 1.5rem;
+  }
+
+  > h2 {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    padding: 0.25rem 0;
+    background: var(--bs-modal-bg, c.$ui-white);
   }
 }
 
