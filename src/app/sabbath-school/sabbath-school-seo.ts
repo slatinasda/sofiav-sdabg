@@ -12,9 +12,9 @@ export const SABBATH_SCHOOL_KEYWORDS = [
 
 export const SABBATH_SCHOOL_PAGE_META: PageMeta = {
   title: 'Съботен урок',
-  socialTitle: 'Съботен урок: изучаване на Библията',
+  socialTitle: 'Изучаване на Библията в малки групи',
   description:
-    'Тримесечни уроци за групови дискусии. Изучавайте Библията заедно с нас всяка събота.',
+    'Тримесечни уроци за съботно училище и групови дискусии. Изучавайте Библията заедно с нас всяка събота.',
   path: 'sabbath-school',
   image: SABBATH_SCHOOL_OG_IMAGE,
   imageAlt: OG_IMAGE_ALT,

@@ -1,6 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
 
-import { CHURCH_NAME } from '../shared/church-info';
 import { OG_IMAGE_ALT, OG_IMAGES, SeoService } from '../shared/services/seo.service';
 import { ChurchAgendaService } from './services/church-agenda.service';
 import { ChurchScheduleComponent } from './church-schedule/church-schedule.component';
@@ -28,15 +27,16 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.seo.setPageMeta({
-      title: 'Начало',
-      socialTitle: CHURCH_NAME,
-      description: `${CHURCH_NAME}. Богослужения всяка събота, групови дискусии, проповеди и песни. Заповядайте!`,
+      title: 'Адвентна църква в София - Слатина | Богослужения в събота',
+      appendSiteName: false,
+      socialTitle: 'Съботно училище, богослужение и проповеди на живо',
+      description:
+        'В кв. Слатина, София. Всяка събота: съботно училище и богослужение; през седмицата: проповеди, песни и блог. Заповядайте!',
       path: '',
       image: OG_IMAGES.default,
       imageAlt: OG_IMAGE_ALT,
       keywords: [
         'адвентна църква София',
-        'адвентна църква Слатина',
         'църква Слатина',
         'съботно училище',
         'богослужение София',

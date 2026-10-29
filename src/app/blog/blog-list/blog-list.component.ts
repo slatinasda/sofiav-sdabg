@@ -13,7 +13,6 @@ import { Subject, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { BlogApiService } from '../blog-api.service';
 import { OG_IMAGES, SeoService } from '../../shared/services/seo.service';
-import { CHURCH_NAME } from '../../shared/church-info';
 import { BlogPostSummary } from '../interfaces/blog-post.interface';
 import { BlogPostCardComponent } from '../blog-post-card/blog-post-card.component';
 import { ModalComponent } from '../../shared/components/modal/modal.component';
@@ -130,7 +129,11 @@ export class BlogListComponent implements OnInit, OnDestroy {
   // Category is already shown on the filter pill, so the page <title>/meta description
   // keep the category-specific text without repeating it in the visible h2.
   private get seoTitle(): string {
-    return this.filter.type === 'category' ? `Категория: ${this.filter.value}` : 'Блог';
+    if (this.filter.type === 'category') {
+      return `Категория: ${this.filter.value}`;
+    }
+
+    return this.page > 1 ? `Блог - страница ${this.page}` : 'Блог';
   }
 
   get isSearching(): boolean {
@@ -240,8 +243,8 @@ export class BlogListComponent implements OnInit, OnDestroy {
       socialTitle: 'Блог: новини и статии от църквата',
       description:
         this.filter.type === 'none'
-          ? `Последни новини и статии от ${CHURCH_NAME}.`
-          : `Публикации в ${this.seoTitle.toLowerCase()}.`,
+          ? 'Новини, статии и размишления за вярата, Библията и живота на църквата в Слатина.'
+          : `Публикации по темата „${this.filter.value}“ в блога на църквата в Слатина.`,
       path: this.path,
       type: 'website',
       image: OG_IMAGES.blog,

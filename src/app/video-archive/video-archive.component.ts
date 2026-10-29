@@ -10,7 +10,6 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { catchError, finalize, of } from 'rxjs';
 
-import { CHURCH_NAME } from '../shared/church-info';
 import { OG_IMAGE_ALT, OG_IMAGES, SeoService } from '../shared/services/seo.service';
 import { VideoCardComponent } from '../shared/components/video-card/video-card.component';
 import { VideoItem, VideoSlot } from '../shared/interfaces/video-item.interface';
@@ -39,7 +38,8 @@ export class VideoArchiveComponent implements OnInit {
     this.seo.setPageMeta({
       title: 'Проповеди',
       socialTitle: 'Проповеди и богослужения',
-      description: `Видеозаписи от проповеди и богослужения в ${CHURCH_NAME}.`,
+      description:
+        'Гледайте проповеди и цели богослужения от църквата в София, кв. Слатина. Видео архив с последните събрания.',
       path: 'video-archive',
       image: OG_IMAGES.sermons,
       imageAlt: OG_IMAGE_ALT,

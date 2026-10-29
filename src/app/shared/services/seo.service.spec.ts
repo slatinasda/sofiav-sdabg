@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 
 import { AppTitleService } from '../../app-title.service';
-import { CHURCH_NAME } from '../church-info';
+import { CHURCH_NAME, CHURCH_SHORT_NAME } from '../church-info';
 import { DEFAULT_OG_IMAGE, OG_IMAGE_HEIGHT, OG_IMAGE_WIDTH, SeoService } from './seo.service';
 
 const SEO_TAG_SELECTOR = [
@@ -51,13 +51,26 @@ describe('SeoService', () => {
         path: '',
       });
 
-      expect(document.title).toContain('Начало');
+      expect(document.title).toBe(`Начало | ${CHURCH_SHORT_NAME}`);
       expect(canonicalHref()).toBe(service.absoluteUrl(''));
       expect(metaContent('meta[name="robots"]')).toBe('index,follow');
       expect(metaContent('meta[property="og:image"]')).toBe(service.absoluteUrl(DEFAULT_OG_IMAGE));
       expect(metaContent('meta[property="og:image:width"]')).toBe(String(OG_IMAGE_WIDTH));
       expect(metaContent('meta[property="og:image:height"]')).toBe(String(OG_IMAGE_HEIGHT));
       expect(metaContent('meta[name="twitter:card"]')).toBe('summary_large_image');
+    });
+
+    it('keeps a complete title as-is when appendSiteName is false', () => {
+      const title = 'Адвентна църква в София - Слатина | Богослужения в събота';
+
+      service.setPageMeta({
+        title,
+        appendSiteName: false,
+        description: 'Описание',
+        path: '',
+      });
+
+      expect(document.title).toBe(title);
     });
 
     it('does not assume generated dimensions for a custom cover image', () => {

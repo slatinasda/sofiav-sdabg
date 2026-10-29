@@ -19,6 +19,7 @@ export interface BlogPostingSchema {
 
 export interface PageMeta {
   title: string;
+  appendSiteName?: boolean;
   socialTitle?: string;
   description: string;
   path: string;
@@ -109,7 +110,7 @@ export class SeoService {
       image: this.resolveSocialImage(pageMeta),
     };
 
-    this.appTitleService.setTitle(pageMeta.title);
+    this.appTitleService.setTitle(pageMeta.title, pageMeta.appendSiteName);
     this.setDocumentMeta(pageMeta);
     this.setOpenGraphMeta(pageMeta, context);
     this.setTwitterMeta(pageMeta, context);
