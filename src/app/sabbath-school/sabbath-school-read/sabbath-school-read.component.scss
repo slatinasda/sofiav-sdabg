@@ -271,24 +271,49 @@
 }
 
 .ss-day-link {
+  position: relative;
+  display: block;
+  overflow-wrap: anywhere;
   text-decoration: none;
-  border-left: 2px solid transparent;
   padding-left: 0.75rem;
+  padding-right: 0.75rem;
+
+  span {
+    display: block;
+    transition: color 0.15s ease;
+  }
 
   &:hover {
     text-decoration: none;
 
     span {
-      color: c.$ui-brand-primary;
+      color: c.$ui-brand-primary-invert;
     }
   }
 
   &.active {
-    border-left-color: c.$ui-brand-primary;
-
     span {
-      color: c.$ui-brand-primary;
+      color: c.$ui-brand-primary-invert;
     }
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0.35rem;
+      bottom: 0.35rem;
+      right: 0;
+      width: 3px;
+      border-radius: 2px;
+      background-color: c.$ui-brand-primary;
+    }
+  }
+}
+
+/* Mirror the rail to the text side when mobile stacks it left. */
+@media (max-width: 767.98px) {
+  .ss-day-link.active::after {
+    right: auto;
+    left: 0;
   }
 }
 
@@ -458,6 +483,15 @@
 /* Same specificity as the rule above; must come after it to win on hover. */
 [data-bs-theme='dark'] .hover-text-primary:hover {
   color: c.$ui-brand-primary !important;
+}
+
+[data-bs-theme='dark'] .ss-day-link:hover span,
+[data-bs-theme='dark'] .ss-day-link.active span {
+  color: c.$ui-brand-accent-lighter;
+}
+
+[data-bs-theme='dark'] .ss-day-link.active::after {
+  background-color: c.$ui-brand-accent-light;
 }
 
 /* Panel bg adapts via Bootstrap; text/border colors here don't, so override them. */
